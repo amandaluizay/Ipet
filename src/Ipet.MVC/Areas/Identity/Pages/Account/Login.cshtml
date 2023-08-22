@@ -85,14 +85,23 @@
                         <form id="account" method="post">
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="color: #7C7B7B;">Endereço de Email</label>
-                                <input asp-for="Input.Email" class="form-control" placeholder="Entre com seu Email" autocomplete="username" aria-required="true" />                              
+                                <input asp-for="Input.Email" class="form-control col-12" placeholder="Entre com seu Email" autocomplete="username" aria-required="true" />
                                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="senha" class="form-label" style="color: #7C7B7B;">Senha</label>
-                                <input asp-for="Input.Password" class="form-control" placeholder="Entre com sua Senha" autocomplete="current-password" aria-required="true" />                 
+                                <input asp-for="Input.Password" class="form-control col-12" placeholder="Entre com sua Senha" autocomplete="current-password" aria-required="true" />
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
+                            <div class="mb-3" style="display: none;">
+                                <div class="checkbox">
+                                    <label asp-for="Input.RememberMe" class="form-label">
+                                        <input class="form-check-input" asp-for="Input.RememberMe" value="true" />
+                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                    </label>
+                                </div>
+                            </div>
+
                             <div style="margin-top: 40px;">
                                 <button id="login-submit" type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">Entrar</button>
                                 <div style="display: inline; float: right;">
@@ -102,6 +111,7 @@
                                     </button>
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
