@@ -23,7 +23,7 @@ namespace EnterpriseStore.MVC.Configurations
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+           
 
 
             return services;
