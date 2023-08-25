@@ -25,6 +25,7 @@ namespace EnterpriseStore.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(100)");
 
+
             builder.ToTable("Produtos");
         }
     }

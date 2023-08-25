@@ -9,7 +9,7 @@ namespace Ipet.Domain.Models
 {
     public class Produto : Entity
     {
-        public Guid FornecedorId { get; set; }
+        public Guid EstabelecimentoId { get; set; }
 
         public string Nome { get; set; }
         public string Descricao { get; set; }
