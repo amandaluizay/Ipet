@@ -18,8 +18,8 @@ namespace EnterpriseStore.MVC.Configurations
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                             options.UseMySql("server=localhost;initial catalog = IPetIdentity;uid=root;pwd=kj9n&8R1#z5u",
-    Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                                 options.UseMySql("server=mysql-banco-api.mysql.database.azure.com;initial catalog = IPET;uid=MysqlRoot;pwd=Mudar#123",
+                                    Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
