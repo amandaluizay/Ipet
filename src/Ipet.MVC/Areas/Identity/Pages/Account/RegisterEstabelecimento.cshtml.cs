@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Ipet.Domain.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -76,15 +78,26 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Estabelecimento")]
+            public string Nome { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Endereço")]
+            public string Endereco { get; set; }
+
+            [DisplayName("Estampa do Estabelecimento")]
+            public IFormFile ImagemUpload { get; set; }
+            public string Imagem { get; set; }
+
             [Required]
-            [StringLength(18, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
+            [StringLength(19, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
             [DataType(DataType.Password)]
             [Display(Name = "CNPJ")]
             public string Cnpj { get; set; }
@@ -121,6 +134,21 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     // Adicionar a claim personalizada ao usuário
                     var claim = new Claim("Usuario", "2");
                     await _userManager.AddClaimAsync(user, claim);
+                    // Cria Estabelecimento
+
+                    Guid.TryParse(user.Id, out Guid guid);
+                    var estabelecimento = new EstabelecimentoViewModel
+                    {
+                        Conta = guid, // Usar o ID do usuário
+                        Nome = Input.Nome,
+                        Documento = Input.Cnpj,
+                        Endereco = Input.Endereco,
+                        ImagemUpload = Input.ImagemUpload,
+                        Ativo = true, // Ou false, dependendo do que deseja
+                        DataCadastro = DateTime.Now // Definir a data de cadastro
+                    };
+
+
 
                     // Gerar o token de confirmação
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

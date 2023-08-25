@@ -87,10 +87,6 @@ background-color: rgb(236, 226, 233);
               <div class="row">
                 <div class="col-12">
                   <div class="d-flex justify-content-end">
-
-                    <a asp-page="/Account/Login" class="btn btn-primary" style="background-color: #8e9599; color: white; margin-top: 10px;">
-                        <i class="fas fa-sign-in-alt" style="color: #ffffff;"></i> Entrar
-                    </a>
                   </div>
                   <h1 class="text-center mb-4" style="font-size: 2.5rem; color: #333;">
                    <img src="~/imagens/Logos/logo_Nova.png" alt="logo" style="max-width: 100px; border-radius: 20px;" class="img-fluid">
@@ -102,9 +98,28 @@ background-color: rgb(236, 226, 233);
                                 <span asp-validation-for="Input.Email" class="text-danger" style="color: red;"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="cpf" class="form-label">CNPJ</label>
+                                <label for="nome" class="form-label">Nome do Estabelecimento</label>
+                                <input asp-for="Input.Nome" class="form-control col-12" placeholder="Insira o Nome" autocomplete="new-Name" aria-required="true" />
+                                <span asp-validation-for="Input.Nome" class="text-danger" style="color: red;"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="endereço" class="form-label">Endereço</label>
+                                <input asp-for="Input.Endereco" class="form-control col-12" placeholder="Insira o Endereço" autocomplete="new-Name" aria-required="true" />
+                                <span asp-validation-for="Input.Endereco" class="text-danger" style="color: red;"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">Cnpj</label>
                                 <input asp-for="Input.Cnpj" class="form-control col-12" placeholder="00.000.000/0000-00"autocomplete="new-cpf" aria-required="true" />
                                 <span asp-validation-for="Input.Cnpj" class="text-danger" style="color: red;"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Input.ImagemUpload" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ImagemUpload" asp-for="Input.ImagemUpload">
+                                    <label data-browse="Procurar" style="width: 400px" class="custom-file-label" for="ImagemUpload"></label>
+                                    <label style="display: none" id="img_nome"></label>
+                                </div>
+                                <span asp-validation-for="Input.ImagemUpload" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="senha" class="form-label">Senha</label>                             
@@ -117,12 +132,16 @@ background-color: rgb(236, 226, 233);
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="color: red;"></span>
                             </div>
                             <div style="margin-top: 40px;"></div>
-                            <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">Criar Conta</button>
-                            <div style="display: inline; float: right;">
-                                <a asp-page="/Account/Register" class="btn btn-primary" style="background-color: #8e9599; color: white;">
-                                    <i class="fas fa-user-plus" style="color: white;"></i> Cadastro Consumidor
+                                <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">Criar Conta</button>
+                                <a asp-page="/Account/Login" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                                    <i class="fas fa-sign-in-alt" style="color: #ffffff;"></i> Entrar
                                 </a>
-                            </div>              
+                             
+                                <div style="display: inline; float: right;">
+                                    <a asp-page="/Account/Register" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                                        <i class="fas fa-user-plus" style="color: white;"></i> Cadastro Consumidor
+                                    </a>
+                                </div>
                   </form>
                 </div>
               </div>
