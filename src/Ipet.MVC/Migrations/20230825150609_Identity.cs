@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EnterpriseStore.MVC.Migrations
+namespace Ipet.MVC.Migrations
 {
-    public partial class ipet : Migration
+    public partial class Identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

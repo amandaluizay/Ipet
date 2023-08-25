@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EnterpriseStore.MVC.Migrations
+namespace Ipet.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230825023115_First")]
-    partial class First
+    [Migration("20230825150609_Identity")]
+    partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
