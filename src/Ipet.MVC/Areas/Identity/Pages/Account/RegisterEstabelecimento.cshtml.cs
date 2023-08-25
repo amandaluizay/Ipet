@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Ipet.MVC.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class RegisterEstabelecimentoModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -31,7 +31,7 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterEstabelecimentoModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
@@ -84,10 +84,10 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [Required]
-            [StringLength(14, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
+            [StringLength(18, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
             [DataType(DataType.Password)]
-            [Display(Name = "CPF")]
-            public string Cpf { get; set; }
+            [Display(Name = "CNPJ")]
+            public string Cnpj { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
@@ -119,7 +119,7 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     // Adicionar a claim personalizada ao usuário
-                    var claim = new Claim("Usuario", "1");
+                    var claim = new Claim("Usuario", "2");
                     await _userManager.AddClaimAsync(user, claim);
 
                     // Gerar o token de confirmação

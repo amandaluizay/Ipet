@@ -1,5 +1,5 @@
 ﻿@page
-@model RegisterModel
+@model RegisterEstabelecimentoModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -95,9 +95,9 @@ background-color: rgb(236, 226, 233);
                                 <span asp-validation-for="Input.Email" class="text-danger" style="color: red;"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="cpf" class="form-label">CPF</label>
-                                <input asp-for="Input.Cpf" class="form-control col-12" placeholder="000.000.000-00" autocomplete="new-cpf" aria-required="true" />
-                                <span asp-validation-for="Input.Cpf" class="text-danger" style="color: red;"></span>
+                                <label for="cpf" class="form-label">CNPJ</label>
+                                <input asp-for="Input.Cnpj" class="form-control col-12" placeholder="00.000.000/0000-00"autocomplete="new-cpf" aria-required="true" />
+                                <span asp-validation-for="Input.Cnpj" class="text-danger" style="color: red;"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="senha" class="form-label">Senha</label>                             
@@ -112,8 +112,8 @@ background-color: rgb(236, 226, 233);
                             <div style="margin-top: 40px;"></div>
                             <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">Criar Conta</button>
                             <div style="display: inline; float: right;">
-                                <a asp-page="/Account/RegisterEstabelecimento" class="btn btn-primary" style="background-color: #8e9599; color: white;">
-                                    <i class="fas fa-store" style="color: #FFFFFF;"></i>Cadastro Estabelecimento
+                                <a asp-page="/Account/Register" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                                    <i class="fas fa-user-plus" style="color: white;"></i> Cadastro Consumidor
                                 </a>
                             </div>              
                   </form>
