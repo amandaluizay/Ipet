@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ipet.Domain.Models
+namespace EnterpriseStore.MVC.ViewModels
 {
     public class ProdutoViewModel : Entity
     {
@@ -44,7 +44,7 @@ namespace Ipet.Domain.Models
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
-        public EstabelecimentoViewModel Fornecedor { get; set; }
+        public EstabelecimentoViewModel Estabelecimento { get; set; }
 
         public IEnumerable<EstabelecimentoViewModel> Estabelecimentos { get; set; }
     }

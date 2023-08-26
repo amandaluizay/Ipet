@@ -15,10 +15,15 @@ namespace EnterpriseStore.Configurations
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
             services.AddScoped<MeuDbContext>();
-
+            services.AddSingleton<IValidationAttributeAdapterProvider, MoedaValidationAttributeAdapterProvider>();
             services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
-
             services.AddScoped<INotificador, Notificador>();
+
+            services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
+            services.AddScoped<IProdutoService, ProdutoService>();
+
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 
 
             return services;

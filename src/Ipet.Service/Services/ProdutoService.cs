@@ -3,11 +3,11 @@ using Ipet.Domain.Models;
 
 namespace EnterpriseStore.Service.Services
 {
-    public class produtoService : BaseService, IProdutoService
+    public class ProdutoService : BaseService, IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public produtoService(IProdutoRepository produtoRepository, 
+        public ProdutoService(IProdutoRepository produtoRepository, 
                                  INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;

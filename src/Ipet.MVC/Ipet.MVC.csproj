@@ -16,6 +16,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="Views\Produtos\Create.cshtml" />
+	  <None Include="Views\Produtos\Delete.cshtml" />
+	  <None Include="Views\Produtos\Details.cshtml" />
+	  <None Include="Views\Produtos\Edit.cshtml" />
+	  <None Include="Views\Produtos\Index.cshtml" />
+	  <None Include="Views\Produtos\_ListaProdutos.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="automapper.extensions.microsoft.dependencyinjection" Version="11.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21" />

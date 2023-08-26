@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ipet.Domain.Models
+namespace EnterpriseStore.MVC.ViewModels
 {
     public class ConsumidorViewModel
     {

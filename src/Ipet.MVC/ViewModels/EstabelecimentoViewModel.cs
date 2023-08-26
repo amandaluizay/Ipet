@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ipet.Domain.Models
+namespace EnterpriseStore.MVC.ViewModels
 {
     public class EstabelecimentoViewModel : Entity
     {
