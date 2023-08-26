@@ -68,6 +68,7 @@ namespace EnterpriseStore.MVC.Controllers
             produtoViewModel = await PopularFornecedores(produtoViewModel);
             if (!ModelState.IsValid) return View(produtoViewModel);
 
+            produtoViewModel.Imagem = "IMAGEM";
             var imgPrefixo = Guid.NewGuid() + "_";
             if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
             {
