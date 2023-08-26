@@ -19,26 +19,41 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+        background-image: url('@Url.Content("~/imagens/Wallpapper/Fundo.png")');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
 }
 
-.content-container {
-  background: url(images/background-pattern.png);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    .content-container {
+      background: url(images/background-pattern.png);
+      width: 15%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 }
 
-.form-container {
-  -webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-background-color: rgb(236, 226, 233);
-  padding: 20px;
-  border-radius: 10px;
-  
-}
+    .form-container {
+        -webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+        background-color: rgb(236, 226, 233);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 750px; 
+        max-height: 900px; 
+        min-width: 650px; 
+        min-height: 400px; 
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Define a altura do container para ocupar toda a altura da tela */
+    }
 
     .text-danger-custom {
         color: red !important;
@@ -97,8 +112,9 @@ background-color: rgb(236, 226, 233);
                   <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Endereço de Email</label>
-                                <input asp-for="Input.Email" class="form-control  col-12" placeholder="Digite seu email" autocomplete="username" aria-required="true" />
+                                <input asp-for="Input.Email" class="form-control col-12" placeholder="Digite seu email" autocomplete="username" aria-required="true" />
                                 <span asp-validation-for="Input.Email" class="text-danger" style="color: red;"></span>
+
                             </div>
                             <div class="mb-3">
                                 <label for="cpf" class="form-label">CPF</label>
@@ -112,7 +128,7 @@ background-color: rgb(236, 226, 233);
                             </div>
                             <div class="mb-3">
                                 <label for="senha2" class="form-label">Confirmar Senha</label>
-                                <input asp-for="Input.ConfirmPassword" class="form-control  col-12" placeholder="Digite a senha Novamente" autocomplete="new-password" aria-required="true" />
+                                <input asp-for="Input.ConfirmPassword" class="form-control col-12" placeholder="Digite a senha Novamente" autocomplete="new-password" aria-required="true" />
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="color: red;"></span>
                             </div>
                             <div style="margin-top: 40px;"></div>

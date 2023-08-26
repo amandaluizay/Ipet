@@ -119,6 +119,17 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var estabelecimento = new EstabelecimentoViewModel
+            {
+                Nome = Input.Nome,
+                Documento = Input.Cnpj,
+                Endereco = Input.Endereco,
+                ImagemUpload = Input.ImagemUpload,
+                Ativo = true, // Ou false, dependendo do que deseja
+                DataCadastro = DateTime.Now // Definir a data de cadastro
+            };
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -137,16 +148,22 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     // Cria Estabelecimento
 
                     Guid.TryParse(user.Id, out Guid guid);
-                    var estabelecimento = new EstabelecimentoViewModel
-                    {
-                        Conta = guid, // Usar o ID do usuário
-                        Nome = Input.Nome,
-                        Documento = Input.Cnpj,
-                        Endereco = Input.Endereco,
-                        ImagemUpload = Input.ImagemUpload,
-                        Ativo = true, // Ou false, dependendo do que deseja
-                        DataCadastro = DateTime.Now // Definir a data de cadastro
-                    };
+                    estabelecimento.Conta = guid;
+
+                    //produtoViewModel = await PopularFornecedores(produtoViewModel);
+                    //if (!ModelState.IsValid) return View(produtoViewModel);
+
+                    //var imgPrefixo = Guid.NewGuid() + "_";
+                    //if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
+                    //{
+                    //    return View(produtoViewModel);
+                    //}
+
+                    //produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+                    //await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
+
+
 
 
 
