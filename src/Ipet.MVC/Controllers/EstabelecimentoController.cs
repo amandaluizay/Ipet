@@ -66,6 +66,7 @@ namespace EnterpriseStore.MVC.Controllers
 
             Guid guidValue = new Guid("18a00b3a-73a3-4045-9fc9-8a697eddb18c");
             estabelecimentoViewModel.Conta = guidValue;
+            estabelecimentoViewModel.Imagem = "IMAGEM";
 
             var fornecedor = _mapper.Map<Estabelecimento>(estabelecimentoViewModel);
             await _estabelecimentoService.Adicionar(fornecedor);
