@@ -76,6 +76,24 @@ namespace EnterpriseStore.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("novo-estabelecimento_teste")]
+        [HttpPost]
+        public async Task<IActionResult> Create_2(EstabelecimentoViewModel estabelecimentoViewModel)
+        {
+            if (!ModelState.IsValid) return View(estabelecimentoViewModel);
+
+            estabelecimentoViewModel.Imagem = "IMAGEM";
+
+            var fornecedor = _mapper.Map<Estabelecimento>(estabelecimentoViewModel);
+            await _estabelecimentoService.Adicionar(fornecedor);
+
+            if (!OperacaoValida()) return View(estabelecimentoViewModel);
+
+            return Ok;
+           
+        }
+
+
         [Route("editar-estabelecimento/{id:guid}")]
 
 
@@ -138,9 +156,6 @@ namespace EnterpriseStore.MVC.Controllers
 
         [AllowAnonymous]
         [Route("obter-estabelecimento/{id:guid}")]
-
-
-
         private async Task<EstabelecimentoViewModel> ObterEstabelecimento(Guid id)
         {
             var estabelecimento = _mapper.Map<EstabelecimentoViewModel>(await _estabelecimentoRepository.ObterPorId(id));

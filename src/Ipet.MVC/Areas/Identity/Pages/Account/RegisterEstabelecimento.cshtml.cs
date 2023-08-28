@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using EnterpriseStore.MVC.Controllers;
 using EnterpriseStore.MVC.ViewModels;
 using Ipet.Domain.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -131,6 +132,10 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
 
                     Guid.TryParse(user.Id, out Guid guid);
                     estabelecimento.Conta = guid;
+
+
+                    Task.Run(() => EstabelecimentoController.Cad(estabelecimento));
+
 
                     //produtoViewModel = await PopularFornecedores(produtoViewModel);
                     //if (!ModelState.IsValid) return View(produtoViewModel);
