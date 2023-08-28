@@ -64,6 +64,9 @@ namespace EnterpriseStore.MVC.Controllers
         {
             if (!ModelState.IsValid) return View(estabelecimentoViewModel);
 
+            Guid guidValue = new Guid("18a00b3a-73a3-4045-9fc9-8a697eddb18c");
+            estabelecimentoViewModel.Conta = guidValue;
+
             var fornecedor = _mapper.Map<Estabelecimento>(estabelecimentoViewModel);
             await _estabelecimentoService.Adicionar(fornecedor);
 

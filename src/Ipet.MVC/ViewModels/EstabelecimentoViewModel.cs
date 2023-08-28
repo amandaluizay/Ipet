@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace EnterpriseStore.MVC.ViewModels
 {
-    public class EstabelecimentoViewModel : Entity
+    public class EstabelecimentoViewModel
     {
+        [Key]
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DisplayName("Fornecedor")]
         public Guid Conta { get; set; }

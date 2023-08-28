@@ -5,12 +5,14 @@ namespace EnterpriseStore.MVC.ViewModels
 {
     public class ConsumidorViewModel
     {
+        [Key]
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [DisplayName("Fornecedor")]
+        [DisplayName("Consumidor")]
         public Guid Conta { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [DisplayName("Fornecedor")]
+        [DisplayName("Consumidor")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

@@ -28,8 +28,9 @@ namespace Ipet.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("Conta")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Conta")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
@@ -60,8 +61,9 @@ namespace Ipet.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("Conta")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Conta")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");

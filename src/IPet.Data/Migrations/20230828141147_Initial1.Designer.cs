@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipet.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20230825150626_Initial_Tables")]
-    partial class Initial_Tables
+    [Migration("20230828141147_Initial1")]
+    partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,9 @@ namespace Ipet.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("Conta")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Conta")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
@@ -62,8 +63,9 @@ namespace Ipet.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("Conta")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Conta")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");

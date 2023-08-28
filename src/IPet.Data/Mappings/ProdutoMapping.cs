@@ -22,7 +22,7 @@ namespace EnterpriseStore.Data.Mappings
                 .HasColumnType("varchar(1000)");
 
             builder.Property(p => p.Imagem)
-                .IsRequired()
+                //.IsRequired()
                 .HasColumnType("varchar(100)");
 
 

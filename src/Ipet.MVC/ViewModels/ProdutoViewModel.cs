@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace EnterpriseStore.MVC.ViewModels
 {
-    public class ProdutoViewModel : Entity
+    public class ProdutoViewModel
     {
         public Guid EstabelecimentoId { get; set; }
 
+        [Key]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

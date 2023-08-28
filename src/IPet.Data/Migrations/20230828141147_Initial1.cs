@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ipet.Data.Migrations
 {
-    public partial class Initial_Tables : Migration
+    public partial class Initial1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace Ipet.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Conta = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Conta = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nome = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Documento = table.Column<string>(type: "varchar(100)", nullable: false)
@@ -38,7 +39,8 @@ namespace Ipet.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Conta = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Conta = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nome = table.Column<string>(type: "varchar(55)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Documento = table.Column<string>(type: "varchar(14)", nullable: false)

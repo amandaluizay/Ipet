@@ -13,7 +13,9 @@ namespace EnterpriseStore.Data.Mappings
         {
             builder.HasKey(p => p.Id);
 
-            
+            builder.Property(p => p.Conta)
+            .IsRequired()
+            .HasColumnType("varchar(255)");
 
             builder.ToTable("Consumidores");
         }

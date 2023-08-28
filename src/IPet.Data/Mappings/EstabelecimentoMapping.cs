@@ -13,6 +13,10 @@ namespace EnterpriseStore.Data.Mappings
         {
             builder.HasKey(p => p.Id);
 
+            builder.Property(p => p.Conta)
+                .IsRequired()
+                .HasColumnType("varchar(255)");
+
             builder.Property(p => p.Nome)
                 .IsRequired()
                 .HasColumnType("varchar(55)");
@@ -22,7 +26,7 @@ namespace EnterpriseStore.Data.Mappings
                 .HasColumnType("varchar(14)");
 
             builder.Property(p => p.Imagem)
-                .IsRequired()
+                //.IsRequired()
                 .HasColumnType("varchar(100)");
 
             builder.Property(p => p.Endereco)
