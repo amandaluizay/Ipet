@@ -23,7 +23,7 @@
             @Html.DisplayNameFor(model => model.Documento)
         </dt>
         <dd class="col-sm-10">
-            @this.FormataDocumento(2, Model.Documento)
+            @this.FormataCNPJ(Model.Documento)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Endereco)
@@ -45,5 +45,3 @@
         <a class="btn btn-info" asp-action="Index">Voltar</a>
     </form>
 </div>
-
-<partial name="_DetalhesEndereco" />
