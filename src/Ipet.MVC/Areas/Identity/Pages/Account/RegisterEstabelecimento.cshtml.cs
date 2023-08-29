@@ -35,13 +35,20 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public RegisterEstabelecimentoModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment hostingEnvironment, 
+            IHttpContextAccessor httpContextAccessor)
         {
+            _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -97,7 +104,11 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-
+        private string GetBaseUrl()
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            return $"{request.Scheme}://{request.Host}";
+        }
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -105,12 +116,14 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
 
             var estabelecimento = new EstabelecimentoViewModel
             {
+                Imagem = "",
                 Nome = Input.Nome,
                 Documento = Input.Cnpj,
                 Endereco = Input.Endereco,
                 ImagemUpload = Input.ImagemUpload,
                 Ativo = true, // Ou false, dependendo do que deseja
                 DataCadastro = DateTime.Now // Definir a data de cadastro
+                
             };
 
             if (ModelState.IsValid)
@@ -133,8 +146,9 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     Guid.TryParse(user.Id, out Guid guid);
                     estabelecimento.Conta = guid;
 
+                    //var baseUrl = GetBaseUrl();
+                    //string create2Url = baseUrl + "/novo-estabelecimento_teste";
 
-                    Task.Run(() => EstabelecimentoController.Cad(estabelecimento));
 
 
                     //produtoViewModel = await PopularFornecedores(produtoViewModel);

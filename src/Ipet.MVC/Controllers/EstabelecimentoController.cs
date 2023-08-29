@@ -28,6 +28,7 @@ namespace EnterpriseStore.MVC.Controllers
             _estabelecimentoService = estabelecimentoService;
         }
 
+
         [AllowAnonymous]
         [Route("lista-de-estabelecimentos")]
         public async Task<IActionResult> Index()
@@ -80,18 +81,24 @@ namespace EnterpriseStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create_2(EstabelecimentoViewModel estabelecimentoViewModel)
         {
-            if (!ModelState.IsValid) return View(estabelecimentoViewModel);
+            if (!ModelState.IsValid)
+            {
+                return View(estabelecimentoViewModel);
+            }
 
             estabelecimentoViewModel.Imagem = "IMAGEM";
 
-            var fornecedor = _mapper.Map<Estabelecimento>(estabelecimentoViewModel);
-            await _estabelecimentoService.Adicionar(fornecedor);
+            var estabelecimento = _mapper.Map<Estabelecimento>(estabelecimentoViewModel);
+            await _estabelecimentoService.Adicionar(estabelecimento);
 
-            if (!OperacaoValida()) return View(estabelecimentoViewModel);
+            if (!OperacaoValida())
+            {
+                return View(estabelecimentoViewModel);
+            }
 
-            return Ok;
-           
+            return Ok(); // Você esqueceu dos parênteses para chamar o método Ok()
         }
+
 
 
         [Route("editar-estabelecimento/{id:guid}")]
