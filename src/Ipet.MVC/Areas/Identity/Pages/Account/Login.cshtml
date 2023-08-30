@@ -2,9 +2,8 @@
 @page
 @model LoginModel
 
-@{
-    ViewData["Title"] = "Log in";
-}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@ViewData["Title"]</title>
 
 <style>
     footer {
@@ -22,12 +21,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 90vh;
+        min-height: 100vh;
+        background-image: url('@Url.Content("~/imagens/Wallpapper/Fundo.png")');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
     }
 
     .content-container {
         background: url(images/background-pattern.png);
-        width: 100%;
+        width: 15%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -41,12 +44,27 @@
         background-color: rgb(236, 226, 233);
         padding: 20px;
         border-radius: 10px;
+        max-width: 750px;
+        max-height: 900px;
+        min-width: 650px;
+        min-height: 400px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Define a altura do container para ocupar toda a altura da tela */
+    }
+
+    .text-danger-custom {
+        color: red !important;
     }
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("criarContaBtn").addEventListener("click", function () {
-            window.location.href = "Register?returnUrl=%2F";
+            window.location.href = "Register";
         });
     });
 
@@ -70,8 +88,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
-<body style="background: url('~\imagens\Wallpapper\Fundo.png');">
-
+<body>
     <div class="container">
         <section class="py-5 form-container">
             <div class="container-fluid">

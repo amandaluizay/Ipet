@@ -1,6 +1,7 @@
 ﻿
 using EnterpriseStore.Domain.Models;
 using EnterpriseStore.Service.Models;
+using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnterpriseStore.Data.Context
@@ -13,7 +14,9 @@ namespace EnterpriseStore.Data.Context
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-
+        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Consumidor> Consumidor { get; set; }
+        public DbSet<Estabelecimento> Estabelecimento { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()

@@ -396,7 +396,7 @@ h1,h2,h3,h4,h5,h6 {
 /* Preloader */
 /* Preloader */
 /* Preloader */
-.preloader-wrapper {
+/*.preloader-wrapper {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
@@ -425,21 +425,21 @@ h1,h2,h3,h4,h5,h6 {
             border-radius: 50%;
             width: 2em;
             height: 2em;
-            animation: animation 0.4s infinite ease-in-out; /* Ajustado para 0.4 segundos */
-        }
+            animation: animation 0.4s infinite ease-in-out;*/ /* Ajustado para 0.4 segundos */
+        /*}
 
     .preloader-wrapper .preloader {
-        animation-delay: -0.2s; /* Ajustado para se adequar ao tempo total de animação */
-    }
+        animation-delay: -0.2s;*/ /* Ajustado para se adequar ao tempo total de animação */
+    /*}
 
         .preloader-wrapper .preloader:before {
-            left: -1.75em; /* Ajustado para metade do valor original */
-            animation-delay: -0.4s; /* Ajustado para o tempo total de animação */
-        }
+            left: -1.75em;*/ /* Ajustado para metade do valor original */
+            /*animation-delay: -0.4s;*/ /* Ajustado para o tempo total de animação */
+        /*}
 
         .preloader-wrapper .preloader:after {
-            left: 1.75em; /* Ajustado para metade do valor original */
-        }
+            left: 1.75em;*/ /* Ajustado para metade do valor original */
+        /*}
 
 @keyframes animation {
     0%, 100% {
@@ -451,7 +451,7 @@ h1,h2,h3,h4,h5,h6 {
         transform: translateZ(0) scale(0.5);
         opacity: 0.5;
     }
-}
+}*/
 
 
 
@@ -533,7 +533,7 @@ h1,h2,h3,h4,h5,h6 {
   width: 16px;
   height: 16px;
   margin: 4px;
-  background: #FFF;
+
   opacity: 1;
   transition: background 0.3s ease-out;
 }
@@ -625,7 +625,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 /* category carousel */
 .category-carousel .category-item {
-  background: #FFFFFF;
+
   border: 1px solid #FBFBFB;
   box-shadow: 0px 5px 22px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
@@ -656,7 +656,6 @@ h1,h2,h3,h4,h5,h6 {
 
 /* brand carousel */
 .brand-carousel .brand-item {
-  background: #FFFFFF;
   border: 1px solid #FBFBFB;
   box-shadow: 0px 5px 22px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
@@ -697,7 +696,6 @@ h1,h2,h3,h4,h5,h6 {
 .product-item {
   position: relative;
   padding: 16px;
-  background: #FFFFFF;
   border: 1px solid #FBFBFB;
   box-shadow: 0px 5px 22px rgba(0, 0, 0, 0.04);
   border-radius: 16px;

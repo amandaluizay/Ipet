@@ -50,5 +50,22 @@ namespace EnterpriseStore.MVC.Services
 
             return await DeserializarObjetoResponse<UsuarioRespostaLogin>(response);
         }
+
+        public async Task<UsuarioRespostaLogin> RegistroEstabelecimento(UsuarioEstabelecimentoRegistro usuarioRegistro)
+        {
+            var registroContent = ObterConteudo(usuarioRegistro);
+
+            var response = await _httpClient.PostAsync("nova-conta", registroContent);
+
+            if (!TratarErrosResponse(response))
+            {
+                return new UsuarioRespostaLogin
+                {
+                    ResponseResult = await DeserializarObjetoResponse<ResponseResult>(response)
+                };
+            }
+
+            return await DeserializarObjetoResponse<UsuarioRespostaLogin>(response);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace EnterpriseStore.MVC.Services
         Task<UsuarioRespostaLogin> Login(UsuarioLogin usuarioLogin);
 
         Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuarioRegistro);
+        Task<UsuarioRespostaLogin> RegistroEstabelecimento(UsuarioEstabelecimentoRegistro usuarioRegistro);
     }
 }
