@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -23,6 +25,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Ipet.MVC.Areas.Identity.Pages.Account
 {
@@ -116,13 +119,13 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
 
             var estabelecimento = new EstabelecimentoViewModel
             {
-                Imagem = "",
+                //Imagem = "",
                 Nome = Input.Nome,
-                Documento = Input.Cnpj,
-                Endereco = Input.Endereco,
-                ImagemUpload = Input.ImagemUpload,
-                Ativo = true, // Ou false, dependendo do que deseja
-                DataCadastro = DateTime.Now // Definir a data de cadastro
+                //Documento = Input.Cnpj,
+                //Endereco = Input.Endereco,
+                //ImagemUpload = Input.ImagemUpload,
+                //Ativo = true, // Ou false, dependendo do que deseja
+                //DataCadastro = DateTime.Now // Definir a data de cadastro
                 
             };
 
@@ -146,10 +149,33 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     Guid.TryParse(user.Id, out Guid guid);
                     estabelecimento.Conta = guid;
 
-                    //var baseUrl = GetBaseUrl();
-                    //string create2Url = baseUrl + "/novo-estabelecimento_teste";
+                    var baseUrl = GetBaseUrl();
+                    string create2Url = baseUrl + "/novo-estabelecimento_teste";
 
+                    // Preparar os dados do estabelecimento como JSON
+                    var estabelecimentoJson = JsonConvert.SerializeObject(estabelecimento);
+                    var postData = Encoding.UTF8.GetBytes(estabelecimentoJson);
 
+                    // Criar a solicitação HTTP
+                    var request = (HttpWebRequest)WebRequest.Create(create2Url);
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.ContentLength = postData.Length;
+
+                    // Enviar os dados
+                    using (var stream = request.GetRequestStream())
+                    {
+                        stream.Write(postData, 0, postData.Length);
+                    }
+
+                    // Receber a resposta
+                    using (var response = (HttpWebResponse)request.GetResponse())
+                    using (var responseStream = response.GetResponseStream())
+                    using (var reader = new StreamReader(responseStream))
+                    {
+                        var responseText = reader.ReadToEnd();
+                        var teste = 0;
+                    }
 
                     //produtoViewModel = await PopularFornecedores(produtoViewModel);
                     //if (!ModelState.IsValid) return View(produtoViewModel);

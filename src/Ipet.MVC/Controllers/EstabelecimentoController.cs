@@ -65,7 +65,7 @@ namespace EnterpriseStore.MVC.Controllers
         {
             if (!ModelState.IsValid) return View(estabelecimentoViewModel);
 
-            Guid guidValue = new Guid("18a00b3a-73a3-4045-9fc9-8a697eddb18c");
+            Guid guidValue = new Guid("86f91d83-e93f-40a7-a31a-1e9c1d81635d");
             estabelecimentoViewModel.Conta = guidValue;
             estabelecimentoViewModel.Imagem = "IMAGEM";
 
