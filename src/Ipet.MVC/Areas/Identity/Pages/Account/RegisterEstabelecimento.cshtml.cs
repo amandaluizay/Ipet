@@ -92,7 +92,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(19, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
-            [DataType(DataType.Password)]
             [Display(Name = "CNPJ")]
             public string Cnpj { get; set; }
 
@@ -100,6 +99,7 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
         }
 
 
@@ -118,17 +118,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var estabelecimento = new EstabelecimentoViewModel
-            {
-                //Imagem = "",
-                Nome = Input.Nome,
-                //Documento = Input.Cnpj,
-                //Endereco = Input.Endereco,
-                //ImagemUpload = Input.ImagemUpload,
-                //Ativo = true, // Ou false, dependendo do que deseja
-                //DataCadastro = DateTime.Now // Definir a data de cadastro
-                
-            };
 
             if (ModelState.IsValid)
             {
