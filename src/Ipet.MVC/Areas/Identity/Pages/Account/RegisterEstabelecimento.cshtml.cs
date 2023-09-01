@@ -118,24 +118,24 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var estabelecimento = new EstabelecimentoViewModel
-            {
-                //Imagem = "",
-                Nome = Input.Nome,
-                //Documento = Input.Cnpj,
-                //Endereco = Input.Endereco,
-                //ImagemUpload = Input.ImagemUpload,
-                //Ativo = true, // Ou false, dependendo do que deseja
-                //DataCadastro = DateTime.Now // Definir a data de cadastro
-                
-            };
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser() 
+                { 
+                    Nome = Input.Nome,
+                    Documento = Input.Cnpj,
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    Email = Input.Email,
+                    ConfirmPassword = Input.ConfirmPassword,
+                    Endereco = Input.Endereco,
+                    Password = Input.Password,
+                    UserName = Input.Nome
+                };
+
+
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
