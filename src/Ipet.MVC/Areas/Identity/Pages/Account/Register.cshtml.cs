@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
@@ -63,23 +64,42 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Estabelecimento")]
+            public string Nome { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Rua")]
+            public string Rua { get; set; }
+
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Cep")]
+            public string Cep { get; set; }
+
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Numero")]
+            public string Numero { get; set; }
+
+            [DisplayName("Estampa do Estabelecimento")]
+            public IFormFile ImagemUpload { get; set; }
+            public string Imagem { get; set; }
+
             [Required]
-            [StringLength(14, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
-            [DataType(DataType.Password)]
+            [StringLength(19, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 11)]
             [Display(Name = "CPF")]
-            public string Cpf { get; set; }
+            public string Cpf{ get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -94,7 +114,19 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser()
+                {
+                    Nome = Input.Nome,
+                    Email = Input.Email,
+                    Documento = Input.Cpf,
+                    Rua = Input.Rua,
+                    Cep = Input.Cep,
+                    Numero = Input.Numero,
+                    Password = Input.Password,
+                    ConfirmPassord = Input.ConfirmPassword,
+                    Imagem = ""
+
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

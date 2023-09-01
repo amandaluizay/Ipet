@@ -83,8 +83,16 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [Required(ErrorMessage = "O campo {0} é obrigatório")]
-            [DisplayName("Endereço")]
-            public string Endereco { get; set; }
+            [DisplayName("Rua")]
+            public string Rua { get; set; }
+
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Cep")]
+            public string Cep { get; set; }
+
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
+            [DisplayName("Numero")]
+            public string Numero { get; set; }
 
             [DisplayName("Estampa do Estabelecimento")]
             public IFormFile ImagemUpload { get; set; }
@@ -121,7 +129,19 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser()
+                {
+                    Nome = Input.Nome,
+                    Email = Input.Email,
+                    Documento = Input.Cnpj,
+                    Rua = Input.Rua,
+                    Cep = Input.Cep,
+                    Numero = Input.Numero,
+                    Password = Input.Password,
+                    ConfirmPassord = Input.ConfirmPassword,
+                    Imagem = ""
+                    
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
