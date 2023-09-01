@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnterpriseStore.Data.Repository
 {
-    public class ProdutoRepository : Repository<Produto>, IProdutoRepository
+    public class ServicoRepository : Repository<Servico>, IServicoRepository
     {
-        public ProdutoRepository(MeuDbContext context) : base(context) { }
+        public ServicoRepository(MeuDbContext context) : base(context) { }
 
         //public async Task<Produto> ObterProdutoEstabelecimento(Guid id)
         //{

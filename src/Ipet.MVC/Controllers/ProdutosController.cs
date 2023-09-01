@@ -7,6 +7,7 @@ using EnterpriseStore.MVC.Extensions;
 using EnterpriseStore.Domain.Models;
 using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
+using EnterpriseStore.Data.Repository;
 
 namespace EnterpriseStore.MVC.Controllers
 {
@@ -14,18 +15,15 @@ namespace EnterpriseStore.MVC.Controllers
     public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
-        private readonly IEstabelecimentoRepository _estabelecimentoRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository,
-                                  IEstabelecimentoRepository estabelecimentoRepository,
         IMapper mapper, 
                                   IProdutoService produtoService,
                                   INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
-            _estabelecimentoRepository = estabelecimentoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
         }
@@ -34,7 +32,7 @@ namespace EnterpriseStore.MVC.Controllers
         [Route("lista-de-produtos")]
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosEstabelecimento()));
+            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
 
         [AllowAnonymous]
@@ -55,9 +53,8 @@ namespace EnterpriseStore.MVC.Controllers
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
         {
-            var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
 
-            return View(produtoViewModel);
+            return View();
         }
 
       
@@ -65,7 +62,6 @@ namespace EnterpriseStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
-            produtoViewModel = await PopularFornecedores(produtoViewModel);
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             produtoViewModel.Imagem = "IMAGEM";
@@ -145,6 +141,8 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produto);
         }
 
+
+
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 
@@ -165,17 +163,9 @@ namespace EnterpriseStore.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
-            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoEstabelecimento(id));
-            produto.Estabelecimentos = _mapper.Map<IEnumerable<EstabelecimentoViewModel>>(await _estabelecimentoRepository.ObterTodos());
-            return produto;
-        }
-
-        private async Task<ProdutoViewModel> PopularFornecedores(ProdutoViewModel produto)
-        {
-            produto.Estabelecimentos = _mapper.Map<IEnumerable<EstabelecimentoViewModel>>(await _estabelecimentoRepository.ObterTodos());
+            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
             return produto;
         }
 

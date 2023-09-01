@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Ipet.Domain.Models
 {
-    public class Estabelecimento : Entity
+    public class Produto : Entity
     {
-        public Guid Conta { get; set; }
-        public string Nome { get; set; }
-        public string Documento { get; set; }
-        public string Imagem { get; set; }
-        public string Endereco { get; set; }
-        public bool Ativo { get; set; }
+        public Guid EstabelecimentoId { get; set; }
 
-        /* EF Relations */
-        public IEnumerable<Produto> Produtos { get; set; }
+        public string Nome { get; set; }
+        public Guid Estabelecimento { get; set; }
+        public string Descricao { get; set; }
+        public string Imagem { get; set; }
+        public decimal Valor { get; set; }
+        public bool Ativo { get; set; }
+        public IEnumerable<HashTags> Servicos { get; set; }
     }
 }

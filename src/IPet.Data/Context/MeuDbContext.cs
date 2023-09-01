@@ -15,8 +15,7 @@ namespace EnterpriseStore.Data.Context
         }
 
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Consumidor> Consumidor { get; set; }
-        public DbSet<Estabelecimento> Estabelecimento { get; set; }
+        public DbSet<Produto> Servico { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()
