@@ -19,11 +19,11 @@ namespace EnterpriseStore.Configurations
             services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
             services.AddScoped<INotificador, Notificador>();
 
-            services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
+            //services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
+            //services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 
 
             return services;

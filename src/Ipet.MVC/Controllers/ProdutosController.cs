@@ -101,7 +101,7 @@ namespace EnterpriseStore.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
-            produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
+            //produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
             produtoViewModel.Imagem = produtoAtualizacao.Imagem;
             if (!ModelState.IsValid) return View(produtoViewModel);
 
