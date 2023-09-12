@@ -94,7 +94,7 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             [DisplayName("Numero")]
             public string Numero { get; set; }
 
-            [DisplayName("Estampa do Estabelecimento")]
+            [DisplayName("Logo/Imagem do Estabelecimento")]
             public IFormFile ImagemUpload { get; set; }
             public string Imagem { get; set; }
 
