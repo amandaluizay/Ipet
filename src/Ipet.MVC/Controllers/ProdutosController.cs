@@ -7,6 +7,11 @@ using EnterpriseStore.MVC.Extensions;
 using EnterpriseStore.Domain.Models;
 using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
+using EnterpriseStore.Data.Repository;
+using Microsoft.AspNetCore.Identity;
+using Ipet.MVC.Models;
+using Ipet.MVC.Areas.Identity.Pages.Account;
+using System.Buffers.Text;
 
 namespace EnterpriseStore.MVC.Controllers
 {
@@ -14,27 +19,27 @@ namespace EnterpriseStore.MVC.Controllers
     public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
-        private readonly IEstabelecimentoRepository _estabelecimentoRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
-                                  IEstabelecimentoRepository estabelecimentoRepository,
         IMapper mapper, 
                                   IProdutoService produtoService,
+                                  UserManager<ApplicationUser> userManager,
                                   INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
-            _estabelecimentoRepository = estabelecimentoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         [Route("lista-de-produtos")]
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosEstabelecimento()));
+            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
 
         [AllowAnonymous]
@@ -47,7 +52,8 @@ namespace EnterpriseStore.MVC.Controllers
             {
                 return NotFound();
             }
-
+            var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
+            ViewBag.NomeDoUsuario = user;
             return View(produtoViewModel);
         }
 
@@ -55,9 +61,8 @@ namespace EnterpriseStore.MVC.Controllers
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
         {
-            var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
 
-            return View(produtoViewModel);
+            return View();
         }
 
       
@@ -65,7 +70,6 @@ namespace EnterpriseStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
-            produtoViewModel = await PopularFornecedores(produtoViewModel);
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             produtoViewModel.Imagem = "IMAGEM";
@@ -75,7 +79,20 @@ namespace EnterpriseStore.MVC.Controllers
                 return View(produtoViewModel);
             }
 
-            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            produtoViewModel.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
+
+            //user 
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                produtoViewModel.EstabelecimentoId = Guid.Parse(user.Id);
+                produtoViewModel.Estabelecimento = user.Nome;
+            }
+            else
+            {
+                // Trate o caso em que o usuário não está autenticado
+                return View(produtoViewModel);
+            }
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             if (!OperacaoValida()) return View(produtoViewModel);
@@ -105,7 +122,7 @@ namespace EnterpriseStore.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
-            produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
+            //produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
             produtoViewModel.Imagem = produtoAtualizacao.Imagem;
             if (!ModelState.IsValid) return View(produtoViewModel);
 
@@ -145,6 +162,8 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produto);
         }
 
+
+
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 
@@ -165,17 +184,9 @@ namespace EnterpriseStore.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
-            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoEstabelecimento(id));
-            produto.Estabelecimentos = _mapper.Map<IEnumerable<EstabelecimentoViewModel>>(await _estabelecimentoRepository.ObterTodos());
-            return produto;
-        }
-
-        private async Task<ProdutoViewModel> PopularFornecedores(ProdutoViewModel produto)
-        {
-            produto.Estabelecimentos = _mapper.Map<IEnumerable<EstabelecimentoViewModel>>(await _estabelecimentoRepository.ObterTodos());
+            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
             return produto;
         }
 
@@ -198,5 +209,23 @@ namespace EnterpriseStore.MVC.Controllers
 
             return true;
         }
+
+        public string ConvertImagemToBase64(IFormFile imagemFile)
+        {
+            if (imagemFile == null || imagemFile.Length == 0)
+            {
+                // Lida com a imagem ausente ou vazia, se necessário.
+                return null;
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                imagemFile.CopyTo(ms);
+                byte[] imagemBytes = ms.ToArray();
+                string imagemBase64 = Convert.ToBase64String(imagemBytes);
+                return imagemBase64;
+            }
+        }
+
     }
 }

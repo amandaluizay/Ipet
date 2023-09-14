@@ -23,6 +23,9 @@ namespace EnterpriseStore.Data.Mappings
 
             builder.Property(p => p.Imagem)
                 //.IsRequired()
+                .HasColumnType("LONGTEXT");
+            builder.Property(p => p.Estabelecimento)
+                //.IsRequired()
                 .HasColumnType("varchar(100)");
 
 

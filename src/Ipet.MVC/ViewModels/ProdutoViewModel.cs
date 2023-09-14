@@ -12,13 +12,12 @@ namespace EnterpriseStore.MVC.ViewModels
 {
     public class ProdutoViewModel
     {
-       
 
         [Key]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [DisplayName("Estabelecimento")]
+        [DisplayName("EstabelecimentoId")]
         public Guid EstabelecimentoId { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -45,8 +44,7 @@ namespace EnterpriseStore.MVC.ViewModels
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
-        public EstabelecimentoViewModel Estabelecimento { get; set; }
-
-        public IEnumerable<EstabelecimentoViewModel> Estabelecimentos { get; set; }
+        [DisplayName("NomeEstabelecimento")]
+        public string Estabelecimento { get; set; }
     }
 }

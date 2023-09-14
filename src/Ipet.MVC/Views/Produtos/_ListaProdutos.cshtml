@@ -37,14 +37,12 @@
                                             </a>
                                             <figure>
                                                 <a href="@Url.Action("Details", "Produtos", new { id = item.Id })" title="Product Title">
-                                                    <img src="~/imagens/4c38c488-74d0-4ae0-bda5-db82d1e8526d_Ração.png" class="tab-image">
+                                                    <img src="data:@item.Imagem" class="tab-image">
                                                 </a>
                                             </figure>
 
-
-
                                             <h3>@Html.DisplayFor(modelItem => item.Nome)</h3>
-                                            <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento.Nome)</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                                            <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento)</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                                             <span class="price">$@Html.DisplayFor(modelItem => item.Valor)</span>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="input-group product-qty">

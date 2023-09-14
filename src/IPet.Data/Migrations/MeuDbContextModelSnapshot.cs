@@ -19,76 +19,6 @@ namespace Ipet.Data.Migrations
                 .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Ipet.Domain.Models.Consumidor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Conta")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Documento")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Consumidores", (string)null);
-                });
-
-            modelBuilder.Entity("Ipet.Domain.Models.Estabelecimento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Conta")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Documento")
-                        .IsRequired()
-                        .HasColumnType("varchar(14)");
-
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasColumnType("varchar(155)");
-
-                    b.Property<string>("Imagem")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("varchar(55)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Estabelecimentos", (string)null);
-                });
-
             modelBuilder.Entity("Ipet.Domain.Models.HashTags", b =>
                 {
                     b.Property<Guid>("Id")
@@ -105,10 +35,15 @@ namespace Ipet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<Guid?>("ServicoId")
+                        .HasColumnType("char(36)");
+
                     b.Property<Guid>("produtoId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ServicoId");
 
                     b.HasIndex("produtoId");
 
@@ -131,6 +66,49 @@ namespace Ipet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(1000)");
 
+                    b.Property<string>("Estabelecimento")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<Guid>("EstabelecimentoId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Imagem")
+                        .IsRequired()
+                        .HasColumnType("LONGTEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Produtos", (string)null);
+                });
+
+            modelBuilder.Entity("Ipet.Domain.Models.Servico", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Estabelecimento")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
                     b.Property<Guid>("EstabelecimentoId")
                         .HasColumnType("char(36)");
 
@@ -147,15 +125,17 @@ namespace Ipet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EstabelecimentoId");
-
-                    b.ToTable("Produtos", (string)null);
+                    b.ToTable("Servicos", (string)null);
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.HashTags", b =>
                 {
-                    b.HasOne("Ipet.Domain.Models.Produto", "produto")
+                    b.HasOne("Ipet.Domain.Models.Servico", null)
                         .WithMany("Produtos")
+                        .HasForeignKey("ServicoId");
+
+                    b.HasOne("Ipet.Domain.Models.Produto", "produto")
+                        .WithMany("Servicos")
                         .HasForeignKey("produtoId")
                         .IsRequired();
 
@@ -164,20 +144,10 @@ namespace Ipet.Data.Migrations
 
             modelBuilder.Entity("Ipet.Domain.Models.Produto", b =>
                 {
-                    b.HasOne("Ipet.Domain.Models.Estabelecimento", "Estabelecimento")
-                        .WithMany("Produtos")
-                        .HasForeignKey("EstabelecimentoId")
-                        .IsRequired();
-
-                    b.Navigation("Estabelecimento");
+                    b.Navigation("Servicos");
                 });
 
-            modelBuilder.Entity("Ipet.Domain.Models.Estabelecimento", b =>
-                {
-                    b.Navigation("Produtos");
-                });
-
-            modelBuilder.Entity("Ipet.Domain.Models.Produto", b =>
+            modelBuilder.Entity("Ipet.Domain.Models.Servico", b =>
                 {
                     b.Navigation("Produtos");
                 });

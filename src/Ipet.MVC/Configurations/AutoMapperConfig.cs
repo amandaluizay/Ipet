@@ -10,8 +10,7 @@ namespace EnterpriseStore.MVC.Configurations
     {
         public AutoMapperConfig()
         {
-            CreateMap<Estabelecimento, EstabelecimentoViewModel>().ReverseMap();
-            CreateMap<Consumidor, ConsumidorViewModel>().ReverseMap();
+
             CreateMap<Produto, ProdutoViewModel>().ReverseMap();
         }
     }
