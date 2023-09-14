@@ -24,6 +24,9 @@ namespace EnterpriseStore.Data.Mappings
             builder.Property(p => p.Imagem)
                 //.IsRequired()
                 .HasColumnType("varchar(100)");
+            builder.Property(p => p.Estabelecimento)
+                //.IsRequired()
+                .HasColumnType("varchar(100)");
 
 
             builder.ToTable("Produtos");

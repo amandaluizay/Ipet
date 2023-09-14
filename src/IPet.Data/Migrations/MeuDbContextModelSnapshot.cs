@@ -66,8 +66,9 @@ namespace Ipet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<Guid>("Estabelecimento")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Estabelecimento")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("EstabelecimentoId")
                         .HasColumnType("char(36)");
@@ -104,8 +105,9 @@ namespace Ipet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<Guid>("Estabelecimento")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Estabelecimento")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("EstabelecimentoId")
                         .HasColumnType("char(36)");

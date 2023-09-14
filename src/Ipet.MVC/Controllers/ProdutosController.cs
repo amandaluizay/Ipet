@@ -8,6 +8,9 @@ using EnterpriseStore.Domain.Models;
 using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
 using EnterpriseStore.Data.Repository;
+using Microsoft.AspNetCore.Identity;
+using Ipet.MVC.Models;
+using Ipet.MVC.Areas.Identity.Pages.Account;
 
 namespace EnterpriseStore.MVC.Controllers
 {
@@ -17,15 +20,18 @@ namespace EnterpriseStore.MVC.Controllers
         private readonly IProdutoRepository _produtoRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
         IMapper mapper, 
                                   IProdutoService produtoService,
+                                  UserManager<ApplicationUser> userManager,
                                   INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
@@ -45,7 +51,8 @@ namespace EnterpriseStore.MVC.Controllers
             {
                 return NotFound();
             }
-
+            var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
+            ViewBag.NomeDoUsuario = user;
             return View(produtoViewModel);
         }
 
@@ -72,6 +79,19 @@ namespace EnterpriseStore.MVC.Controllers
             }
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+
+            //user 
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                produtoViewModel.EstabelecimentoId = Guid.Parse(user.Id);
+                produtoViewModel.Estabelecimento = user.Nome;
+            }
+            else
+            {
+                // Trate o caso em que o usuário não está autenticado
+                return View(produtoViewModel);
+            }
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             if (!OperacaoValida()) return View(produtoViewModel);

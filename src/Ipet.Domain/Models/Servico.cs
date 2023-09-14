@@ -12,7 +12,7 @@ namespace Ipet.Domain.Models
         public Guid EstabelecimentoId { get; set; }
 
         public string Nome { get; set; }
-        public Guid Estabelecimento { get; set; }
+        public string Estabelecimento { get; set; }
         public string Descricao { get; set; }
         public string Imagem { get; set; }
         public decimal Valor { get; set; }

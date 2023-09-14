@@ -41,10 +41,8 @@
                                                 </a>
                                             </figure>
 
-
-
                                             <h3>@Html.DisplayFor(modelItem => item.Nome)</h3>
-                                            <span class="qty">NOME ESTABELECIMENTO</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                                            <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento)</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                                             <span class="price">$@Html.DisplayFor(modelItem => item.Valor)</span>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="input-group product-qty">
