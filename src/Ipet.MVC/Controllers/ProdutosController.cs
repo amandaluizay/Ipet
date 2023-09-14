@@ -11,6 +11,7 @@ using EnterpriseStore.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Ipet.MVC.Models;
 using Ipet.MVC.Areas.Identity.Pages.Account;
+using System.Buffers.Text;
 
 namespace EnterpriseStore.MVC.Controllers
 {
@@ -78,7 +79,7 @@ namespace EnterpriseStore.MVC.Controllers
                 return View(produtoViewModel);
             }
 
-            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            produtoViewModel.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
 
             //user 
             var user = await _userManager.GetUserAsync(User);
@@ -208,5 +209,23 @@ namespace EnterpriseStore.MVC.Controllers
 
             return true;
         }
+
+        public string ConvertImagemToBase64(IFormFile imagemFile)
+        {
+            if (imagemFile == null || imagemFile.Length == 0)
+            {
+                // Lida com a imagem ausente ou vazia, se necessário.
+                return null;
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                imagemFile.CopyTo(ms);
+                byte[] imagemBytes = ms.ToArray();
+                string imagemBase64 = Convert.ToBase64String(imagemBytes);
+                return imagemBase64;
+            }
+        }
+
     }
 }
