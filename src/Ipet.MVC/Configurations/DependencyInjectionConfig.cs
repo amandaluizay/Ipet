@@ -23,6 +23,9 @@ namespace EnterpriseStore.Configurations
             services.AddScoped<IProdutoService, ProdutoService>();
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+
+            services.AddScoped<IServicoService, ServicoService>();
+            services.AddScoped<IServicoRepository, ServicoRepository>();
             //services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 
 

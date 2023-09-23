@@ -12,13 +12,13 @@ using EnterpriseStore.Service.Services;
 namespace EnterpriseStore.MVC.Controllers
 {
     [Authorize]
-    public class ServicoController : BaseController
+    public class ServicosController : BaseController
     {
         private readonly IServicoRepository _servicoRepository;
         private readonly IServicoService _servicoService;
         private readonly IMapper _mapper;
 
-        public ServicoController(IServicoRepository servicoRepository, IMapper mapper,
+        public ServicosController(IServicoRepository servicoRepository, IMapper mapper,
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
         {

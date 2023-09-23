@@ -45,5 +45,8 @@ namespace EnterpriseStore.MVC.ViewModels
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
+        [DisplayName("NomeEstabelecimento")]
+        public string Estabelecimento { get; set; }
+
     }
 }

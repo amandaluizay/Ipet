@@ -13,9 +13,21 @@
 	<ItemGroup>
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
+	  <Content Remove="Views\Servicos\Create.cshtml" />
+	  <Content Remove="Views\Servicos\Delete.cshtml" />
+	  <Content Remove="Views\Servicos\Details.cshtml" />
+	  <Content Remove="Views\Servicos\Edit.cshtml" />
+	  <Content Remove="Views\Servicos\Index.cshtml" />
+	  <Content Remove="Views\Servicos\_ListaServicos.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="Views\Servicos\Create.cshtml" />
+	  <None Include="Views\Servicos\Delete.cshtml" />
+	  <None Include="Views\Servicos\Details.cshtml" />
+	  <None Include="Views\Servicos\Edit.cshtml" />
+	  <None Include="Views\Servicos\Index.cshtml" />
+	  <None Include="Views\Servicos\_ListaServicos.cshtml" />
 	  <None Include="Views\Produtos\Create.cshtml" />
 	  <None Include="Views\Produtos\Delete.cshtml" />
 	  <None Include="Views\Produtos\Details.cshtml" />

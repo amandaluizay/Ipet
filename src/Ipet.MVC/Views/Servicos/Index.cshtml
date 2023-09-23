@@ -1,0 +1,17 @@
+﻿@using EnterpriseStore.MVC.Extensions
+@model IEnumerable<EnterpriseStore.MVC.ViewModels.ServicoViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Servicos";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+
+
+<p supress-by-claim-name="Servico" supress-by-claim-value="Adicionar">
+    <a class="btn btn-info" asp-action="Create">Novo Servico</a>
+</p>
+
+<partial name="_ListaServicos"/>
