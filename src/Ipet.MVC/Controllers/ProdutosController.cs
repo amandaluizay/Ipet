@@ -57,7 +57,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produtoViewModel);
         }
 
-        
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
         {
@@ -65,7 +65,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View();
         }
 
-      
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -100,7 +100,7 @@ namespace EnterpriseStore.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-    
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -114,7 +114,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produtoViewModel);
         }
 
-      
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
@@ -149,6 +149,7 @@ namespace EnterpriseStore.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -163,7 +164,7 @@ namespace EnterpriseStore.MVC.Controllers
         }
 
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 

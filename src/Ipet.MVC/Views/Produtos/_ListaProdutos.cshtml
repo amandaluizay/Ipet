@@ -1,4 +1,5 @@
 ﻿@using EnterpriseStore.MVC.Extensions
+@using System.Security.Claims;
 @model IEnumerable<EnterpriseStore.MVC.ViewModels.ProdutoViewModel>
 
 <link href="~/css/produtos.css" rel="stylesheet" />
@@ -60,6 +61,19 @@
                                                 </div>
                                                 <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
                                             </div>
+
+                                            @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+                                            {
+                                                if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == item.EstabelecimentoId)
+                                                {
+
+                                                    <a supress-by-claim-name="Produto" supress-by-claim-value="Editar" class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+
+                                                }
+
+
+                                            }
+
                                         </div>
 
                                     </div>

@@ -1,12 +1,6 @@
-﻿using EnterpriseStore.Domain.Models;
-using EnterpriseStore.MVC.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using EnterpriseStore.MVC.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EnterpriseStore.MVC.ViewModels
 {

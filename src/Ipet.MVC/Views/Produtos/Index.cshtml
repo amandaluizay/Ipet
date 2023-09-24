@@ -9,9 +9,11 @@
 <hr />
 
 
-
-<p supress-by-claim-name="Produto" supress-by-claim-value="Adicionar">
-    <a class="btn btn-info" asp-action="Create">Novo Produto</a>
-</p>
+@if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+{
+    <p>
+        <a class="btn btn-info" asp-action="Create">Novo Produto</a>
+    </p>
+}
 
 <partial name="_ListaProdutos"/>
