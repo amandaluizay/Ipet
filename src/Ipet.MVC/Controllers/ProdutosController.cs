@@ -215,7 +215,6 @@ namespace EnterpriseStore.MVC.Controllers
         {
             if (imagemFile == null || imagemFile.Length == 0)
             {
-                // Lida com a imagem ausente ou vazia, se necessário.
                 return null;
             }
 

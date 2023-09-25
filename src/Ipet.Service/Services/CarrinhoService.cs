@@ -1,5 +1,6 @@
 ﻿using EnterpriseStore.Data.Repository;
 using EnterpriseStore.Domain.Intefaces;
+using EnterpriseStore.Interfaces.Services;
 using Ipet.Domain.Models;
 
 namespace EnterpriseStore.Service.Services
