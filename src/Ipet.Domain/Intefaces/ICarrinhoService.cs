@@ -1,6 +1,6 @@
 ﻿using Ipet.Domain.Models;
 
-namespace EnterpriseStore.Interfaces.Services
+namespace Ipet.Interfaces.Services
 {
     public interface ICarrinhoService
     {
@@ -10,5 +10,6 @@ namespace EnterpriseStore.Interfaces.Services
         Task<Carrinho> ObterCarrinhoPorUsuario(Guid usuarioId);
         Task<Carrinho> CriarCarrinho(Guid usuarioId);
         Task RemoverCarrinho(Guid carrinhoId);
+        Task AtualizarQuantidadeProduto(Guid carrinhoId, Guid produtoId, int novaQuantidade);
     }
 }

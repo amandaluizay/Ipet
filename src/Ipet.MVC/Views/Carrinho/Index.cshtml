@@ -1,0 +1,40 @@
+﻿@page
+@model IEnumerable<Ipet.ViewModels.CarrinhoViewModel>
+
+@using Ipet.MVC.Extensions
+
+@{
+    ViewData["Title"] = "Carrinho";
+}
+
+<h1>Seu Carrinho de Compras</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @foreach (var produto in item.Produtos)
+                {
+                    <td>@produto.Produto.Nome</td>
+                    <td>@produto.Quantidade</td>
+                    <td>@produto.Produto.Valor.ToString("C")</td>
+                    <td>@(produto.Quantidade * produto.Produto.Valor).ToString("C")</td>
+                }
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<a asp-page="AdicionarProduto">Adicionar Produto</a>
+<a asp-page="RemoverProduto">Remover Produto</a>
+<a asp-page="FinalizarCompra">Finalizar Compra</a>

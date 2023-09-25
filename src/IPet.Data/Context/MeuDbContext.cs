@@ -1,10 +1,10 @@
 ﻿
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
+using Ipet.Domain.Models;
+using Ipet.Service.Models;
 using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnterpriseStore.Data.Context
+namespace Ipet.Data.Context
 {
     public class MeuDbContext : DbContext
     {

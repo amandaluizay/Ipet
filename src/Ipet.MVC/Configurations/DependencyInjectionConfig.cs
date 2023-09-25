@@ -1,14 +1,14 @@
-﻿
-using EnterpriseStore.Data.Context;
-using EnterpriseStore.Data.Repository;
-using EnterpriseStore.Domain.Intefaces;
-using EnterpriseStore.Domain.Notificacoes;
-using EnterpriseStore.MVC.Extensions;
-using EnterpriseStore.MVC.Services;
-using EnterpriseStore.Service.Services;
+﻿using Ipet.Data.Context;
+using Ipet.Data.Repository;
+using Ipet.Domain.Intefaces;
+using Ipet.Domain.Notificacoes;
+using Ipet.Interfaces.Services;
+using Ipet.MVC.Extensions;
+using Ipet.MVC.Services;
+using Ipet.Service.Services;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
-namespace EnterpriseStore.Configurations
+namespace Ipet.Configurations
 {
     public static class DependencyInjectionConfig
     {
@@ -26,6 +26,9 @@ namespace EnterpriseStore.Configurations
 
             services.AddScoped<IServicoService, ServicoService>();
             services.AddScoped<IServicoRepository, ServicoRepository>();
+
+            services.AddScoped<ICarrinhoService, CarrinhoService>();
+            services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
             //services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 
 

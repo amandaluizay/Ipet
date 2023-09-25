@@ -1,8 +1,6 @@
-﻿
-using EnterpriseStore.Domain.Notificacoes;
-using System.Collections.Generic;
+﻿using Ipet.Domain.Notificacoes;
 
-namespace EnterpriseStore.Domain.Intefaces
+namespace Ipet.Domain.Intefaces
 {
     public interface INotificador
     {

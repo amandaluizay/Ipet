@@ -2,9 +2,9 @@
 
 
 
-using EnterpriseStore.MVC.Models;
+using Ipet.MVC.Models;
 
-namespace EnterpriseStore.MVC.Services
+namespace Ipet.MVC.Services
 {
     public interface IAutenticacaoService
     {

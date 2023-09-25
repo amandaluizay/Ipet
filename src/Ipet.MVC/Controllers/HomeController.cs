@@ -1,8 +1,7 @@
-﻿
-using EnterpriseStore.MVC.ViewModels;
+﻿using Ipet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     public class HomeController : Controller
     {

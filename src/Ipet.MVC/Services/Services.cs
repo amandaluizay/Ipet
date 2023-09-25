@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text;
-using EnterpriseStore.MVC.Extensions;
+using Ipet.MVC.Extensions;
 
-namespace EnterpriseStore.MVC.Services { 
+namespace Ipet.MVC.Services
+{
     public abstract class Service
     {
         protected StringContent ObterConteudo(object dado)

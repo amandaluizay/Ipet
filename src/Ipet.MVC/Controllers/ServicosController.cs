@@ -2,14 +2,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using EnterpriseStore.MVC.ViewModels;
-using EnterpriseStore.MVC.Extensions;
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
-using EnterpriseStore.Service.Services;
+using Ipet.ViewModels;
+using Ipet.Domain.Intefaces;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ServicosController : BaseController

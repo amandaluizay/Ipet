@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EnterpriseStore.Service.Models.Validations.Documentos
+namespace Ipet.Service.Models.Validations.Documentos
 {
     public class CpfValidacao
     {

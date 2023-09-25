@@ -1,12 +1,8 @@
-﻿
-using EnterpriseStore.MVC.Data;
+﻿using Ipet.MVC.Data;
 using Ipet.MVC.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 
-namespace EnterpriseStore.MVC.Configurations
+namespace Ipet.MVC.Configurations
 {
     public static class IdentityConfig
     {

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace EnterpriseStore.Domain.Intefaces
+namespace Ipet.Domain.Intefaces
 {
     public interface IUser
     {

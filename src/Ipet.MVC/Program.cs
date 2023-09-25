@@ -1,10 +1,8 @@
 
-using EnterpriseStore.Configurations;
-using EnterpriseStore.Data.Context;
-using EnterpriseStore.MVC.Configurations;
-using EnterpriseStore.MVC.Data;
+using Ipet.Configurations;
+using Ipet.Data.Context;
+using Ipet.MVC.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,14 +26,10 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMvcConfiguration();
 builder.Services.ResolveDependencies();
 
-
 builder.Services.AddControllersWithViews();
-
-
 
 var app = builder.Build();
 
-// Configure
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

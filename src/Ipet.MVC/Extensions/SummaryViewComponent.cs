@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using EnterpriseStore.Domain.Intefaces;
+﻿using Ipet.Domain.Intefaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EnterpriseStore.MVC.Extensions
+namespace Ipet.MVC.Extensions
 {
     public class SummaryViewComponent : ViewComponent
     {

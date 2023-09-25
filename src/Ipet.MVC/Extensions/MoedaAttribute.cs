@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 
-namespace EnterpriseStore.MVC.Extensions
+namespace Ipet.MVC.Extensions
 {
     public class MoedaAttribute : ValidationAttribute
     {

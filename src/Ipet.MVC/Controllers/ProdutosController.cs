@@ -2,18 +2,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using EnterpriseStore.MVC.ViewModels;
-using EnterpriseStore.MVC.Extensions;
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
-using EnterpriseStore.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Ipet.MVC.Models;
-using Ipet.MVC.Areas.Identity.Pages.Account;
-using System.Buffers.Text;
+using Ipet.ViewModels;
+using Ipet.Domain.Intefaces;
+using Ipet.MVC.Extensions;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ProdutosController : BaseController

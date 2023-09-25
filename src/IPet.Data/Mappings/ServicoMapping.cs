@@ -1,6 +1,6 @@
 ﻿
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
+using Ipet.Domain.Models;
+using Ipet.Service.Models;
 using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

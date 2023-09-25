@@ -1,6 +1,6 @@
 ﻿using Ipet.Domain.Models;
 
-namespace EnterpriseStore.Domain.Intefaces
+namespace Ipet.Domain.Intefaces
 {
     public interface IProdutoRepository : IRepository<Produto>
     {

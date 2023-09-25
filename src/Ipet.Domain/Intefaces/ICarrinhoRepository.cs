@@ -1,7 +1,8 @@
-﻿using EnterpriseStore.Domain.Intefaces;
+﻿
+using Ipet.Domain.Intefaces;
 using Ipet.Domain.Models;
 
-namespace EnterpriseStore.Data.Repository
+namespace Ipet.Data.Repository
 {
     public interface ICarrinhoRepository : IRepository<Carrinho>
     {

@@ -1,4 +1,4 @@
-﻿namespace EnterpriseStore.MVC.Extensions
+﻿namespace Ipet.MVC.Extensions
 {
     public class AppSettings
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace EnterpriseStore.MVC.Models
+namespace Ipet.MVC.Models
 {
 
     public class UsuarioRegistro

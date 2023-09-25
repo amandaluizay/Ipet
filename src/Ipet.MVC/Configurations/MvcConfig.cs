@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EnterpriseStore.MVC.Configurations
+namespace Ipet.MVC.Configurations
 {
     public static class MvcConfig
     {

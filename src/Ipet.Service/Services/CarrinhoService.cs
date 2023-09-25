@@ -1,9 +1,9 @@
-﻿using EnterpriseStore.Data.Repository;
-using EnterpriseStore.Domain.Intefaces;
-using EnterpriseStore.Interfaces.Services;
+﻿using Ipet.Data.Repository;
+using Ipet.Domain.Intefaces;
 using Ipet.Domain.Models;
+using Ipet.Interfaces.Services;
 
-namespace EnterpriseStore.Service.Services
+namespace Ipet.Service.Services
 {
     public class CarrinhoService : BaseService, ICarrinhoService
     {
@@ -107,6 +107,29 @@ namespace EnterpriseStore.Service.Services
 
             await _carrinhoRepository.Adicionar(carrinho);
             return carrinho;
+        }
+
+        public async Task AtualizarQuantidadeProduto(Guid carrinhoId, Guid produtoId, int novaQuantidade)
+        {
+            var carrinho = await _carrinhoRepository.ObterPorId(carrinhoId);
+
+            if (carrinho == null)
+            {
+                Notificar("Carrinho não encontrado.");
+                return;
+            }
+
+            var carrinhoProduto = carrinho.CarrinhoProdutos.FirstOrDefault(cp => cp.ProdutoId == produtoId);
+
+            if (carrinhoProduto == null)
+            {
+                Notificar("Produto não encontrado no carrinho.");
+                return;
+            }
+
+            carrinhoProduto.Quantidade = novaQuantidade;
+
+            await _carrinhoRepository.Atualizar(carrinho);
         }
 
 

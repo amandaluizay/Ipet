@@ -1,10 +1,10 @@
-﻿using EnterpriseStore.Interfaces.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Ipet.MVC.Models;
+using Ipet.Interfaces.Services;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class CarrinhoController : Controller
@@ -31,6 +31,14 @@ namespace EnterpriseStore.MVC.Controllers
         {
             var usuarioId = Guid.Parse(_userManager.GetUserId(User));
             await _carrinhoService.AdicionarProduto(usuarioId, produtoId, quantidade);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("carrinho/alterar-quantidade")]
+        public async Task<IActionResult> AtualizarQuantidadeProduto(Guid produtoId, int quantidade)
+        {
+            var usuarioId = Guid.Parse(_userManager.GetUserId(User));
+            await _carrinhoService.AtualizarQuantidadeProduto(usuarioId, produtoId, quantidade);
             return RedirectToAction("Index");
         }
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 
-namespace EnterpriseStore.MVC.Extensions
+namespace Ipet.MVC.Extensions
 {
     public class CustomAuthorization
     {

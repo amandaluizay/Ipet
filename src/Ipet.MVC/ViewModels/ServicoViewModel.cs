@@ -1,8 +1,8 @@
-﻿using EnterpriseStore.MVC.Extensions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Ipet.MVC.Extensions;
 
-namespace EnterpriseStore.MVC.ViewModels
+namespace Ipet.ViewModels
 {
     public class ServicoViewModel
     {

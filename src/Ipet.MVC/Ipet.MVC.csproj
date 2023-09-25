@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>aspnet-EnterpriseStore.MVC-CB96C220-FEF3-4730-A438-BC4EABFA796B</UserSecretsId>
+		<UserSecretsId>aspnet-Ipet.MVC-CB96C220-FEF3-4730-A438-BC4EABFA796B</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,6 +13,17 @@
 	<ItemGroup>
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
+	  <Content Remove="Views\Carrinho\Create.cshtml" />
+	  <Content Remove="Views\Carrinho\Delete.cshtml" />
+	  <Content Remove="Views\Carrinho\Details.cshtml" />
+	  <Content Remove="Views\Carrinho\Edit.cshtml" />
+	  <Content Remove="Views\Carrinho\Index.cshtml" />
+	  <Content Remove="Views\Produtos\Create.cshtml" />
+	  <Content Remove="Views\Produtos\Delete.cshtml" />
+	  <Content Remove="Views\Produtos\Details.cshtml" />
+	  <Content Remove="Views\Produtos\Edit.cshtml" />
+	  <Content Remove="Views\Produtos\Index.cshtml" />
+	  <Content Remove="Views\Produtos\_ListaProdutos.cshtml" />
 	  <Content Remove="Views\Servicos\Create.cshtml" />
 	  <Content Remove="Views\Servicos\Delete.cshtml" />
 	  <Content Remove="Views\Servicos\Details.cshtml" />
@@ -22,18 +33,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Views\Servicos\Create.cshtml" />
-	  <None Include="Views\Servicos\Delete.cshtml" />
-	  <None Include="Views\Servicos\Details.cshtml" />
-	  <None Include="Views\Servicos\Edit.cshtml" />
-	  <None Include="Views\Servicos\Index.cshtml" />
-	  <None Include="Views\Servicos\_ListaServicos.cshtml" />
+	  <None Include="Views\Carrinho\Create.cshtml" />
+	  <None Include="Views\Carrinho\Delete.cshtml" />
+	  <None Include="Views\Carrinho\Details.cshtml" />
+	  <None Include="Views\Carrinho\Edit.cshtml" />
+	  <None Include="Views\Carrinho\Index.cshtml" />
 	  <None Include="Views\Produtos\Create.cshtml" />
 	  <None Include="Views\Produtos\Delete.cshtml" />
 	  <None Include="Views\Produtos\Details.cshtml" />
 	  <None Include="Views\Produtos\Edit.cshtml" />
 	  <None Include="Views\Produtos\Index.cshtml" />
 	  <None Include="Views\Produtos\_ListaProdutos.cshtml" />
+	  <None Include="Views\Servicos\Create.cshtml" />
+	  <None Include="Views\Servicos\Delete.cshtml" />
+	  <None Include="Views\Servicos\Details.cshtml" />
+	  <None Include="Views\Servicos\Edit.cshtml" />
+	  <None Include="Views\Servicos\Index.cshtml" />
+	  <None Include="Views\Servicos\_ListaServicos.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,6 @@
 using System;
 
-namespace EnterpriseStore.MVC.Models
+namespace Ipet.MVC.Models
 {
     public class ErrorViewModel
     {
