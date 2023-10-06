@@ -13,7 +13,6 @@
 	<ItemGroup>
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
-	  <Content Remove="Views\Carrinho\Create.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
