@@ -14,22 +14,6 @@
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
 	  <Content Remove="Views\Carrinho\Create.cshtml" />
-	  <Content Remove="Views\Carrinho\Delete.cshtml" />
-	  <Content Remove="Views\Carrinho\Details.cshtml" />
-	  <Content Remove="Views\Carrinho\Edit.cshtml" />
-	  <Content Remove="Views\Carrinho\Index.cshtml" />
-	  <Content Remove="Views\Produtos\Create.cshtml" />
-	  <Content Remove="Views\Produtos\Delete.cshtml" />
-	  <Content Remove="Views\Produtos\Details.cshtml" />
-	  <Content Remove="Views\Produtos\Edit.cshtml" />
-	  <Content Remove="Views\Produtos\Index.cshtml" />
-	  <Content Remove="Views\Produtos\_ListaProdutos.cshtml" />
-	  <Content Remove="Views\Servicos\Create.cshtml" />
-	  <Content Remove="Views\Servicos\Delete.cshtml" />
-	  <Content Remove="Views\Servicos\Details.cshtml" />
-	  <Content Remove="Views\Servicos\Edit.cshtml" />
-	  <Content Remove="Views\Servicos\Index.cshtml" />
-	  <Content Remove="Views\Servicos\_ListaServicos.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
