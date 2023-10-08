@@ -9,13 +9,10 @@
 
 <h1>@ViewData["Title"]</h1>
 <hr />
-
-
 @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
 {
     <p>
         <a class="btn btn-info" asp-action="Create">Novo Produto</a>
     </p>
 }
-
 <partial name="_ListaProdutos"/>

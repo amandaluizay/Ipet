@@ -75,10 +75,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [Required(ErrorMessage = "O campo {0} é obrigatório")]
-            [DisplayName("Rua")]
-            public string Rua { get; set; }
-
-            [Required(ErrorMessage = "O campo {0} é obrigatório")]
             [DisplayName("Cep")]
             public string Cep { get; set; }
 
@@ -119,7 +115,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     Nome = Input.Nome,
                     Email = Input.Email,
                     Documento = Input.Cpf,
-                    Rua = Input.Rua,
                     Cep = Input.Cep,
                     Numero = Input.Numero,
                     Password = Input.Password,

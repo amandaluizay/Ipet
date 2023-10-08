@@ -43,8 +43,8 @@
         padding: 20px;
         border-radius: 10px;
         max-width: 750px;
-        max-height: 900px;
-        min-width: 650px;
+        max-height: 890px;
+        min-width: 590px;
         min-height: 380px;
     }
 
@@ -52,7 +52,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh; /* Define a altura do container para ocupar toda a altura da tela */
+        height: 100vh;
     }
 
     .text-danger-custom {
@@ -94,120 +94,92 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-
-        <div class="container">
-          <section class="py-5 form-container">
+    <div class="container">
+        <section class="py-5 form-container">
             <div class="container-fluid">
-              <div class="row">
-                <div class="col-12">
-                        <div class="d-flex justify-content-end">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="/Account/Register" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                                <i class="fas fa-store" style="color: #FFFFFF;"></i> Cadastro Usuario
+                            </a>
 
-                            <a asp-page="/Account/Login" class="btn btn-primary" style="background-color: #8e9599; color: white; margin-top: 10px;">
+                            <a asp-page="/Account/Login" class="btn btn-primary" style="background-color: #8e9599; color: white;">
                                 <i class="fas fa-sign-in-alt" style="color: #ffffff;"></i> Entrar
                             </a>
                         </div>
-                  <h1 class="text-center mb-4" style="font-size: 2.5rem; color: #333;">
-                   <a href="~/">
-                   <img src="~/imagens/Logos/logo_Nova.png" alt="logo" style="max-width: 100px; border-radius: 20px;" class="img-fluid">
-                   </a>
-                  </h1>
-                  <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="email" class="form-label">Endereço de Email</label>
-                                <input asp-for="Input.Email" class="form-control col-12" placeholder="Digite seu email" autocomplete="username" aria-required="true" />
-                                <span asp-validation-for="Input.Email" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="nome" class="form-label">Nome do Estabelecimento</label>
-                                <input asp-for="Input.Nome" class="form-control col-12" placeholder="Insira o Nome" autocomplete="new-Name" aria-required="true" />
-                                <span asp-validation-for="Input.Nome" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="endereço" class="form-label">Rua</label>
-                                <input asp-for="Input.Rua" class="form-control col-12" placeholder="Insira a Rua" aria-required="true" />
-                                <span asp-validation-for="Input.Rua" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="endereço" class="form-label">Numero</label>
-                                <input asp-for="Input.Numero" class="form-control col-12" placeholder="Insira o Nuumero" aria-required="true" />
-                                <span asp-validation-for="Input.Numero" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="endereço" class="form-label">CEP</label>
-                                <input asp-for="Input.Cep" class="form-control col-12" placeholder="Insira o Cep" aria-required="true" />
-                                <span asp-validation-for="Input.Cep" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="cpf" class="form-label">CNPJ</label>
-                                <input asp-for="Input.Cnpj" class="form-control col-12" placeholder="00.000.000/0000-00" autocomplete="new-cpf" aria-required="true" />
-                                <span asp-validation-for="Input.Cnpj" class="text-danger" style="color: red;"></span>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label asp-for="Input.ImagemUpload" class="control-label"></label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="ImagemUpload" asp-for="Input.ImagemUpload">
-                                    <label data-browse="Procurar" style="width: 400px" class="custom-file-label col-12" for="ImagemUpload"></label>
-                                    <label style="display: none" id="img_nome"></label>
-                                </div>
-                                <span asp-validation-for="Input.ImagemUpload" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3 col-md-2">
-                                <div class="dog">
-                                    <div class="heart heart--1"></div>
-                                    <div class="heart heart--2"></div>
-                                    <div class="heart heart--3"></div>
-                                    <div class="heart heart--4"></div>
-                                    <div class="head">
-                                        <div class="year year--left"></div>
-                                        <div class="year year--right"></div>
-                                        <div class="nose"></div>
-                                        <div class="face">
-                                            <div class="eye eye--left"></div>
-                                            <div class="eye eye--right"></div>
-                                            <div class="mouth"></div>
-                                        </div>
+                        <h1 class="text-center mb-4" style="font-size: 2.5rem; color: #333;">
+                            <a href="~/">
+                                <img src="~/imagens/Logos/logo_Nova.png" alt="logo" style="max-width: 100px; border-radius: 20px;" class="img-fluid">
+                            </a>
+                        </h1>
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row">
+                            <fieldset>
+                                <legend>Dados do Estabelecimento</legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Endereço de Email</label>
+                                        <input asp-for="Input.Email" class="form-control col-12" placeholder="Insira seu email" autocomplete="username" aria-required="true" />
+                                        <span asp-validation-for="Input.Email" class="text-danger" style="color: red;"></span>
                                     </div>
-                                    <div class="body">
-                                        <div class="cheast"></div>
-                                        <div class="back"></div>
-                                        <div class="legs">
-                                            <div class="legs__front legs__front--left"></div>
-                                            <div class="legs__front legs__front--right"></div>
-                                            <div class="legs__back legs__back--left"></div>
-                                            <div class="legs__back legs__back--right"></div>
+                                    <div class="col-md-6">
+                                        <label for="nome" class="form-label">Nome</label>
+                                        <input asp-for="Input.Nome" class="form-control col-12" placeholder="Insira o Nome" autocomplete="new-Name" aria-required="true" />
+                                        <span asp-validation-for="Input.Nome" class="text-danger" style="color: red;"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cpf" class="form-label">CNPJ</label>
+                                        <input asp-for="Input.Cnpj" class="form-control col-12" placeholder="00.000.000/0000-00" autocomplete="new-cnpj" aria-required="true" />
+                                        <span asp-validation-for="Input.Cnpj" class="text-danger" style="color: red;"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Input.ImagemUpload" class="control-label"></label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="ImagemUpload" asp-for="Input.ImagemUpload">
+                                            <label data-browse="Procurar" style="width: 400px" class="custom-file-label col-12" for="ImagemUpload"></label>
+                                            <label style="display: none" id="img_nome"></label>
                                         </div>
-                                        <div class="tail"></div>
+                                        <span asp-validation-for="Input.ImagemUpload" class="text-danger"></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-3 col-md-6">
+                            </fieldset>
+                            <fieldset>
+                                <legend>Endereço</legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="endereço" class="form-label">CEP</label>
+                                        <input asp-for="Input.Cep" class="form-control col-12" placeholder="Insira o Cep" aria-required="true" />
+                                        <span asp-validation-for="Input.Cep" class="text-danger" style="color: red;"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="endereço" class="form-label">Numero</label>
+                                        <input asp-for="Input.Numero" class="form-control col-12" placeholder="Insira o Nuumero" aria-required="true" />
+                                        <span asp-validation-for="Input.Numero" class="text-danger" style="color: red;"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <legend>Autenticação</legend>
+                            <div class="col-md-6">
                                 <label for="senha" class="form-label">Senha</label>
-                                <input asp-for="Input.Password" class="form-control col-12" placeholder="Digite sua Senha" autocomplete="new-password" aria-required="true" />
+                                <input asp-for="Input.Password" class="form-control col-12" placeholder="Insira sua Senha" autocomplete="new-password" aria-required="true" />
                                 <span asp-validation-for="Input.Password" class="text-danger" style="color: red;"></span>
                             </div>
-                            <div class="mb-3 col-md-6">
+                            <div class="col-md-6">
                                 <label for="senha2" class="form-label">Confirmar Senha</label>
-                                <input asp-for="Input.ConfirmPassword" class="form-control col-12" placeholder="Digite a senha Novamente" autocomplete="new-password" aria-required="true" />
+                                <input asp-for="Input.ConfirmPassword" class="form-control col-12" placeholder="Insira a senha Novamente" autocomplete="new-password" aria-required="true" />
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="color: red;"></span>
                             </div>
-                            <div class="mb-3" style="margin-top: 40px;">
-                                <a asp-page="/Account/Register" class="btn btn-primary" style="background-color: #8e9599; color: white;">
-                                    <i class="fas fa-user-plus" style="color: white;"></i> Cadastro Consumidor
-                                </a>
-                                <div style="display: inline; float: right;">
-                                    <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">
-                                        <i class="fas fa-store" style="color: #FFFFFF;"></i>Criar Conta</button>
-                                </div>
+                            <div class="mb-3 d-flex justify-content-center align-items-center" style="margin-top: 40px;">
+                                <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                                    <i class="fas fa-user-plus" style="color: white;"></i> Criar Conta
+                                </button>
                             </div>
                         </form>
+                    </div>
                 </div>
-              </div>
             </div>
-          </section>
+        </section>
     </div>
-
-   
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
