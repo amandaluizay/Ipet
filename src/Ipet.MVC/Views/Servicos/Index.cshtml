@@ -10,8 +10,13 @@
 
 
 
-<p supress-by-claim-name="Servico" supress-by-claim-value="Adicionar">
-    <a class="btn btn-info" asp-action="Create">Novo Servico</a>
-</p>
+@if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+{
+    <div class="mb-3">
+        <a class="btn" asp-action="Create" style="color: rgb(153,106,151);">
+            <i class="fas fa-plus"></i> <span style="color: rgb(153,106,151);">Novo Serviço</span>
+        </a>
+    </div>
+}
 
 <partial name="_ListaServicos"/>

@@ -26,7 +26,7 @@
                             <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                                @foreach (var item in Model)
                                  {
-                                    <div class="col">
+                                    <div class="col-3">
 
                                         <div class="product-item">
                                             <a href="#" class="btn-wishlist">
@@ -38,9 +38,10 @@
                                             </a>
                                             <figure>
                                                 <a href="@Url.Action("Details", "Produtos", new { id = item.Id })" title="Product Title">
-                                                    <img src="data:@item.Imagem" class="tab-image">
+                                                    <img src="data:@item.Imagem" class="tab-image" style="width: 150px; height: 150px;">
                                                 </a>
                                             </figure>
+
 
                                             <h3>@Html.DisplayFor(modelItem => item.Nome)</h3>
                                             <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento)</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
