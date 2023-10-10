@@ -5,62 +5,104 @@
 @{
     ViewData["Title"] = "" + Model.Nome;
 }
+<style>
 
-<h4 style="padding-top: 50px">@ViewData["Title"]</h4>
-<hr />
-<div class="container-with-border">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="data:@Model.Imagem" alt="@Model.Imagem" style="width: 300px; height: 300px" />
-        </div>
-        <div class="col-md-8">
-            <dl>
-                <dd>
-                    @Html.DisplayFor(model => model.Estabelecimento)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Nome)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Descricao)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Descricao)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Valor)
-                </dt>
-                <dd>
-                    @Model.Valor.ToString("C")
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.DataCadastro)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DataCadastro)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Ativo)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Ativo)
-                </dd>
-                <!-- Adicione mais campos conforme necessário -->
-            </dl>
+    .image-container {
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); /* Adicione uma sombra suave à imagem */
+    }
 
-            @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
-            {
-                if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.EstabelecimentoId)
+        .image-container img {
+            width: 300px;
+            height: 300px;
+            border-radius: 30px; /* Adicione um pequeno arredondamento às bordas da imagem */
+        }
+
+    .product-container {
+        background-color: #fff; /* Define a cor de fundo do container do produto */
+        border: 1px solid #ccc;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 25px;
+        margin-top: 20px;
+        width: 90%; /* Aumente a largura para 80% da largura da tela */
+        max-width: 1800px; /* Defina uma largura máxima para evitar que o container fique muito largo */
+        margin: 20px auto; /* Centralize o container horizontalmente */
+    }
+
+    .product-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .logo {
+        max-width: 100px;
+        border-radius: 20px;
+    }
+</style>
+
+<div class="product-container">
+    <h1 class="product-title">@ViewData["Title"]</h1>
+
+    <hr />
+
+    <div class="container-with-border">
+        <div class="row">
+            <div class="col-md-4 image-container d-flex align-items-center">
+                <img src="data:@Model.Imagem" alt="@Model.Imagem" style="width: 300px; height: 300px" />
+            </div>
+
+
+            <div class="col-8">
+                <div class="row">
+                    <div class="center col-2">
+                        <strong>Estabelecimento:</strong>
+                    </div>
+                    <div class="col-10">
+                        @Html.DisplayFor(model => model.Estabelecimento)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="center col-2">
+                        <strong>Descrição:</strong>
+                    </div>
+                    <div class="col-10">
+                        <div class="description-box">
+                            @Html.DisplayFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="center col-2">
+                        <strong>Valor:</strong>
+                    </div>
+                    <div class="col-10">
+                        <span class="money-format">
+                            <i class="fa fa-dollar"></i> @Model.Valor.ToString("C")
+                        </span>
+                    </div>
+                </div>
+
+
+             
+
+                @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
                 {
-                    <a class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@Model.Id">
-                        <span class="fa fa-pencil-alt"></span> Editar
-                    </a>
+                    if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.EstabelecimentoId)
+                    {
+                        <a class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@Model.Id">
+                            <span class="fa fa-pencil-alt"></span> Editar
+                        </a>
+                    }
                 }
-            }
-            <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
         </div>
     </div>
 </div>

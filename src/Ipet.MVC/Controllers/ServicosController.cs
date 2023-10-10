@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Ipet.Domain.Models;
 using Ipet.ViewModels;
 using Ipet.Domain.Intefaces;
+using Ipet.MVC.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Ipet.MVC.Models;
 
 namespace Ipet.MVC.Controllers
 {
@@ -14,15 +17,19 @@ namespace Ipet.MVC.Controllers
         private readonly IServicoRepository _servicoRepository;
         private readonly IServicoService _servicoService;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ServicosController(IServicoRepository servicoRepository, IMapper mapper,
+                                    UserManager<ApplicationUser> userManager,
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
         {
             _servicoRepository = servicoRepository;
             _mapper = mapper;
             _servicoService = servicoService;
+            _userManager = userManager;
         }
+
 
         [AllowAnonymous]
         [Route("lista-de-servicos")]
@@ -41,11 +48,12 @@ namespace Ipet.MVC.Controllers
             {
                 return NotFound();
             }
-
+            var user = _userManager.FindByIdAsync(servicoViewModel.EstabelecimentoId.ToString());
+            ViewBag.NomeDoUsuario = user;
             return View(servicoViewModel);
         }
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-servico")]
         public async Task<IActionResult> Create()
         {
@@ -54,7 +62,7 @@ namespace Ipet.MVC.Controllers
 
         }
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-servico")]
         [HttpPost]
         public async Task<IActionResult> Create(ServicoViewModel servicoViewModel)
@@ -68,6 +76,20 @@ namespace Ipet.MVC.Controllers
                 return View(servicoViewModel);
             }
 
+            servicoViewModel.Imagem = servicoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(servicoViewModel.ImagemUpload);
+
+            //user 
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                servicoViewModel.EstabelecimentoId = Guid.Parse(user.Id);
+                servicoViewModel.Estabelecimento = user.Nome;
+            }
+            else
+            {
+                return View(servicoViewModel);
+            }
+
             servicoViewModel.Imagem = imgPrefixo + servicoViewModel.ImagemUpload.FileName;
             await _servicoService.Adicionar(_mapper.Map<Servico>(servicoViewModel));
 
@@ -76,7 +98,7 @@ namespace Ipet.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-servico/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -90,9 +112,10 @@ namespace Ipet.MVC.Controllers
             return View(servicoViewModel);
         }
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-servico/{id:guid}")]
         [HttpPost]
+
         public async Task<IActionResult> Edit(Guid id, ServicoViewModel servicoViewModel)
         {
             if (id != servicoViewModel.Id) return NotFound();
@@ -123,7 +146,7 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-servico/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -136,7 +159,7 @@ namespace Ipet.MVC.Controllers
 
             return View(servico);
         }
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-servico/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 
@@ -183,5 +206,21 @@ namespace Ipet.MVC.Controllers
 
             return true;
         }
+        public string ConvertImagemToBase64(IFormFile imagemFile)
+        {
+            if (imagemFile == null || imagemFile.Length == 0)
+            {
+                return null;
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                imagemFile.CopyTo(ms);
+                byte[] imagemBytes = ms.ToArray();
+                string imagemBase64 = Convert.ToBase64String(imagemBytes);
+                return imagemBase64;
+            }
+        }
+
     }
 }
