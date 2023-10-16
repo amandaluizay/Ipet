@@ -102,6 +102,7 @@ namespace Ipet.MVC.Controllers
         {
             var produtoViewModel = await ObterProduto(id);
 
+           
             if (produtoViewModel == null)
             {
                 return NotFound();
@@ -118,19 +119,19 @@ namespace Ipet.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
-            //produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
-            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             if (produtoViewModel.ImagemUpload != null)
             {
+                produtoAtualizacao.Imagem = "IMAGEM";
                 var imgPrefixo = Guid.NewGuid() + "_";
                 if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
                 {
-                    return View(produtoViewModel);
+                    return View(produtoAtualizacao);
                 }
 
-                produtoAtualizacao.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+                produtoAtualizacao.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
             }
 
             produtoAtualizacao.Nome = produtoViewModel.Nome;

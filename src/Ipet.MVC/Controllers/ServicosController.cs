@@ -90,7 +90,6 @@ namespace Ipet.MVC.Controllers
                 return View(servicoViewModel);
             }
 
-            servicoViewModel.Imagem = imgPrefixo + servicoViewModel.ImagemUpload.FileName;
             await _servicoService.Adicionar(_mapper.Map<Servico>(servicoViewModel));
 
             if (!OperacaoValida()) return View(servicoViewModel);
@@ -121,18 +120,19 @@ namespace Ipet.MVC.Controllers
             if (id != servicoViewModel.Id) return NotFound();
 
             var servicoAtualizacao = await ObterServico(id);
-            servicoViewModel.Imagem = servicoAtualizacao.Imagem;
             if (!ModelState.IsValid) return View(servicoViewModel);
 
             if (servicoViewModel.ImagemUpload != null)
             {
+                servicoViewModel.Imagem = "IMAGEM";
                 var imgPrefixo = Guid.NewGuid() + "_";
                 if (!await UploadArquivo(servicoViewModel.ImagemUpload, imgPrefixo))
                 {
                     return View(servicoViewModel);
                 }
 
-                servicoAtualizacao.Imagem = imgPrefixo + servicoViewModel.ImagemUpload.FileName;
+
+                servicoAtualizacao.Imagem = servicoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(servicoViewModel.ImagemUpload);
             }
 
             servicoAtualizacao.Nome = servicoViewModel.Nome;
