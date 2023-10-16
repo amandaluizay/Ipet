@@ -20,16 +20,19 @@ namespace Ipet.Data.Repository
         public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
+            await SaveChanges();
         }
 
         public virtual async Task<TEntity> ObterPorId(Guid id)
         {
             return await DbSet.FindAsync(id);
+            await SaveChanges();
         }
 
         public virtual async Task<List<TEntity>> ObterTodos()
         {
             return await DbSet.ToListAsync();
+            await SaveChanges();
         }
 
         public virtual async Task Adicionar(TEntity entity)
