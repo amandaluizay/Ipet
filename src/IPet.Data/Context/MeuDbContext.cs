@@ -17,6 +17,7 @@ namespace Ipet.Data.Context
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<Carrinho> Carrinhos { get; set; }
+        public DbSet<PerfilPet> PerfilPet { get; set; }
         public DbSet<CarrinhoProduto> CarrinhoProdutos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
