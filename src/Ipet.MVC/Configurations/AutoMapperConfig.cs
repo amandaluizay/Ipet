@@ -11,6 +11,7 @@ namespace Ipet.MVC.Configurations
 
             CreateMap<Produto, ProdutoViewModel>().ReverseMap();
             CreateMap<Servico, ServicoViewModel>().ReverseMap();
+            CreateMap<Carrinho, CarrinhoViewModel>().ReverseMap();
         }
     }
 }

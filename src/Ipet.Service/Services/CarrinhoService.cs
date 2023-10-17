@@ -87,26 +87,35 @@ namespace Ipet.Service.Services
 
         public async Task<Carrinho> ObterCarrinhoPorUsuario(Guid usuarioId)
         {
-            return await _carrinhoRepository.ObterCarrinhoPorUsuario(usuarioId);
+            var carrinho = await _carrinhoRepository.ObterCarrinhoPorUsuario(usuarioId);
+
+            if (carrinho == null)
+            {
+                carrinho = await CriarCarrinho(usuarioId);
+            }
+
+            return carrinho;
         }
 
         public async Task<Carrinho> CriarCarrinho(Guid usuarioId)
         {
             var usuario = await _carrinhoRepository.ObterUsuarioPorId(usuarioId);
 
-            if (usuario == null)
+            if (usuario == false)
             {
-                Notificar("Usuário não encontrado.");
+                var carrinho = new Carrinho
+                {
+                    UsuarioId = usuarioId
+                };
+
+                await _carrinhoRepository.Adicionar(carrinho);
+                return carrinho;
+            }
+            else
+            {
+                Notificar("Carrinho já existe.");
                 return null;
             }
-
-            var carrinho = new Carrinho
-            {
-                UsuarioId = usuarioId
-            };
-
-            await _carrinhoRepository.Adicionar(carrinho);
-            return carrinho;
         }
 
         public async Task AtualizarQuantidadeProduto(Guid carrinhoId, Guid produtoId, int novaQuantidade)

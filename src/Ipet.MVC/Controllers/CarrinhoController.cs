@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Ipet.MVC.Models;
 using Ipet.Interfaces.Services;
+using Ipet.Domain.Models;
+using Ipet.ViewModels;
+using AutoMapper;
 
 namespace Ipet.MVC.Controllers
 {
@@ -11,11 +14,13 @@ namespace Ipet.MVC.Controllers
     {
         private readonly ICarrinhoService _carrinhoService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public CarrinhoController(ICarrinhoService carrinhoService, UserManager<ApplicationUser> userManager)
+        public CarrinhoController(ICarrinhoService carrinhoService, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _carrinhoService = carrinhoService;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [Route("carrinho")]
@@ -23,7 +28,29 @@ namespace Ipet.MVC.Controllers
         {
             var usuarioId = Guid.Parse(_userManager.GetUserId(User));
             var carrinho = await _carrinhoService.ObterCarrinhoPorUsuario(usuarioId);
-            return View(carrinho);
+
+            var carrinhoViewModel = _mapper.Map<CarrinhoViewModel>(carrinho);
+
+            //if (carrinhoViewModel.Produtos == null)
+            //{
+            //    carrinhoViewModel.Produtos = new List<CarrinhoProdutoViewModel>
+            //    {
+            //        new CarrinhoProdutoViewModel
+            //        {
+            //            Produto = new ProdutoViewModel
+            //            {
+            //                Nome = "Produto Padrão",
+            //                Valor = 0.0m
+            //            },
+            //            Quantidade = 0
+            //        }
+            //    };
+            //}
+
+            ViewData["Title"] = "Carrinho";
+
+
+            return View(carrinhoViewModel);
         }
 
         [HttpPost("carrinho/adicionar")]

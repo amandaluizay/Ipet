@@ -13,6 +13,7 @@
 	<ItemGroup>
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
+	  <Content Remove="Views\Carrinho\_ListaCarrinho.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,6 +22,7 @@
 	  <None Include="Views\Carrinho\Details.cshtml" />
 	  <None Include="Views\Carrinho\Edit.cshtml" />
 	  <None Include="Views\Carrinho\Index.cshtml" />
+	  <None Include="Views\Carrinho\_ListaCarrinho.cshtml" />
 	  <None Include="Views\Produtos\Create.cshtml" />
 	  <None Include="Views\Produtos\Delete.cshtml" />
 	  <None Include="Views\Produtos\Details.cshtml" />
