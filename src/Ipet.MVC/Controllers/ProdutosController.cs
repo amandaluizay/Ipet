@@ -8,6 +8,8 @@ using Ipet.MVC.Models;
 using Ipet.ViewModels;
 using Ipet.Domain.Intefaces;
 using Ipet.MVC.Extensions;
+using Ipet.Data.Repository;
+using Ipet.Interfaces.Services;
 
 namespace Ipet.MVC.Controllers
 {
@@ -15,16 +17,18 @@ namespace Ipet.MVC.Controllers
     public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly ICarrinhoService _carrinhoService;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
-        IMapper mapper, 
-                                  IProdutoService produtoService,
+        IMapper mapper, ICarrinhoService carrinhoService,
+        IProdutoService produtoService,
                                   UserManager<ApplicationUser> userManager,
                                   INotificador notificador) : base(notificador)
         {
+            _carrinhoService = carrinhoService;
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
@@ -222,6 +226,37 @@ namespace Ipet.MVC.Controllers
                 string imagemBase64 = Convert.ToBase64String(imagemBytes);
                 return imagemBase64;
             }
+        }
+
+        [ClaimsAuthorize("Usuario", "2")]
+        [Route("carrinho/{id:guid}")]
+        [HttpPost, ActionName("Carrinho")]
+        public async Task<IActionResult> Carrinho(Guid id)
+        {
+            var produtoViewModel = await _produtoRepository.ObterPorId(id);
+
+            if (!ModelState.IsValid) return View(produtoViewModel);
+
+            Guid U = Guid.Parse("00");
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                U = Guid.Parse(user.Id);
+
+            }
+            else
+            {
+                return View(produtoViewModel);
+            }
+
+            int quantidade = 0;
+
+            bool produtoAdicionado = await _carrinhoService.AdicionarProduto(U, produtoViewModel.Id,quantidade);
+
+
+
+
+            return RedirectToAction("Index");
         }
 
     }

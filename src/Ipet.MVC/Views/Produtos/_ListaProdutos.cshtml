@@ -4,6 +4,7 @@
 
 <link href="~/css/produtos.css" rel="stylesheet" />
 <link href="~/css/vendor.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <div class="preloader-wrapper">
     <div class="preloader">
     </div>
@@ -14,6 +15,33 @@
         height: auto; /* Mantém a proporção da imagem */
     }
 </style>
+<script>
+    // Aguarde até que o documento esteja completamente carregado
+    document.addEventListener("DOMContentLoaded", function () {
+        // Selecione o botão pelo ID ou classe que você definiu
+        const btnCarrinho = document.getElementById("btnCarrinho");
+
+        // Adicione um ouvinte de evento de clique ao botão
+        btnCarrinho.addEventListener("click", function () {
+            // Envie uma solicitação AJAX para a rota "Carrinho"
+            fetch('/Produtos/Carrinho', {
+                method: 'POST', // Defina o método HTTP conforme necessário
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        // A solicitação foi bem-sucedida, faça algo se necessário
+                        console.log('Ação de carrinho bem-sucedida.');
+                    } else {
+                        // A solicitação falhou, faça algo se necessário
+                        console.error('Falha na ação de carrinho.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na ação de carrinho: ' + error);
+                });
+        });
+    });
+</script>
 
 
 <section class="py-5">
@@ -62,7 +90,13 @@
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                                                @*<a href="#" class="nav-link">Add to Cart<iconify-icon icon="uil:shopping-cart"></a>*@
+                                                <a id="btnCarrinho" class="nav-link" asp-controller="Produtos" asp-action="Carrinho">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </a>
+                        
+
+
                                             </div>
 
                                             @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))

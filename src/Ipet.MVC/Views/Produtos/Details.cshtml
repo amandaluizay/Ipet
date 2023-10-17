@@ -135,17 +135,19 @@
                             <a class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@Model.Id">
                                 <span class="fa fa-pencil-alt"></span> Editar
                             </a>
+
                             <a class="btn btn-info" asp-controller="Produtos" asp-action="Delete" asp-route-id="@Model.Id">
                                 <span class="fa-solid fa-trash"></span> Deletar
                             </a>
                         }
                     }
-                    @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "1"))
+                    @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
                     {
 
-                        <a class="btn btn-primary" asp-controller="Produtos" asp-action="Comprar" asp-route-id="@Model.Id" style="background-color: #996A97">
+                        <a class="btn btn-primary" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@Model.Id" style="background-color: #996A97">
                             Comprar
                         </a>
+                        <input type="submit" value="Cadastrar" class="btn btn-primary" />
 
                        
                     }

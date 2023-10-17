@@ -8,41 +8,55 @@ namespace Ipet.Service.Services
     public class CarrinhoService : BaseService, ICarrinhoService
     {
         private readonly ICarrinhoRepository _carrinhoRepository;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public CarrinhoService(ICarrinhoRepository carrinhoRepository, INotificador notificador)
+        public CarrinhoService(ICarrinhoRepository carrinhoRepository, IProdutoRepository produtoRepository, INotificador notificador)
             : base(notificador)
         {
             _carrinhoRepository = carrinhoRepository;
+            _produtoRepository = produtoRepository;
         }
 
-        public async Task AdicionarProduto(Guid carrinhoId, Guid produtoId, int quantidade)
+        public async Task<bool> AdicionarProduto(Guid userId, Guid produtoId, int quantidade)
         {
-            var carrinho = await _carrinhoRepository.ObterPorId(carrinhoId);
+            var usuario = await _carrinhoRepository.ObterUsuarioPorId(userId);
 
-            if (carrinho == null)
+            if (usuario == null)
             {
-                Notificar("Carrinho não encontrado.");
-                return;
-            }
-
-            var carrinhoProduto = carrinho.CarrinhoProdutos.FirstOrDefault(cp => cp.ProdutoId == produtoId);
-
-            if (carrinhoProduto == null)
-            {
-                carrinho.CarrinhoProdutos.Add(new CarrinhoProduto
+                var carrinho = new Carrinho
                 {
-                    CarrinhoId = carrinhoId,
-                    ProdutoId = produtoId,
-                    Quantidade = quantidade
-                });
+                    UsuarioId = userId
+                };
+
+                await _carrinhoRepository.Adicionar(carrinho);
+                return false;
             }
             else
             {
-                carrinhoProduto.Quantidade += quantidade;
-            }
+                var produto = await _produtoRepository.ObterPorId(produtoId);
+                var carrinho = await _carrinhoRepository.ObterCarrinhoPorUsuario(userId);
 
-            await _carrinhoRepository.Atualizar(carrinho);
+                var carrinhoProduto = carrinho.CarrinhoProdutos.FirstOrDefault(cp => cp.ProdutoId == produtoId);
+
+                if (carrinhoProduto == null)
+                {
+                    carrinho.CarrinhoProdutos.Add(new CarrinhoProduto
+                    {
+                        CarrinhoId = carrinho.Id,
+                        ProdutoId = produtoId,
+                        Quantidade = quantidade
+                    });
+                }
+                else
+                {
+                    carrinhoProduto.Quantidade += quantidade;
+                }
+
+                await _carrinhoRepository.Atualizar(carrinho);
+                return true;
+            }
         }
+
 
         public async Task RemoverProduto(Guid carrinhoId, Guid produtoId, int quantidade)
         {
