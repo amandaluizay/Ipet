@@ -2,7 +2,7 @@
 
 namespace Ipet.Domain.Intefaces
 {
-    public interface IProdutoRepository : IRepository<PerfilPet>
+    public interface IProdutoRepository : IRepository<Produto>
     {
         //Task<IEnumerable<Produto>> ObterProdutosPorEstabelecimento(Guid estabelecimentoid);
         //Task<IEnumerable<Produto>> ObterProdutosEstabelecimento();

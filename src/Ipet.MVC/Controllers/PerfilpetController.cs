@@ -34,29 +34,28 @@ namespace Ipet.MVC.Controllers
         }
 
         [AllowAnonymous]
-        [Route("lista-de-produtos")]
+        [Route("perfil")]
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<PerfilPet>>(await _perfilPetRepository.ObterTodos()));
+            var user = await _userManager.GetUserAsync(User);
+            return View(_mapper.Map<PerfilPet>(await _perfilPetRepository.ObterPerfilUsuario((Guid.Parse(user.Id)))));
         }
 
         [AllowAnonymous]
-        [Route("dados-do-produto/{id:guid}")]
+        [Route("perfil/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
-            var produtoViewModel = await ObterProduto(id);
+            var perfilPetViewModel = await ObterPerfilPet(id);
 
-            if (produtoViewModel == null)
+            if (perfilPetViewModel == null)
             {
                 return NotFound();
             }
-            var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
-            ViewBag.NomeDoUsuario = user;
-            return View(produtoViewModel);
+            return View(perfilPetViewModel);
         }
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("novo-produto")]
+        [Route("novo-perfil")]
         public async Task<IActionResult> Create()
         {
 
@@ -64,13 +63,16 @@ namespace Ipet.MVC.Controllers
         }
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("novo-produto")]
+        [Route("novo-perfil")]
         [HttpPost]
         public async Task<IActionResult> Create(PerfilPet perfilPetViewModel)
         {
             if (!ModelState.IsValid) return View(perfilPetViewModel);
 
             var user = await _userManager.GetUserAsync(User);
+
+            var perfilAtual = await ObterPerfilPet(Guid.Parse(user.Id));
+
 
             if (user != null)
             {
@@ -80,30 +82,37 @@ namespace Ipet.MVC.Controllers
             {
                 return View(perfilPetViewModel);
             }
-            await _perfilPetService.Adicionar(_mapper.Map<PerfilPet>(perfilPetViewModel));
+            if (perfilAtual == null)
+            {
+                return View(perfilPetViewModel);
+            }
+            else
+            {
 
-            if (!OperacaoValida()) return View(perfilPetViewModel);
+                await _perfilPetService.Adicionar(_mapper.Map<PerfilPet>(perfilPetViewModel));
 
+                if (!OperacaoValida()) return View(perfilPetViewModel);
+            }
             return RedirectToAction("Index");
         }
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("editar-produto/{id:guid}")]
+        [Route("editar-perfil/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var perfilPetViewModel = await ObterProduto(id);
+            var perfilPetViewModel = await ObterPerfilPet(id);
 
            
-            if (produtoViewModel == null)
+            if (perfilPetViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(produtoViewModel);
+            return View(perfilPetViewModel);
         }
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("editar-produto/{id:guid}")]
+        [Route("editar-perfil/{id:guid}")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, PerfilPetViewModel perfilPetViewModel)
         {
@@ -130,10 +139,10 @@ namespace Ipet.MVC.Controllers
         }
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("excluir-produto/{id:guid}")]
+        [Route("excluir-perfil/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var produto = await ObterProduto(id);
+            var produto = await ObterPerfilPet(id);
 
             if (produto == null)
             {
@@ -145,7 +154,7 @@ namespace Ipet.MVC.Controllers
 
 
         [ClaimsAuthorize("Usuario", "2")]
-        [Route("excluir-produto/{id:guid}")]
+        [Route("excluir-perfil/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 
         public async Task<IActionResult> DeleteConfirmed(Guid id)
