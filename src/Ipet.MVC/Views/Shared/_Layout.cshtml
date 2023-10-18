@@ -174,8 +174,7 @@
                     <!-- Botão que aciona o offcanvas -->
                     <div class="cart text-end d-none d-lg-block dropdown">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Carrinho" asp-action="Index">Carrinho</a>
-                            <span class="fs-6 text-muted dropdown-toggle">Seu Carrinho</span>
-                            <h5 class="mb-0"><span class="cart-total">R$ 35.00</span></h5>
+
     
                     </div>
 
@@ -250,6 +249,12 @@
                                         <li class="nav-item">
                                             <a href="#blog" class="nav-link">Blog</a>
                                         </li>
+                                                    @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "1"))
+                                                    {
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link text-dark" asp-area="" asp-controller="PerfilPet" asp-action="Index">Perfil do Pet</a>
+                                                    </li>
+                                                    }
                                     </ul>
 
                                 </div>

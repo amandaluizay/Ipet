@@ -6,6 +6,7 @@ using Ipet.Interfaces.Services;
 using Ipet.Domain.Models;
 using Ipet.ViewModels;
 using AutoMapper;
+using System.Globalization;
 
 namespace Ipet.MVC.Controllers
 {
@@ -51,6 +52,23 @@ namespace Ipet.MVC.Controllers
 
 
             return View(carrinhoViewModel);
+        }
+
+        [Route("carrinho/conta")]
+        public async Task<IActionResult> Conta()
+        {
+            var usuarioId = Guid.Parse(_userManager.GetUserId(User));
+            var carrinho = await _carrinhoService.ObterCarrinhoPorUsuario(usuarioId);
+
+            var carrinhoViewModel = _mapper.Map<CarrinhoViewModel>(carrinho);
+            decimal valorDecimal = 0;
+
+            if (carrinhoViewModel.Produtos != null)
+            {
+                valorDecimal = carrinhoViewModel.Produtos.Sum(item => item.Produto.Valor);
+            }
+
+            return View("_SomaCarrinhoPartial", valorDecimal);
         }
 
         [HttpPost("carrinho/adicionar")]

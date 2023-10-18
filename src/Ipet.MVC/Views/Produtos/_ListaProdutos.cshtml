@@ -91,9 +91,11 @@
                                                     </span>
                                                 </div>
                                                 @*<a href="#" class="nav-link">Add to Cart<iconify-icon icon="uil:shopping-cart"></a>*@
-                                                <a id="btnCarrinho" class="nav-link" asp-controller="Produtos" asp-action="Carrinho">
+                                                @Html.Partial("_CarrinhoButton", item)
+                                                @*<a id="btnCarrinho" class="nav-link" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@item.Id" asp-protocol="http-post">
                                                     <i class="fa-solid fa-cart-shopping"></i>
-                                                </a>
+                                                </a>*@
+
                         
 
 

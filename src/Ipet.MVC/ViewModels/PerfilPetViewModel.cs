@@ -8,8 +8,6 @@ namespace Ipet.ViewModels
     {
         [Key]
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [DisplayName("Id do Usuario")]
         public Guid IdUsuario { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

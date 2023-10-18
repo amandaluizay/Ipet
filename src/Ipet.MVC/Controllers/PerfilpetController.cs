@@ -38,7 +38,8 @@ namespace Ipet.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            return View(_mapper.Map<PerfilPet>(await _perfilPetRepository.ObterPerfilUsuario((Guid.Parse(user.Id)))));
+            var x = await _perfilPetRepository.ObterPerfilUsuario((Guid.Parse(user.Id)));
+            return View(_mapper.Map<PerfilPetViewModel>(x));
         }
 
         [AllowAnonymous]
@@ -54,7 +55,7 @@ namespace Ipet.MVC.Controllers
             return View(perfilPetViewModel);
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("novo-perfil")]
         public async Task<IActionResult> Create()
         {
@@ -62,17 +63,32 @@ namespace Ipet.MVC.Controllers
             return View();
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("novo-perfil")]
         [HttpPost]
-        public async Task<IActionResult> Create(PerfilPet perfilPetViewModel)
+        public async Task<IActionResult> Create(PerfilPetViewModel perfilPetViewModel)
         {
-            if (!ModelState.IsValid) return View(perfilPetViewModel);
+
 
             var user = await _userManager.GetUserAsync(User);
 
             var perfilAtual = await ObterPerfilPet(Guid.Parse(user.Id));
 
+            perfilPetViewModel.IdUsuario = Guid.Parse(user.Id);
+            perfilPetViewModel.Id= Guid.Parse(user.Id);
+            perfilPetViewModel.Ativo = true;
+            if (!ModelState.IsValid)
+            {
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        var errorMessage = error.ErrorMessage;
+
+                    }
+                }
+                return View(perfilPetViewModel);
+            }
 
             if (user != null)
             {
@@ -82,7 +98,7 @@ namespace Ipet.MVC.Controllers
             {
                 return View(perfilPetViewModel);
             }
-            if (perfilAtual == null)
+            if (perfilAtual != null)
             {
                 return View(perfilPetViewModel);
             }
@@ -96,7 +112,7 @@ namespace Ipet.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("editar-perfil/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -111,7 +127,7 @@ namespace Ipet.MVC.Controllers
             return View(perfilPetViewModel);
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("editar-perfil/{id:guid}")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, PerfilPetViewModel perfilPetViewModel)
@@ -138,7 +154,7 @@ namespace Ipet.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("excluir-perfil/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -153,7 +169,7 @@ namespace Ipet.MVC.Controllers
         }
 
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("excluir-perfil/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 

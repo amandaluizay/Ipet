@@ -228,21 +228,23 @@ namespace Ipet.MVC.Controllers
             }
         }
 
-        [ClaimsAuthorize("Usuario", "2")]
+        [ClaimsAuthorize("Usuario", "1")]
         [Route("carrinho/{id:guid}")]
         [HttpPost, ActionName("Carrinho")]
         public async Task<IActionResult> Carrinho(Guid id)
         {
             var produtoViewModel = await _produtoRepository.ObterPorId(id);
 
-            if (!ModelState.IsValid) return View(produtoViewModel);
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
 
             Guid U = Guid.Parse("00");
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
                 U = Guid.Parse(user.Id);
-
             }
             else
             {
@@ -251,13 +253,18 @@ namespace Ipet.MVC.Controllers
 
             int quantidade = 0;
 
-            bool produtoAdicionado = await _carrinhoService.AdicionarProduto(U, produtoViewModel.Id,quantidade);
+            bool produtoAdicionado = await _carrinhoService.AdicionarProduto(U, produtoViewModel.Id, quantidade);
 
+            if (!produtoAdicionado)
+            {
 
-
+                return View(produtoViewModel);
+            }
 
             return RedirectToAction("Index");
         }
+
+
 
     }
 }

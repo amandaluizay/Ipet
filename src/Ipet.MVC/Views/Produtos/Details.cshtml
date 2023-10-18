@@ -158,7 +158,7 @@
                     @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "1"))
                     {
 
-                        <a class="btn btn-primary" asp-controller="Produtos" asp-action="Comprar" asp-route-id="@Model.Id" style="background-color: #996A97">
+                        <a class="btn btn-primary" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@Model.Id" style="background-color: #996A97">
                             Carrinho
                         </a>
 

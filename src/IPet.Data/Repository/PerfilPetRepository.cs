@@ -9,10 +9,11 @@ namespace Ipet.Data.Repository
     {
         public PerfilPetRepository(MeuDbContext context) : base(context) { }
 
-        public async Task<PerfilPet> ObterPerfilUsuario(Guid id)
+
+        public async Task<PerfilPet> ObterPerfilUsuario(Guid idUser)
         {
-            return await Db.PerfilPet.AsNoTracking().Include(f => f.IdUsuario)
-                .FirstOrDefaultAsync(p => p.IdUsuario == id);
+            return await Db.PerfilPet.AsNoTracking()
+                .FirstOrDefaultAsync(p => p.IdUsuario == idUser);
         }
     }
 

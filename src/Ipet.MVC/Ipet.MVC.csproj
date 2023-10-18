@@ -13,21 +13,24 @@
 	<ItemGroup>
 	  <Content Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
 	  <Content Remove="Areas\Identity\Pages\Account\_AuthLayout.cshtml" />
-	  <Content Remove="Views\Carrinho\_ListaCarrinho.cshtml" />
+
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="Views\Carrinho\Create.cshtml" />
 	  <None Include="Views\Carrinho\Delete.cshtml" />
-	  <None Include="Views\Carrinho\Details.cshtml" />
 	  <None Include="Views\Carrinho\Edit.cshtml" />
 	  <None Include="Views\Carrinho\Index.cshtml" />
-	  <None Include="Views\Carrinho\_ListaCarrinho.cshtml" />
+	  <None Include="Views\PerfilPet\Create.cshtml" />
+	  <None Include="Views\PerfilPet\_DeleteButton.cshtml" />
+	  <None Include="Views\PerfilPet\Edit.cshtml" />
+	  <None Include="Views\PerfilPet\Index.cshtml" />
 	  <None Include="Views\Produtos\Create.cshtml" />
 	  <None Include="Views\Produtos\Delete.cshtml" />
 	  <None Include="Views\Produtos\Details.cshtml" />
 	  <None Include="Views\Produtos\Edit.cshtml" />
 	  <None Include="Views\Produtos\Index.cshtml" />
+	  <None Include="Views\Produtos\_CarrinhoButton.cshtml" />
 	  <None Include="Views\Produtos\_ListaProdutos.cshtml" />
 	  <None Include="Views\Servicos\Create.cshtml" />
 	  <None Include="Views\Servicos\Delete.cshtml" />
@@ -55,10 +58,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Ipet.Data\Ipet.Data.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\PerfilPet\" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" properties_4servicedependencies_1json__JsonSchema="https://cdn.jsdelivr.net/gh/tarampampam/error-pages@latest/schemas/config/1.0.schema.json" /></VisualStudio></ProjectExtensions>
