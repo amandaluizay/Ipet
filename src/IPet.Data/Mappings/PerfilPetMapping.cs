@@ -19,10 +19,6 @@ namespace Ipet.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(1000)");
 
-            builder.Property(p => p.Imagem)
-                //.IsRequired()
-                .HasColumnType("LONGTEXT");
-
 
             builder.ToTable("PerfilPet");
         }

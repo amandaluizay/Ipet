@@ -19,6 +19,8 @@ namespace Ipet.Data.Context
         public DbSet<Carrinho> Carrinhos { get; set; }
         public DbSet<PerfilPet> PerfilPet { get; set; }
         public DbSet<CarrinhoProduto> CarrinhoProdutos { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()
