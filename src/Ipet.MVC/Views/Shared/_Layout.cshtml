@@ -173,9 +173,16 @@
                     </ul>
                     <!-- Botão que aciona o offcanvas -->
                     <div class="cart text-end d-none d-lg-block dropdown">
+                        <h5 class="mb-0">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Carrinho" asp-action="Index">Carrinho</a>
+                        </h5>
+                        <h5 class="mb-0">
+                            <span class="cart-total">
+                                R$ 35.00
+                                @*<partial name="_SomaCarrinhoPartial" />*@
+                        </span></h5>
+  
 
-    
                     </div>
 
 

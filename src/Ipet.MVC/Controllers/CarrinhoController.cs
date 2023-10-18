@@ -67,8 +67,8 @@ namespace Ipet.MVC.Controllers
             {
                 valorDecimal = carrinhoViewModel.Produtos.Sum(item => item.Produto.Valor);
             }
-
-            return View("_SomaCarrinhoPartial", valorDecimal);
+            ViewData["ValorCarrinho"] = valorDecimal;
+            return View("_SomaCarrinhoPartial");
         }
 
         [HttpPost("carrinho/adicionar")]
