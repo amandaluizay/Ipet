@@ -14,9 +14,8 @@
 
         public string Porte { get; set; }
 
-        public string Imagem { get; set; }
-
         public string Observacao { get; set; }
+        public bool Ativo { get; set; }
     }
 
 }

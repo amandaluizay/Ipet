@@ -19,7 +19,6 @@ namespace Ipet.Configurations
             services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
             services.AddScoped<INotificador, Notificador>();
 
-            //services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
@@ -29,7 +28,9 @@ namespace Ipet.Configurations
 
             services.AddScoped<ICarrinhoService, CarrinhoService>();
             services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
-            //services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
+
+            services.AddScoped<IPerfilPetService, PerfilPetService>();
+            services.AddScoped<IPerfilPetRepository, PerfilPetRepository>();
 
 
             return services;

@@ -66,34 +66,23 @@ namespace Ipet.MVC.Controllers
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         [HttpPost]
-        public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
+        public async Task<IActionResult> Create(PerfilPet perfilPetViewModel)
         {
-            if (!ModelState.IsValid) return View(produtoViewModel);
+            if (!ModelState.IsValid) return View(perfilPetViewModel);
 
-            produtoViewModel.Imagem = "IMAGEM";
-            var imgPrefixo = Guid.NewGuid() + "_";
-            if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
-            {
-                return View(produtoViewModel);
-            }
-
-            produtoViewModel.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
-
-            //user 
             var user = await _userManager.GetUserAsync(User);
+
             if (user != null)
             {
-                produtoViewModel.EstabelecimentoId = Guid.Parse(user.Id);
-                produtoViewModel.Estabelecimento = user.Nome;
+                perfilPetViewModel.IdUsuario = Guid.Parse(user.Id);
             }
             else
             {
-                // Trate o caso em que o usuário não está autenticado
-                return View(produtoViewModel);
+                return View(perfilPetViewModel);
             }
-            await _perfilPetService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _perfilPetService.Adicionar(_mapper.Map<PerfilPet>(perfilPetViewModel));
 
-            if (!OperacaoValida()) return View(produtoViewModel);
+            if (!OperacaoValida()) return View(perfilPetViewModel);
 
             return RedirectToAction("Index");
         }
@@ -102,7 +91,7 @@ namespace Ipet.MVC.Controllers
         [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var produtoViewModel = await ObterProduto(id);
+            var perfilPetViewModel = await ObterProduto(id);
 
            
             if (produtoViewModel == null)
@@ -116,34 +105,26 @@ namespace Ipet.MVC.Controllers
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
+        public async Task<IActionResult> Edit(Guid id, PerfilPetViewModel perfilPetViewModel)
         {
-            if (id != produtoViewModel.Id) return NotFound();
+            if (id != perfilPetViewModel.Id) return NotFound();
 
-            var produtoAtualizacao = await ObterProduto(id);
+            var perfilAtualizacao = await ObterPerfilPet(id);
 
-            if (!ModelState.IsValid) return View(produtoViewModel);
+            if (!ModelState.IsValid) return View(perfilPetViewModel);
 
-            if (produtoViewModel.ImagemUpload != null)
-            {
-                produtoAtualizacao.Imagem = "IMAGEM";
-                var imgPrefixo = Guid.NewGuid() + "_";
-                if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
-                {
-                    return View(produtoAtualizacao);
-                }
 
-                produtoAtualizacao.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
-            }
+            perfilAtualizacao.Nome = perfilPetViewModel.Nome;
+            perfilAtualizacao.Porte= perfilPetViewModel.Porte;
+            perfilAtualizacao.Idade = perfilPetViewModel.Idade;
+            perfilAtualizacao.TipoAnimal = perfilPetViewModel.TipoAnimal;
+            perfilAtualizacao.Raca = perfilPetViewModel.Raca;
+            perfilAtualizacao.Ativo = perfilPetViewModel.Ativo;
+            perfilAtualizacao.Observacao = perfilPetViewModel.Observacao;
 
-            produtoAtualizacao.Nome = produtoViewModel.Nome;
-            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
-            produtoAtualizacao.Valor = produtoViewModel.Valor;
-            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            await _perfilPetService.Atualizar(_mapper.Map<PerfilPet>(perfilAtualizacao));
 
-            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
-
-            if (!OperacaoValida()) return View(produtoViewModel);
+            if (!OperacaoValida()) return View(perfilPetViewModel);
 
             return RedirectToAction("Index");
         }
@@ -169,14 +150,14 @@ namespace Ipet.MVC.Controllers
 
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var produto = await ObterProduto(id);
+            var produto = await ObterPerfilPet(id);
 
             if (produto == null)
             {
                 return NotFound();
             }
 
-            await _produtoService.Remover(id);
+            await _perfilPetService.Remover(id);
 
             if (!OperacaoValida()) return View(produto);
 
@@ -184,77 +165,10 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-        private async Task<ProdutoViewModel> ObterProduto(Guid id)
+        private async Task<PerfilPetViewModel> ObterPerfilPet(Guid id)
         {
-            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
-            return produto;
-        }
-
-        private async Task<bool> UploadArquivo(IFormFile arquivo, string imgPrefixo)
-        {
-            if (arquivo.Length <= 0) return false;
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagens", imgPrefixo + arquivo.FileName);
-
-            if (System.IO.File.Exists(path))
-            {
-                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
-                return false;
-            }
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await arquivo.CopyToAsync(stream);
-            }
-
-            return true;
-        }
-
-        public string ConvertImagemToBase64(IFormFile imagemFile)
-        {
-            if (imagemFile == null || imagemFile.Length == 0)
-            {
-                return null;
-            }
-
-            using (var ms = new MemoryStream())
-            {
-                imagemFile.CopyTo(ms);
-                byte[] imagemBytes = ms.ToArray();
-                string imagemBase64 = Convert.ToBase64String(imagemBytes);
-                return imagemBase64;
-            }
-        }
-
-        [ClaimsAuthorize("Usuario", "2")]
-        [Route("carrinho/{id:guid}")]
-        [HttpPost, ActionName("Carrinho")]
-        public async Task<IActionResult> Carrinho(Guid id)
-        {
-            var produtoViewModel = await _produtoRepository.ObterPorId(id);
-
-            if (!ModelState.IsValid) return View(produtoViewModel);
-
-            Guid U = Guid.Parse("00");
-            var user = await _userManager.GetUserAsync(User);
-            if (user != null)
-            {
-                U = Guid.Parse(user.Id);
-
-            }
-            else
-            {
-                return View(produtoViewModel);
-            }
-
-            int quantidade = 0;
-
-            bool produtoAdicionado = await _carrinhoService.AdicionarProduto(U, produtoViewModel.Id,quantidade);
-
-
-
-
-            return RedirectToAction("Index");
+            var perfil = _mapper.Map<PerfilPetViewModel>(await _perfilPetRepository.ObterPorId(id));
+            return perfil;
         }
 
     }

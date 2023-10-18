@@ -1,28 +1,19 @@
 ﻿using Ipet.Data.Context;
 using Ipet.Domain.Intefaces;
 using Ipet.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ipet.Data.Repository
 {
-    public class PerfilRepository : Repository<PerfilPet>, IPerfilPetRepository
+    public class PerfilPetRepository : Repository<PerfilPet>, IPerfilPetRepository
     {
-        public PerfilRepository(MeuDbContext context) : base(context) { }
+        public PerfilPetRepository(MeuDbContext context) : base(context) { }
 
-        //public async Task<Produto> ObterProdutoEstabelecimento(Guid id)
-        //{
-        //    return await Db.Produtos.AsNoTracking().Include(f => f.Estabelecimento)
-        //        .FirstOrDefaultAsync(p => p.Id == id);
-        //}
-
-        //public async Task<IEnumerable<Produto>> ObterProdutosEstabelecimento()
-        //{
-        //    return await Db.Produtos.AsNoTracking().Include(f => f.Estabelecimento)
-        //        .OrderBy(p => p.Nome).ToListAsync();
-        //}
-
-        //public async Task<IEnumerable<Produto>> ObterProdutosPorEstabelecimento(Guid estabelecimentoId)
-        //{
-        //    return await Buscar(p => p.EstabelecimentoId == estabelecimentoId);
-        //}
+        public async Task<PerfilPet> ObterPerfilUsuario(Guid id)
+        {
+            return await Db.PerfilPet.AsNoTracking().Include(f => f.IdUsuario)
+                .FirstOrDefaultAsync(p => p.IdUsuario == id);
+        }
     }
+
 }
