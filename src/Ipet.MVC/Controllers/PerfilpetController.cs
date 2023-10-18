@@ -37,7 +37,7 @@ namespace Ipet.MVC.Controllers
         [Route("lista-de-produtos")]
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
+            return View(_mapper.Map<IEnumerable<PerfilPet>>(await _perfilPetRepository.ObterTodos()));
         }
 
         [AllowAnonymous]
@@ -91,7 +91,7 @@ namespace Ipet.MVC.Controllers
                 // Trate o caso em que o usuário não está autenticado
                 return View(produtoViewModel);
             }
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _perfilPetService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             if (!OperacaoValida()) return View(produtoViewModel);
 
