@@ -1,10 +1,8 @@
 ﻿
 
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
 using Ipet.Domain.Models;
 
-namespace EnterpriseStore.Domain.Intefaces
+namespace Ipet.Domain.Intefaces
 {
     public interface IServicoService : IDisposable
     {

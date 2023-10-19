@@ -1,10 +1,10 @@
-﻿using EnterpriseStore.Domain.Intefaces;
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Domain.Notificacoes;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using Ipet.Domain.Intefaces;
+using Ipet.Domain.Models;
+using Ipet.Domain.Notificacoes;
 
-namespace EnterpriseStore.Service.Services
+namespace Ipet.Service.Services
 {
     public abstract class BaseService
     {

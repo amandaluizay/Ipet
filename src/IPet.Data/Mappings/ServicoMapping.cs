@@ -1,6 +1,6 @@
 ﻿
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
+using Ipet.Domain.Models;
+using Ipet.Service.Models;
 using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -23,7 +23,11 @@ namespace EnterpriseStore.Data.Mappings
 
             builder.Property(p => p.Imagem)
                 //.IsRequired()
+                .HasColumnType("LONGTEXT");
+            builder.Property(p => p.Estabelecimento)
+                //.IsRequired()
                 .HasColumnType("varchar(100)");
+
 
 
             builder.ToTable("Servicos");

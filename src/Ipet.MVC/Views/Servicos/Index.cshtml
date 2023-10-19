@@ -1,0 +1,22 @@
+﻿@using Ipet.MVC.Extensions
+@model IEnumerable<Ipet.ViewModels.ServicoViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Servicos";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+
+
+@if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+{
+    <div class="mb-3">
+        <a class="btn" asp-action="Create" style="color: rgb(153,106,151);">
+            <i class="fas fa-plus"></i> <span style="color: rgb(153,106,151);">Novo Serviço</span>
+        </a>
+    </div>
+}
+
+<partial name="_ListaServicos"/>

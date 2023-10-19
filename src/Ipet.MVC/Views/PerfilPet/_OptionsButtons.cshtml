@@ -1,0 +1,15 @@
+﻿@model Ipet.ViewModels.PerfilPetViewModel
+
+@{
+    ViewData["Title"] = "Excluir " + Model.Nome;
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-info" style="background-color: #8e9599; color: white;">Excluir</button>
+    </form>
+    <a class="btn btn-info" asp-controller="PerfilPet" asp-action="Edit" asp-route-id="@Model.Id" style="background-color: #8e9599; color: white;">
+        <i class="fas fa-pencil-alt"></i> Editar
+    </a>
+</div>

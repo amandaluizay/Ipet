@@ -1,12 +1,8 @@
 ﻿
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
-using System;
-using System.Collections.Generic;
+using Ipet.Domain.Models;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace EnterpriseStore.Domain.Intefaces
+namespace Ipet.Domain.Intefaces
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {

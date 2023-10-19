@@ -1,4 +1,4 @@
-namespace EnterpriseStore.MVC.ViewModels
+namespace Ipet.ViewModels
 {
     public class ErrorViewModel
     {

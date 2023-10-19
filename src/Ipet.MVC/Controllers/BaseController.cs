@@ -1,9 +1,8 @@
-﻿
-using EnterpriseStore.Domain.Intefaces;
-using EnterpriseStore.MVC.Models;
+﻿using Ipet.Domain.Intefaces;
+using Ipet.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     public abstract class BaseController : Controller
     {

@@ -1,8 +1,10 @@
-﻿@using EnterpriseStore.MVC.Extensions
-@model IEnumerable<EnterpriseStore.MVC.ViewModels.ProdutoViewModel>
+﻿@using Ipet.MVC.Extensions
+@using System.Security.Claims;
+@model IEnumerable<Ipet.ViewModels.ProdutoViewModel>
 
 <link href="~/css/produtos.css" rel="stylesheet" />
 <link href="~/css/vendor.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <div class="preloader-wrapper">
     <div class="preloader">
     </div>
@@ -13,6 +15,33 @@
         height: auto; /* Mantém a proporção da imagem */
     }
 </style>
+<script>
+    // Aguarde até que o documento esteja completamente carregado
+    document.addEventListener("DOMContentLoaded", function () {
+        // Selecione o botão pelo ID ou classe que você definiu
+        const btnCarrinho = document.getElementById("btnCarrinho");
+
+        // Adicione um ouvinte de evento de clique ao botão
+        btnCarrinho.addEventListener("click", function () {
+            // Envie uma solicitação AJAX para a rota "Carrinho"
+            fetch('/Produtos/Carrinho', {
+                method: 'POST', // Defina o método HTTP conforme necessário
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        // A solicitação foi bem-sucedida, faça algo se necessário
+                        console.log('Ação de carrinho bem-sucedida.');
+                    } else {
+                        // A solicitação falhou, faça algo se necessário
+                        console.error('Falha na ação de carrinho.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na ação de carrinho: ' + error);
+                });
+        });
+    });
+</script>
 
 
 <section class="py-5">
@@ -25,7 +54,7 @@
                             <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                                @foreach (var item in Model)
                                  {
-                                    <div class="col">
+                                    <div class="col-3">
 
                                         <div class="product-item">
                                             <a href="#" class="btn-wishlist">
@@ -37,12 +66,15 @@
                                             </a>
                                             <figure>
                                                 <a href="@Url.Action("Details", "Produtos", new { id = item.Id })" title="Product Title">
-                                                    <img src="data:@item.Imagem" class="tab-image">
+                                                    <img src="data:@item.Imagem" class="tab-image" style="width: 150px; height: 150px;">
                                                 </a>
                                             </figure>
 
+
                                             <h3>@Html.DisplayFor(modelItem => item.Nome)</h3>
-                                            <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento)</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                                            <span class="qty">@Html.DisplayFor(modelItem => item.Estabelecimento)</span>
+                                            <span class="rating"><svg width="24" height="24" class="text-primary">
+                                                <use xlink:href="#star-solid"></use></svg> 4.5</span>
                                             <span class="price">$@Html.DisplayFor(modelItem => item.Valor)</span>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="input-group product-qty">
@@ -58,8 +90,29 @@
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                                                @*<a href="#" class="nav-link">Add to Cart<iconify-icon icon="uil:shopping-cart"></a>*@
+                                                @Html.Partial("_CarrinhoButton", item)
+                                                @*<a id="btnCarrinho" class="nav-link" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@item.Id" asp-protocol="http-post">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </a>*@
+
+                        
+
+
                                             </div>
+
+                                            @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+                                            {
+                                                if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == item.EstabelecimentoId)
+                                                {
+
+                                                    <a supress-by-claim-name="Produto" supress-by-claim-value="Editar" class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+
+                                                }
+
+
+                                            }
+
                                         </div>
 
                                     </div>

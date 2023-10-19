@@ -2,30 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
-using EnterpriseStore.MVC.Controllers;
-using EnterpriseStore.MVC.ViewModels;
-using Ipet.Domain.Models;
 using Ipet.MVC.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Ipet.MVC.Areas.Identity.Pages.Account
@@ -83,10 +70,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [Required(ErrorMessage = "O campo {0} é obrigatório")]
-            [DisplayName("Rua")]
-            public string Rua { get; set; }
-
-            [Required(ErrorMessage = "O campo {0} é obrigatório")]
             [DisplayName("Cep")]
             public string Cep { get; set; }
 
@@ -134,7 +117,6 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     Nome = Input.Nome,
                     Email = Input.Email,
                     Documento = Input.Cnpj,
-                    Rua = Input.Rua,
                     Cep = Input.Cep,
                     Numero = Input.Numero,
                     Password = Input.Password,
@@ -142,21 +124,17 @@ namespace Ipet.MVC.Areas.Identity.Pages.Account
                     Imagem = ""
                     
                 };
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    // Adicionar a claim personalizada ao usuário
                     var claim = new Claim("Usuario", "2");
                     await _userManager.AddClaimAsync(user, claim);
 
 
-                    // Gerar o token de confirmação
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 

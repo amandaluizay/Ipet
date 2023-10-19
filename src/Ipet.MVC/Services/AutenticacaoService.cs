@@ -1,9 +1,8 @@
-﻿
-using EnterpriseStore.MVC.Extensions;
-using EnterpriseStore.MVC.Models;
+﻿using Ipet.MVC.Extensions;
+using Ipet.MVC.Models;
 using Microsoft.Extensions.Options;
 
-namespace EnterpriseStore.MVC.Services
+namespace Ipet.MVC.Services
 {
     public class AutenticacaoService : Service, IAutenticacaoService
     {

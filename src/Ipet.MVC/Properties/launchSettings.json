@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "EnterpriseStore - Dev": {
+    "IPET": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

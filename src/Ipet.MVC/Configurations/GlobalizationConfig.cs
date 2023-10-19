@@ -3,7 +3,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 
-namespace EnterpriseStore.MVC.Configurations
+namespace Ipet.MVC.Configurations
 {
     public static class GlobalizationConfig
     {

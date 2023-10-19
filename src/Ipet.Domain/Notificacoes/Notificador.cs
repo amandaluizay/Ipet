@@ -1,8 +1,8 @@
 ﻿
 
-using EnterpriseStore.Domain.Intefaces;
+using Ipet.Domain.Intefaces;
 
-namespace EnterpriseStore.Domain.Notificacoes
+namespace Ipet.Domain.Notificacoes
 {
     public class Notificador : INotificador
     {

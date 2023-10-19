@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnterpriseStore.Domain.Models
+namespace Ipet.Domain.Models
 {
     public abstract class Entity
     {

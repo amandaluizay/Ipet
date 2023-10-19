@@ -1,14 +1,8 @@
-﻿using EnterpriseStore.Domain.Models;
-using EnterpriseStore.MVC.Extensions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ipet.MVC.Extensions;
 
-namespace EnterpriseStore.MVC.ViewModels
+namespace Ipet.ViewModels
 {
     public class ServicoViewModel
     {
@@ -44,6 +38,9 @@ namespace EnterpriseStore.MVC.ViewModels
 
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
+
+        [DisplayName("NomeEstabelecimento")]
+        public string Estabelecimento { get; set; }
 
     }
 }

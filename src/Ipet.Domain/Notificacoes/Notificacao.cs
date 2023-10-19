@@ -1,4 +1,4 @@
-﻿namespace EnterpriseStore.Domain.Notificacoes
+﻿namespace Ipet.Domain.Notificacoes
 {
     public class Notificacao
     {

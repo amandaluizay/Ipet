@@ -1,7 +1,7 @@
-﻿using EnterpriseStore.Domain.Intefaces;
+﻿using Ipet.Domain.Intefaces;
 using Ipet.Domain.Models;
 
-namespace EnterpriseStore.Service.Services
+namespace Ipet.Service.Services
 {
     public class ProdutoService : BaseService, IProdutoService
     {

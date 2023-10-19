@@ -1,0 +1,11 @@
+﻿@model Ipet.ViewModels.ProdutoViewModel
+
+@{
+    ViewData["Title"] = "Carrinho " + Model.Nome;
+}
+
+<a class="nav-link" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@Model.Id">
+    <i class="fa fa-cart-shopping"></i>
+</a>
+
+

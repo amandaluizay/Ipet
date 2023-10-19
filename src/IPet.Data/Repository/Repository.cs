@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using EnterpriseStore.Data.Context;
-using EnterpriseStore.Domain.Intefaces;
-using EnterpriseStore.Domain.Models;
+﻿using System.Linq.Expressions;
+using Ipet.Data.Context;
+using Ipet.Domain.Intefaces;
+using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnterpriseStore.Data.Repository
+namespace Ipet.Data.Repository
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity, new()
     {
@@ -24,16 +20,19 @@ namespace EnterpriseStore.Data.Repository
         public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
+            await SaveChanges();
         }
 
         public virtual async Task<TEntity> ObterPorId(Guid id)
         {
             return await DbSet.FindAsync(id);
+            await SaveChanges();
         }
 
         public virtual async Task<List<TEntity>> ObterTodos()
         {
             return await DbSet.ToListAsync();
+            await SaveChanges();
         }
 
         public virtual async Task Adicionar(TEntity entity)

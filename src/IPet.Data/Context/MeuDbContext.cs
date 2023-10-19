@@ -1,10 +1,10 @@
 ﻿
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Service.Models;
+using Ipet.Domain.Models;
+using Ipet.Service.Models;
 using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnterpriseStore.Data.Context
+namespace Ipet.Data.Context
 {
     public class MeuDbContext : DbContext
     {
@@ -15,7 +15,12 @@ namespace EnterpriseStore.Data.Context
         }
 
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Servico> Servico { get; set; }
+        public DbSet<Servico> Servicos { get; set; }
+        public DbSet<Carrinho> Carrinhos { get; set; }
+        public DbSet<PerfilPet> PerfilPet { get; set; }
+        public DbSet<CarrinhoProduto> CarrinhoProdutos { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()

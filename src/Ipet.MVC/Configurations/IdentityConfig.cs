@@ -1,12 +1,8 @@
-﻿
-using EnterpriseStore.MVC.Data;
+﻿using Ipet.MVC.Data;
 using Ipet.MVC.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 
-namespace EnterpriseStore.MVC.Configurations
+namespace Ipet.MVC.Configurations
 {
     public static class IdentityConfig
     {
@@ -19,7 +15,8 @@ namespace EnterpriseStore.MVC.Configurations
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                                 options.UseMySql("server=mysql-banco-api.mysql.database.azure.com;initial catalog = IPET;uid=MysqlRoot;pwd=Mudar#123",
+                                    options.UseMySql("server=mysql-banco-api.mysql.database.azure.com;initial catalog = IPET;uid=MysqlRoot;pwd=Mudar#123",
+                                    //options.UseMySql("server=localhost;initial catalog = ipet;uid=root;pwd=root",
                                     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

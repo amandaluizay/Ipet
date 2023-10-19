@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.MVC.ViewModels;
-using EnterpriseStore.Service.Models;
 using Ipet.Domain.Models;
+using Ipet.ViewModels;
 
-namespace EnterpriseStore.MVC.Configurations
+namespace Ipet.MVC.Configurations
 {
     public class AutoMapperConfig : Profile
     {
@@ -12,6 +10,9 @@ namespace EnterpriseStore.MVC.Configurations
         {
 
             CreateMap<Produto, ProdutoViewModel>().ReverseMap();
+            CreateMap<Servico, ServicoViewModel>().ReverseMap();
+            CreateMap<Carrinho, CarrinhoViewModel>().ReverseMap();
+            CreateMap<PerfilPet, PerfilPetViewModel>().ReverseMap();
         }
     }
 }

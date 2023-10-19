@@ -2,33 +2,33 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using EnterpriseStore.MVC.ViewModels;
-using EnterpriseStore.MVC.Extensions;
-using EnterpriseStore.Domain.Models;
-using EnterpriseStore.Domain.Intefaces;
 using Ipet.Domain.Models;
-using EnterpriseStore.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Ipet.MVC.Models;
-using Ipet.MVC.Areas.Identity.Pages.Account;
-using System.Buffers.Text;
+using Ipet.ViewModels;
+using Ipet.Domain.Intefaces;
+using Ipet.MVC.Extensions;
+using Ipet.Data.Repository;
+using Ipet.Interfaces.Services;
 
-namespace EnterpriseStore.MVC.Controllers
+namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly ICarrinhoService _carrinhoService;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
-        IMapper mapper, 
-                                  IProdutoService produtoService,
+        IMapper mapper, ICarrinhoService carrinhoService,
+        IProdutoService produtoService,
                                   UserManager<ApplicationUser> userManager,
                                   INotificador notificador) : base(notificador)
         {
+            _carrinhoService = carrinhoService;
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
@@ -57,7 +57,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produtoViewModel);
         }
 
-        
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
         {
@@ -65,7 +65,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View();
         }
 
-      
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -100,12 +100,13 @@ namespace EnterpriseStore.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-    
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var produtoViewModel = await ObterProduto(id);
 
+           
             if (produtoViewModel == null)
             {
                 return NotFound();
@@ -114,7 +115,7 @@ namespace EnterpriseStore.MVC.Controllers
             return View(produtoViewModel);
         }
 
-      
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
@@ -122,19 +123,19 @@ namespace EnterpriseStore.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
-            //produtoViewModel.Estabelecimento = produtoAtualizacao.Estabelecimento;
-            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             if (produtoViewModel.ImagemUpload != null)
             {
+                produtoAtualizacao.Imagem = "IMAGEM";
                 var imgPrefixo = Guid.NewGuid() + "_";
                 if (!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
                 {
-                    return View(produtoViewModel);
+                    return View(produtoAtualizacao);
                 }
 
-                produtoAtualizacao.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+                produtoAtualizacao.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
             }
 
             produtoAtualizacao.Nome = produtoViewModel.Nome;
@@ -149,6 +150,7 @@ namespace EnterpriseStore.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -163,7 +165,7 @@ namespace EnterpriseStore.MVC.Controllers
         }
 
 
-
+        [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
 
@@ -214,7 +216,6 @@ namespace EnterpriseStore.MVC.Controllers
         {
             if (imagemFile == null || imagemFile.Length == 0)
             {
-                // Lida com a imagem ausente ou vazia, se necessário.
                 return null;
             }
 
@@ -226,6 +227,44 @@ namespace EnterpriseStore.MVC.Controllers
                 return imagemBase64;
             }
         }
+
+        [ClaimsAuthorize("Usuario", "1")]
+        [Route("carrinho/{id:guid}")]
+        [HttpPost, ActionName("Carrinho")]
+        public async Task<IActionResult> Carrinho(Guid id)
+        {
+            var produtoViewModel = await _produtoRepository.ObterPorId(id);
+
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            Guid U = Guid.Parse("00");
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                U = Guid.Parse(user.Id);
+            }
+            else
+            {
+                return View(produtoViewModel);
+            }
+
+            int quantidade = 0;
+
+            bool produtoAdicionado = await _carrinhoService.AdicionarProduto(U, produtoViewModel.Id, quantidade);
+
+            if (!produtoAdicionado)
+            {
+
+                return View(produtoViewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
     }
 }
