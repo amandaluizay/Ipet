@@ -1,13 +1,26 @@
 ﻿@model Ipet.ViewModels.PerfilPetViewModel
 
 @{
-    ViewData["Title"] = "Novo Produto";
+    ViewData["Title"] = "Criação do Perfil do Pet";
 }
 <style>
     .image-container {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
+    body2 {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #c4c0c0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
         .image-container img {
             width: 300px;
             height: 300px;
@@ -16,8 +29,8 @@
         }
 
     .product-container {
-        background-color: #fff;
-        border: 1px solid #ccc;
+        background-color: #D1B2FF; /* Cor de fundo roxo claro */
+        border: 2px solid #8e9599; /* Aumenta a borda dos campos */
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         padding: 20px;
         border-radius: 25px;
@@ -25,8 +38,28 @@
         width: 90%;
         max-width: 1800px;
         margin: 20px auto;
+        background-image: url('@Url.Content("~/imagens/Wallpapper/Fundo.png")');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
     }
 
+    .form-group input[type="text"],
+    .form-group select {
+        border: 2px solid #8e9599;
+    }
+
+    .form-check-input {
+        border: 2px solid #8e9599;
+    }
+
+    .form-group input[type="number"] {
+        border: 2px solid #8e9599; 
+    }
+
+    .form-group input[type="checkbox"] {
+        border: 2px solid #8e9599;
+    }
     .product-title {
         text-align: center;
         font-weight: bold;
@@ -332,7 +365,6 @@
             "Gado Belted Galloway"
         ]
     };
-
     $(document).ready(function () {
         var tipoAnimalDropdown = $('#TipoAnimal');
         var racaDropdown = $('#Raca');
@@ -359,7 +391,18 @@
 </script>
 
 
-<div class="container">
+<div class="product-container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+        </div>
+        <div class="col-4 text-right">
+            <a class="btn btn-info" href="javascript:window.history.back();" style="background-color: #8e9599; color: white;">
+                <i class="fas fa-arrow-left" style="color: white;"></i> Voltar
+            </a>
+        </div>
+
+    </div>
     <h2>Criar um novo perfil de pet</h2>
     <form asp-action="Create" method="post">
         <div class="row">
@@ -429,16 +472,61 @@
                 </div>
         </div>
         </div>
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
-        </label>
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                    </label>
+                </div>
+            </div>
 
 
+            <div class="col-6">
+                <div class="mb-3 col-md-3" style="position: relative; top: 80px;">
+                    <div class="dog">
+                        <div class="heart heart--1"></div>
+                        <div class="heart heart--2"></div>
+                        <div class="heart heart--3"></div>
+                        <div class="heart heart--4"></div>
+                        <div class="head">
+                            <div class="year year--left"></div>
+                            <div class="year year--right"></div>
+                            <div class="nose"></div>
+                            <div class="face">
+                                <div class="eye eye--left"></div>
+                                <div class="eye eye--right"></div>
+                                <div class="mouth"></div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div class="cheast"></div>
+                            <div class="back"></div>
+                            <div class="legs">
+                                <div class="legs__front legs__front--left"></div>
+                                <div class="legs__front legs__front--right"></div>
+                                <div class="legs__back legs__back--left"></div>
+                                <div class="legs__back legs__back--right"></div>
+                            </div>
+                            <div class="tail"></div>
+                        </div>
+                    </div>
+                </div>
 
-
-
-        <div class="form-group">
-            <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
         </div>
+
+        <div class="row">
+
+            <div class="mb-3 d-flex justify-content-center align-items-center" style="margin-top: 40px;">
+                <button type="submit" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                    <i class="fas fa-plus" style="color: white;"></i> Criar Perfil
+                </button>
+            </div>
+
+        </div>
+
     </form>
 </div>

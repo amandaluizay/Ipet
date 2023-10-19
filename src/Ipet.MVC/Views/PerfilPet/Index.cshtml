@@ -68,12 +68,12 @@
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
         }
 
-            .image-container img {
+/*            .image-container img {
                 width: 300px;
                 height: 300px;
                 border-radius: 30px;
                 margin-left: 10px;
-            }
+            }*/
 
         .product-container {
             background-color: #fff;
@@ -103,72 +103,92 @@
             max-width: 100px;
             border-radius: 20px;
         }
+
+        .background-image-2 {
+            background-image: url('@Url.Content("~/imagens/Wallpapper/cachorro-brincando.jpg")');
+            background-size: cover;
+            background-position: center;
+            height: 100vh; /* Define a altura da div como a altura da janela do navegador */
+            position: absolute; /* Posiciona a imagem atrás do conteúdo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: -1; /* Define um índice Z para garantir que a imagem fique atrás do conteúdo */
+        }
     </style>
 </head>
 <div class="container">
     @if (Model != null)
     {
-        <h2>Detalhes do Perfil do Pet</h2>
         <div>
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.TipoAnimal)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.TipoAnimal)
-                </dd>
+            <div class="row">
+                <div class="col-10">
+                </div>
+                <div class="col-2 text-right">
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-info" href="javascript:window.history.back();" style="background-color: #8e9599; color: white;">
+                            <i class="fas fa-arrow-left" style="color: white;"></i> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+                <h2>Detalhes do perfil de pet</h2>
+                <table class="table">
+                    <tr>
+                        <td><strong>Tipo de Animal:</strong></td>
+                        <td>@Model.TipoAnimal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nome:</strong></td>
+                        <td>@Model.Nome</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Raça:</strong></td>
+                        <td>@Model.Raca</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Idade:</strong></td>
+                        <td>@Model.Idade</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Porte:</strong></td>
+                        <td>@Model.Porte</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Observação:</strong></td>
+                        <td>@Model.Observacao</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ativo:</strong></td>
+                        <td>@(Model.Ativo ? "Ativo" : "Desativado")</td>
+                    </tr>
+                </table>
+                @Html.Partial("_OptionsButtons", Model)
+               
 
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Nome)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Nome)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Raca)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Raca)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Idade)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Idade)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Porte)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Porte)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Observacao)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Observacao)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Ativo)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Ativo)
-                </dd>
-            </dl>
-
-            @Html.Partial("_DeleteButton", Model)
-
-
-        </div>
+            </div>
     }
     else
     {
-        <h2>Criar um novo perfil de pet</h2>
-        <a asp-action="Create" class="btn btn-primary">Criar</a>
+        <div class="product-container">
+            <h2>Criar um novo perfil de pet</h2>
+            <div class="text-center">
+                <a asp-action="Create" class="btn btn-primary" style="background-color: #8e9599; color: white;">
+                    Criar
+                </a>
+            </div>
+        </div>
+        <div class="row mx-auto mt-4">
+            <div class="col-4 text-center">
+                <img src="@Url.Content("~/imagens/Wallpapper/cachorro-brincando.jpg")" style="width: 300px; height: 200px;" alt="Cachorro Brincando" class="rounded" />
+            </div>
+            <div class="col-4 text-center">
+                <img src="@Url.Content("~/imagens/Wallpapper/filhotes_capa.jpg")" style="width: 300px; height: 200px;" alt="Cachorro Brincando2" class="rounded" />
+            </div>
+            <div class="col-4 text-center">
+                <img src="@Url.Content("~/imagens/Wallpapper/cachorro-gato.jpg")" style="width: 300px; height: 200px;" alt="Cachorro Brincando3" class="rounded" />
+            </div>
+        </div>
     }
 </div>
+

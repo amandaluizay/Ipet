@@ -22,7 +22,7 @@
 	  <None Include="Views\Carrinho\Edit.cshtml" />
 	  <None Include="Views\Carrinho\Index.cshtml" />
 	  <None Include="Views\PerfilPet\Create.cshtml" />
-	  <None Include="Views\PerfilPet\_DeleteButton.cshtml" />
+	  <None Include="Views\PerfilPet\_OptionsButtons.cshtml" />
 	  <None Include="Views\PerfilPet\Edit.cshtml" />
 	  <None Include="Views\PerfilPet\Index.cshtml" />
 	  <None Include="Views\Produtos\Create.cshtml" />
