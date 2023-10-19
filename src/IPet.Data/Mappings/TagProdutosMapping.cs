@@ -7,13 +7,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipet.Data.Mappings
 {
-    public class CarrinhoMapping : IEntityTypeConfiguration<Carrinho>
+    public class TagProdutoMapping : IEntityTypeConfiguration<TagProduto>
     {
-        public void Configure(EntityTypeBuilder<Carrinho> builder)
+        public void Configure(EntityTypeBuilder<TagProduto> builder)
         {
             builder.HasKey(p => p.Id);
 
-            builder.ToTable("Carrinho");
+            builder.HasOne(t => t.Produto)
+                .WithOne(p => p.TagProduto)
+                .HasForeignKey<TagProduto>(t => t.IdProduto);
+
+            builder.HasMany(t => t.Hashtags)
+          .WithOne()
+          .HasForeignKey("TagProdutoId");
+
+            builder.ToTable("Tagproduto");
         }
     }
 }

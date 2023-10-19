@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipet.Data.Mappings
 {
-    public class tagProdutoMapping : IEntityTypeConfiguration<TagProduto>
+    public class CarrinhoMapping : IEntityTypeConfiguration<Carrinho>
     {
-        public void Configure(EntityTypeBuilder<TagProduto> builder)
+        public void Configure(EntityTypeBuilder<Carrinho> builder)
         {
             builder.HasKey(p => p.Id);
 
-            builder.ToTable("TagProduto");
+            builder.ToTable("Carrinho");
         }
     }
 }

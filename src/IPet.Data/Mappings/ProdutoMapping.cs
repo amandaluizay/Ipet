@@ -24,10 +24,12 @@ namespace Ipet.Data.Mappings
             builder.Property(p => p.Imagem)
                 //.IsRequired()
                 .HasColumnType("LONGTEXT");
-            builder.Property(p => p.Estabelecimento)
-                //.IsRequired()
-                .HasColumnType("varchar(100)");
+            builder.Property(p => p.Estabelecimento);
+            //.IsRequired()
 
+            builder.HasOne(p => p.TagProduto)
+             .WithOne(t => t.Produto)
+             .HasForeignKey<TagProduto>(t => t.IdProduto);
 
             builder.ToTable("Produtos");
         }
