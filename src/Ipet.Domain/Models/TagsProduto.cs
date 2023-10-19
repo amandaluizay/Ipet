@@ -1,8 +1,8 @@
 ﻿namespace Ipet.Domain.Models
 {
-    public class Produto: Entity
+    public class TagsProduto: Entity
     {
-        public Guid EstabelecimentoId { get; set; }
+        public Guid ProdutoId { get; set; }
 
         public string Nome { get; set; }
         public string Estabelecimento { get; set; }
@@ -10,6 +10,6 @@
         public string Imagem { get; set; }
         public decimal Valor { get; set; }
         public bool Ativo { get; set; }
-        public IEnumerable<TagProduto> Produtos { get; set; }
+        public IEnumerable<HashTags> Produtos { get; set; }
     }
 }

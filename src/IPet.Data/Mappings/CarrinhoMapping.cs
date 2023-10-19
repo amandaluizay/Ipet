@@ -1,19 +1,17 @@
 ﻿
 using Ipet.Domain.Models;
-using Ipet.Service.Models;
-using Ipet.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipet.Data.Mappings
 {
-    public class CarrinhoMapping : IEntityTypeConfiguration<Carrinho>
+    public class tagProdutoMapping : IEntityTypeConfiguration<TagProduto>
     {
-        public void Configure(EntityTypeBuilder<Carrinho> builder)
+        public void Configure(EntityTypeBuilder<TagProduto> builder)
         {
             builder.HasKey(p => p.Id);
 
-            builder.ToTable("Carrinho");
+            builder.ToTable("TagProduto");
         }
     }
 }
