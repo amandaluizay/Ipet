@@ -4,7 +4,7 @@
 
 namespace Ipet.MVC.Migrations
 {
-    public partial class Inital0 : Migration
+    public partial class ddd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

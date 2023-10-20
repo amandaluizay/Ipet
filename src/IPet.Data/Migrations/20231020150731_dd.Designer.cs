@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipet.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20231018190923_Initialx")]
-    partial class Initialx
+    [Migration("20231020150731_dd")]
+    partial class dd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,35 +65,32 @@ namespace Ipet.Data.Migrations
                     b.ToTable("CarrinhoProduto", (string)null);
                 });
 
-            modelBuilder.Entity("Ipet.Domain.Models.HashTags", b =>
+            modelBuilder.Entity("Ipet.Domain.Models.Hashtag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descricao")
+                    b.Property<Guid>("IdProduto")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("IdServico")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Tag")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid?>("ServicoId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("produtoId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ServicoId");
+                    b.HasIndex("IdProduto");
 
-                    b.HasIndex("produtoId");
+                    b.HasIndex("IdServico");
 
-                    b.ToTable("HashTags");
+                    b.ToTable("Hashtag", (string)null);
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.PerfilPet", b =>
@@ -101,6 +98,9 @@ namespace Ipet.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
@@ -231,18 +231,21 @@ namespace Ipet.Data.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("Ipet.Domain.Models.HashTags", b =>
+            modelBuilder.Entity("Ipet.Domain.Models.Hashtag", b =>
                 {
-                    b.HasOne("Ipet.Domain.Models.Servico", null)
-                        .WithMany("Servicos")
-                        .HasForeignKey("ServicoId");
-
                     b.HasOne("Ipet.Domain.Models.Produto", "produto")
-                        .WithMany("Produtos")
-                        .HasForeignKey("produtoId")
+                        .WithMany("Hashtags")
+                        .HasForeignKey("IdProduto")
+                        .IsRequired();
+
+                    b.HasOne("Ipet.Domain.Models.Servico", "servico")
+                        .WithMany("Hashtags")
+                        .HasForeignKey("IdServico")
                         .IsRequired();
 
                     b.Navigation("produto");
+
+                    b.Navigation("servico");
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.Carrinho", b =>
@@ -252,12 +255,12 @@ namespace Ipet.Data.Migrations
 
             modelBuilder.Entity("Ipet.Domain.Models.Produto", b =>
                 {
-                    b.Navigation("Produtos");
+                    b.Navigation("Hashtags");
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.Servico", b =>
                 {
-                    b.Navigation("Servicos");
+                    b.Navigation("Hashtags");
                 });
 #pragma warning restore 612, 618
         }

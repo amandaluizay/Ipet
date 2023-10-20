@@ -63,6 +63,34 @@ namespace Ipet.Data.Migrations
                     b.ToTable("CarrinhoProduto", (string)null);
                 });
 
+            modelBuilder.Entity("Ipet.Domain.Models.Hashtag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("IdProduto")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("IdServico")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdProduto");
+
+                    b.HasIndex("IdServico");
+
+                    b.ToTable("Hashtag", (string)null);
+                });
+
             modelBuilder.Entity("Ipet.Domain.Models.PerfilPet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -184,69 +212,6 @@ namespace Ipet.Data.Migrations
                     b.ToTable("Servicos", (string)null);
                 });
 
-            modelBuilder.Entity("Ipet.Domain.Models.TagProduto", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("IdProduto")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Marca")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Porte")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<Guid?>("ServicoId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("TipoAnimal")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdProduto")
-                        .IsUnique();
-
-                    b.HasIndex("ServicoId");
-
-                    b.ToTable("Tagproduto", (string)null);
-                });
-
-            modelBuilder.Entity("Ipet.Service.Services.Hashtag", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Tag")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<Guid?>("TagProdutoId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TagProdutoId");
-
-                    b.ToTable("Hashtag", (string)null);
-                });
-
             modelBuilder.Entity("Ipet.Domain.Models.CarrinhoProduto", b =>
                 {
                     b.HasOne("Ipet.Domain.Models.Carrinho", "Carrinho")
@@ -264,25 +229,21 @@ namespace Ipet.Data.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("Ipet.Domain.Models.TagProduto", b =>
+            modelBuilder.Entity("Ipet.Domain.Models.Hashtag", b =>
                 {
-                    b.HasOne("Ipet.Domain.Models.Produto", "Produto")
-                        .WithOne("TagProduto")
-                        .HasForeignKey("Ipet.Domain.Models.TagProduto", "IdProduto")
+                    b.HasOne("Ipet.Domain.Models.Produto", "produto")
+                        .WithMany("Hashtags")
+                        .HasForeignKey("IdProduto")
                         .IsRequired();
 
-                    b.HasOne("Ipet.Domain.Models.Servico", null)
-                        .WithMany("Servicos")
-                        .HasForeignKey("ServicoId");
-
-                    b.Navigation("Produto");
-                });
-
-            modelBuilder.Entity("Ipet.Service.Services.Hashtag", b =>
-                {
-                    b.HasOne("Ipet.Domain.Models.TagProduto", null)
+                    b.HasOne("Ipet.Domain.Models.Servico", "servico")
                         .WithMany("Hashtags")
-                        .HasForeignKey("TagProdutoId");
+                        .HasForeignKey("IdServico")
+                        .IsRequired();
+
+                    b.Navigation("produto");
+
+                    b.Navigation("servico");
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.Carrinho", b =>
@@ -292,16 +253,10 @@ namespace Ipet.Data.Migrations
 
             modelBuilder.Entity("Ipet.Domain.Models.Produto", b =>
                 {
-                    b.Navigation("TagProduto")
-                        .IsRequired();
+                    b.Navigation("Hashtags");
                 });
 
             modelBuilder.Entity("Ipet.Domain.Models.Servico", b =>
-                {
-                    b.Navigation("Servicos");
-                });
-
-            modelBuilder.Entity("Ipet.Domain.Models.TagProduto", b =>
                 {
                     b.Navigation("Hashtags");
                 });

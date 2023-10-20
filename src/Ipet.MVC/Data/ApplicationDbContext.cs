@@ -14,5 +14,5 @@ namespace Ipet.MVC.Data
             options.UseMySql("server=localhost;initial catalog = ipet;uid=root;pwd=root",
             Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
-    }
+    } 
 }

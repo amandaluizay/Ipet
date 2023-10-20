@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipet.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231010203314_Initla")]
-    partial class Initla
+    [Migration("20231020150027_ada")]
+    partial class ada
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.21")
+                .HasAnnotation("ProductVersion", "6.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ipet.MVC.Models.ApplicationUser", b =>

@@ -26,10 +26,10 @@ namespace Ipet.Data.Mappings
                 .HasColumnType("LONGTEXT");
             builder.Property(p => p.Estabelecimento);
             //.IsRequired()
-
-            builder.HasOne(p => p.TagProduto)
-             .WithOne(t => t.Produto)
-             .HasForeignKey<TagProduto>(t => t.IdProduto);
+            builder.HasMany(p => p.Hashtags)
+                .WithOne(h => h.produto)
+                .HasForeignKey(h => h.IdProduto)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ToTable("Produtos");
         }

@@ -28,7 +28,10 @@ namespace EnterpriseStore.Data.Mappings
                 //.IsRequired()
                 .HasColumnType("varchar(100)");
 
-
+            builder.HasMany(p => p.Hashtags)
+                .WithOne(h => h.servico)
+                .HasForeignKey(h => h.IdServico)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ToTable("Servicos");
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ipet.MVC.Migrations
 {
-    public partial class Initla : Migration
+    public partial class ada : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
