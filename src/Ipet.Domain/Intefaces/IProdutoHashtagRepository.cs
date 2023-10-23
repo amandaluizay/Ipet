@@ -4,7 +4,7 @@ using Ipet.Domain.Models;
 
 namespace Ipet.Data.Repository
 {
-    public interface IHashtagRepository : IRepository<Hashtag>
+    public interface IProdutoHashtagRepository : IRepository<ProdutoHashtag>
     {
     }
 }

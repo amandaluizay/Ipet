@@ -8,9 +8,9 @@ using Ipet.Service.Services;
 
 namespace Ipet.Data.Mappings
 {
-    public class HashtagMapping : IEntityTypeConfiguration<Hashtag>
+    public class ServiçoHashtagMapping : IEntityTypeConfiguration<ServiçoHashtag>
     {
-        public void Configure(EntityTypeBuilder<Hashtag> builder)
+        public void Configure(EntityTypeBuilder<ServiçoHashtag> builder)
         {
             builder.HasKey(p => p.Id);
 

@@ -13,7 +13,8 @@ namespace Ipet.Data.Context
         }
 
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Hashtag> TagProduto { get; set; }
+        public DbSet<ProdutoHashtag> TagProduto { get; set; }
+        public DbSet<ServiçoHashtag> TagServiço { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<Carrinho> Carrinhos { get; set; }
         public DbSet<PerfilPet> PerfilPet { get; set; }

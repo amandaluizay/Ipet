@@ -2,7 +2,7 @@
 
 namespace Ipet.Interfaces.Services
 {
-    public interface IHashtagService
+    public interface IServiçoHashtagService
     {
         Task RemoverProduto(Guid carrinhoId, Guid produtoId, int quantidade);
         Task FinalizarCompra(Guid carrinhoId);

@@ -70,6 +70,12 @@ namespace Ipet.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
+
+            var hashtagStrings = produtoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ServiçoHashtagViewModel { Tag = tag }).ToList();
+
+
+
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             produtoViewModel.Imagem = "IMAGEM";
@@ -80,8 +86,6 @@ namespace Ipet.MVC.Controllers
             }
 
             produtoViewModel.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
-
-            //user 
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
@@ -90,7 +94,6 @@ namespace Ipet.MVC.Controllers
             }
             else
             {
-                // Trate o caso em que o usuário não está autenticado
                 return View(produtoViewModel);
             }
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));

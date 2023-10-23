@@ -161,7 +161,14 @@
                             <span asp-validation-for="Valor" class="text-danger"></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="HashtagsInput" class="control-label">Hashtags (separadas por vírgula)</label>
+                        <input asp-for="HashtagsInput" class="form-control" />
+                        <span asp-validation-for="HashtagsInput" class="text-danger"></span>
+                    </div>
+
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)

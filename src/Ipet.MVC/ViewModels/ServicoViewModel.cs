@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Ipet.MVC.Extensions;
+using Ipet.Domain.Models;
 
 namespace Ipet.ViewModels
 {
     public class ServicoViewModel
     {
-       
-
         [Key]
         public Guid Id { get; set; }
 
@@ -26,21 +25,17 @@ namespace Ipet.ViewModels
 
         [DisplayName("Imagem do Produto")]
         public IFormFile ImagemUpload { get; set; }
-
         public string Imagem { get; set; }
-
         [Moeda]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public decimal Valor { get; set; }
-
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
-
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
-
         [DisplayName("NomeEstabelecimento")]
         public string Estabelecimento { get; set; }
-
+        public string HashtagsInput { get; set; }
+        public List<ServiçoHashtagViewModel> Hashtags { get; set; }
     }
 }
