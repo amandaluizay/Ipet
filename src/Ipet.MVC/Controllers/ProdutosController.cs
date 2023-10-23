@@ -72,7 +72,7 @@ namespace Ipet.MVC.Controllers
         {
 
             var hashtagStrings = produtoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
-            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ServiçoHashtagViewModel { Tag = tag }).ToList();
+            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ProdutoHashtagViewModel { Tag = tag }).ToList();
 
 
 

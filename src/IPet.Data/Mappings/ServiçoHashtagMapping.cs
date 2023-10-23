@@ -20,7 +20,7 @@ namespace Ipet.Data.Mappings
            .IsRequired()
            .HasColumnType("varchar(100)");
 
-            builder.ToTable("Hashtag");
+            builder.ToTable("ServiçoHashtag");
         }
     }
 }

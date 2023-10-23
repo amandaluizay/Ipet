@@ -13,8 +13,6 @@ namespace Ipet.Domain.Models
         [Key]
         public Guid Id { get; set; }
 
-        public Guid IdServico { get; set; }
-
         public Guid IdProduto { get; set; }
         public string Tag { get; set; }
     }
