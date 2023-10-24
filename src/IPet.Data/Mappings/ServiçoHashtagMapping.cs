@@ -17,8 +17,9 @@ namespace Ipet.Data.Mappings
 
 
             builder.Property(p => p.Tag)
-           .IsRequired()
-           .HasColumnType("varchar(100)");
+                .IsRequired()
+                .HasColumnType("varchar(100)")
+                .HasConversion(tag => tag.ToUpper(), tag => tag);
 
             builder.ToTable("ServiçoHashtag");
         }

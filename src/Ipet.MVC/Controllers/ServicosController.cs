@@ -8,22 +8,26 @@ using Ipet.Domain.Intefaces;
 using Ipet.MVC.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Ipet.MVC.Models;
+using Ipet.Data.Repository;
 
 namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ServicosController : BaseController
     {
+        private readonly IServiçoHashtagRepository _servicoHashtagRepository;
         private readonly IServicoRepository _servicoRepository;
         private readonly IServicoService _servicoService;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ServicosController(IServicoRepository servicoRepository, IMapper mapper,
+            IServiçoHashtagRepository servicoHashtagRepository,
                                     UserManager<ApplicationUser> userManager,
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
         {
+            _servicoHashtagRepository = _servicoHashtagRepository;
             _servicoRepository = servicoRepository;
             _mapper = mapper;
             _servicoService = servicoService;
@@ -48,6 +52,11 @@ namespace Ipet.MVC.Controllers
             {
                 return NotFound();
             }
+
+            var servicoHashtags = await _servicoHashtagRepository.ObterPorServicoId(servicoViewModel.Id);
+            servicoViewModel.Hashtags = _mapper.Map<List<ServiçoHashtagViewModel>>(servicoHashtags);
+            servicoViewModel.HashtagsInput = string.Join(", ", servicoViewModel.Hashtags);
+
             var user = _userManager.FindByIdAsync(servicoViewModel.EstabelecimentoId.ToString());
             ViewBag.NomeDoUsuario = user;
             return View(servicoViewModel);
@@ -67,6 +76,9 @@ namespace Ipet.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ServicoViewModel servicoViewModel)
         {
+            var hashtagStrings = servicoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            servicoViewModel.Hashtags = hashtagStrings.Select(tag => new ServiçoHashtagViewModel { Tag = tag }).ToList();
+
             if (!ModelState.IsValid) return View(servicoViewModel);
 
             servicoViewModel.Imagem = "IMAGEM";
@@ -117,6 +129,9 @@ namespace Ipet.MVC.Controllers
 
         public async Task<IActionResult> Edit(Guid id, ServicoViewModel servicoViewModel)
         {
+            var hashtagStrings = servicoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            servicoViewModel.Hashtags = hashtagStrings.Select(tag => new ServiçoHashtagViewModel { Tag = tag }).ToList();
+
             if (id != servicoViewModel.Id) return NotFound();
 
             var servicoAtualizacao = await ObterServico(id);
@@ -139,6 +154,7 @@ namespace Ipet.MVC.Controllers
             servicoAtualizacao.Descricao = servicoViewModel.Descricao;
             servicoAtualizacao.Valor = servicoViewModel.Valor;
             servicoAtualizacao.Ativo = servicoViewModel.Ativo;
+            servicoAtualizacao.Hashtags = servicoViewModel.Hashtags;
 
             await _servicoService.Atualizar(_mapper.Map<Servico>(servicoAtualizacao));
 
@@ -171,7 +187,7 @@ namespace Ipet.MVC.Controllers
             {
                 return NotFound();
             }
-
+            await _servicoHashtagRepository.ExcluirTagsDoServico(id);
             await _servicoService.Remover(id);
 
             if (!OperacaoValida()) return View(servico);

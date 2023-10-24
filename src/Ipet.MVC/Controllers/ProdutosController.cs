@@ -10,12 +10,14 @@ using Ipet.Domain.Intefaces;
 using Ipet.MVC.Extensions;
 using Ipet.Data.Repository;
 using Ipet.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ProdutosController : BaseController
     {
+        private readonly IProdutoHashtagRepository _produtoHashtagRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly ICarrinhoService _carrinhoService;
         private readonly IProdutoService _produtoService;
@@ -23,11 +25,13 @@ namespace Ipet.MVC.Controllers
         private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
+        IProdutoHashtagRepository produtoHashtagRepository,
         IMapper mapper, ICarrinhoService carrinhoService,
         IProdutoService produtoService,
                                   UserManager<ApplicationUser> userManager,
                                   INotificador notificador) : base(notificador)
         {
+            _produtoHashtagRepository = produtoHashtagRepository;
             _carrinhoService = carrinhoService;
             _produtoRepository = produtoRepository;
             _mapper = mapper;
@@ -52,6 +56,13 @@ namespace Ipet.MVC.Controllers
             {
                 return NotFound();
             }
+
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags);
+
+
+
             var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
             ViewBag.NomeDoUsuario = user;
             return View(produtoViewModel);
@@ -109,7 +120,13 @@ namespace Ipet.MVC.Controllers
         {
             var produtoViewModel = await ObterProduto(id);
 
-           
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
+
+
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags.Select(h => h.Tag));
+
+
             if (produtoViewModel == null)
             {
                 return NotFound();
@@ -126,6 +143,9 @@ namespace Ipet.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
+
+            var hashtagStrings = produtoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ProdutoHashtagViewModel { Tag = tag }).ToList();
 
             if (!ModelState.IsValid) return View(produtoViewModel);
 
@@ -145,6 +165,7 @@ namespace Ipet.MVC.Controllers
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
             produtoAtualizacao.Valor = produtoViewModel.Valor;
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            produtoAtualizacao.Hashtags = produtoViewModel.Hashtags;
 
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
@@ -157,14 +178,20 @@ namespace Ipet.MVC.Controllers
         [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var produto = await ObterProduto(id);
+            var produtoViewModel = await ObterProduto(id);
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
 
-            if (produto == null)
+
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags);
+
+
+            if (produtoViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(produtoViewModel);
         }
 
 
@@ -181,7 +208,9 @@ namespace Ipet.MVC.Controllers
                 return NotFound();
             }
 
+            await _produtoHashtagRepository.ExcluirTagsDoProduto(id);
             await _produtoService.Remover(id);
+            
 
             if (!OperacaoValida()) return View(produto);
 

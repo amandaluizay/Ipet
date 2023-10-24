@@ -135,6 +135,21 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="center col-12">
+                            <span class="money-format" style="font-size: 24px;">
+                                Tags:
+                                @foreach (var hashtag in Model.Hashtags)
+                                {
+                                    <span>@hashtag.Tag</span>
+                                    @if (hashtag != Model.Hashtags.Last())
+                                    { // Evita a vírgula após o último item
+                                        <span>, </span>
+                                    }
+                                }
+                            </span>
+                        </div>
+                    </div>
                     <hr />
 
                     @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
