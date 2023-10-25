@@ -28,8 +28,8 @@ namespace Ipet.MVC.Controllers
         IProdutoHashtagRepository produtoHashtagRepository,
         IMapper mapper, ICarrinhoService carrinhoService,
         IProdutoService produtoService,
-                                  UserManager<ApplicationUser> userManager,
-                                  INotificador notificador) : base(notificador)
+        UserManager<ApplicationUser> userManager,
+        INotificador notificador) : base(notificador)
         {
             _produtoHashtagRepository = produtoHashtagRepository;
             _carrinhoService = carrinhoService;
@@ -38,14 +38,12 @@ namespace Ipet.MVC.Controllers
             _produtoService = produtoService;
             _userManager = userManager;
         }
-
         [AllowAnonymous]
         [Route("lista-de-produtos")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
-
         [AllowAnonymous]
         [Route("dados-do-produto/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
@@ -67,7 +65,6 @@ namespace Ipet.MVC.Controllers
             ViewBag.NomeDoUsuario = user;
             return View(produtoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
@@ -75,7 +72,6 @@ namespace Ipet.MVC.Controllers
 
             return View();
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         [HttpPost]
@@ -113,7 +109,6 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
@@ -134,7 +129,6 @@ namespace Ipet.MVC.Controllers
 
             return View(produtoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
@@ -173,7 +167,6 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
@@ -193,12 +186,9 @@ namespace Ipet.MVC.Controllers
 
             return View(produtoViewModel);
         }
-
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
-
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var produto = await ObterProduto(id);
@@ -223,7 +213,6 @@ namespace Ipet.MVC.Controllers
             var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
             return produto;
         }
-
         private async Task<bool> UploadArquivo(IFormFile arquivo, string imgPrefixo)
         {
             if (arquivo.Length <= 0) return false;
@@ -243,7 +232,6 @@ namespace Ipet.MVC.Controllers
 
             return true;
         }
-
         public string ConvertImagemToBase64(IFormFile imagemFile)
         {
             if (imagemFile == null || imagemFile.Length == 0)
@@ -259,7 +247,6 @@ namespace Ipet.MVC.Controllers
                 return imagemBase64;
             }
         }
-
         [ClaimsAuthorize("Usuario", "1")]
         [Route("carrinho/{id:guid}")]
         [HttpPost, ActionName("Carrinho")]
@@ -295,8 +282,5 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
     }
 }
