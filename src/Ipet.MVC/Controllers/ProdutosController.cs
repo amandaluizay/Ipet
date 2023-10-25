@@ -161,6 +161,8 @@ namespace Ipet.MVC.Controllers
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
             produtoAtualizacao.Hashtags = produtoViewModel.Hashtags;
 
+
+            await _produtoHashtagRepository.ExcluirTagsDoProduto(id);
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             if (!OperacaoValida()) return View(produtoViewModel);

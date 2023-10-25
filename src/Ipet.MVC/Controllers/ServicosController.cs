@@ -21,9 +21,10 @@ namespace Ipet.MVC.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ServicosController(IServicoRepository servicoRepository, IMapper mapper,
-            IServiçoHashtagRepository servicoHashtagRepository,
-                                    UserManager<ApplicationUser> userManager,
+        public ServicosController(IServicoRepository servicoRepository, 
+                                  IMapper mapper,
+                                  IServiçoHashtagRepository servicoHashtagRepository,
+                                  UserManager<ApplicationUser> userManager,
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
         {
@@ -33,15 +34,12 @@ namespace Ipet.MVC.Controllers
             _servicoService = servicoService;
             _userManager = userManager;
         }
-
-
         [AllowAnonymous]
         [Route("lista-de-servicos")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ServicoViewModel>>(await _servicoRepository.ObterTodos()));
         }
-
         [AllowAnonymous]
         [Route("dados-do-servico/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
@@ -61,7 +59,6 @@ namespace Ipet.MVC.Controllers
             ViewBag.NomeDoUsuario = user;
             return View(servicoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-servico")]
         public async Task<IActionResult> Create()
@@ -70,7 +67,6 @@ namespace Ipet.MVC.Controllers
             return View();
 
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-servico")]
         [HttpPost]
@@ -108,7 +104,6 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-servico/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
@@ -122,11 +117,9 @@ namespace Ipet.MVC.Controllers
 
             return View(servicoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-servico/{id:guid}")]
         [HttpPost]
-
         public async Task<IActionResult> Edit(Guid id, ServicoViewModel servicoViewModel)
         {
             var hashtagStrings = servicoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
@@ -178,7 +171,6 @@ namespace Ipet.MVC.Controllers
         [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-servico/{id:guid}")]
         [HttpPost, ActionName("Delete")]
-
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var servico = await ObterServico(id);
@@ -196,13 +188,11 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         private async Task<ServicoViewModel> ObterServico(Guid id)
         {
             var servico = _mapper.Map<ServicoViewModel>(await _servicoRepository.ObterPorId(id));
             return servico;
         }
-
         private async Task<bool> UploadArquivo(IFormFile arquivo, string imgPrefixo)
         {
             if (arquivo.Length <= 0) return false;
