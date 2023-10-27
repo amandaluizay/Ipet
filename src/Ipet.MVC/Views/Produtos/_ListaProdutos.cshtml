@@ -16,23 +16,16 @@
     }
 </style>
 <script>
-    // Aguarde até que o documento esteja completamente carregado
     document.addEventListener("DOMContentLoaded", function () {
-        // Selecione o botão pelo ID ou classe que você definiu
         const btnCarrinho = document.getElementById("btnCarrinho");
-
-        // Adicione um ouvinte de evento de clique ao botão
         btnCarrinho.addEventListener("click", function () {
-            // Envie uma solicitação AJAX para a rota "Carrinho"
             fetch('/Produtos/Carrinho', {
-                method: 'POST', // Defina o método HTTP conforme necessário
+                method: 'POST',
             })
                 .then(response => {
                     if (response.status === 200) {
-                        // A solicitação foi bem-sucedida, faça algo se necessário
                         console.log('Ação de carrinho bem-sucedida.');
                     } else {
-                        // A solicitação falhou, faça algo se necessário
                         console.error('Falha na ação de carrinho.');
                     }
                 })
@@ -42,8 +35,6 @@
         });
     });
 </script>
-
-
 <section class="py-5">
     <div class="container-fluid">
         <div class="row">

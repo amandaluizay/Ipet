@@ -7,5 +7,6 @@ namespace Ipet.Domain.Intefaces
         //Task<IEnumerable<Produto>> ObterProdutosPorEstabelecimento(Guid estabelecimentoid);
         //Task<IEnumerable<Produto>> ObterProdutosEstabelecimento();
         //Task<Produto> ObterProdutoEstabelecimento(Guid id);
+        Task<List<Produto>> GetProdutosByTag(string tag);
     }
 }
