@@ -11,6 +11,7 @@ using Ipet.MVC.Extensions;
 using Ipet.Data.Repository;
 using Ipet.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ipet.MVC.Controllers
 {
@@ -19,6 +20,8 @@ namespace Ipet.MVC.Controllers
     {
         private readonly IProdutoHashtagRepository _produtoHashtagRepository;
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IPerfilPetRepository _perfilPetRepository;
+        private readonly IPerfilPetService _perfilPetService;
         private readonly ICarrinhoService _carrinhoService;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
@@ -28,6 +31,8 @@ namespace Ipet.MVC.Controllers
         IProdutoHashtagRepository produtoHashtagRepository,
         IMapper mapper, ICarrinhoService carrinhoService,
         IProdutoService produtoService,
+        IPerfilPetRepository perfilPetRepository,
+        IPerfilPetService perfilPetService,
         UserManager<ApplicationUser> userManager,
         INotificador notificador) : base(notificador)
         {
@@ -37,21 +42,77 @@ namespace Ipet.MVC.Controllers
             _mapper = mapper;
             _produtoService = produtoService;
             _userManager = userManager;
+            _perfilPetRepository = perfilPetRepository;
+            _perfilPetService = perfilPetService;
         }
         [AllowAnonymous]
         [Route("lista-de-produtos")]
-        public async Task<IActionResult> Index(string tags)
+        public async Task<IActionResult> Index(string tags, string tipoAnimal, string raca, string porte)
         {
+            var selectedTags = new List<string>();
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+
+            }
+
+
+
+            if (tipoAnimal == "on")
+            {
+                selectedTags.Add(ViewBag.TipoAnimal);
+            }
+            if (raca == "on")
+            {
+                selectedTags.Add(ViewBag.Raca);
+            }
+            if (porte == "on")
+            {
+                selectedTags.Add(ViewBag.Porte);
+            }
+
             if (!string.IsNullOrEmpty(tags))
             {
                 string cleanedTags = tags.Trim().ToUpper();
                 string[] tagArray = cleanedTags.Split(',');
-                var produtos = await _produtoService.GetProdutosByTags(tagArray);
-                return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(produtos));
+                selectedTags.AddRange(tagArray);
             }
 
+            if (selectedTags.Count > 0)
+            {
+                var produtos = await _produtoService.GetProdutosByTags(selectedTags.ToArray());
+                return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(produtos));
+            }
+            
+
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+            }
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
+
+
+
+
+
 
         [AllowAnonymous]
         [Route("dados-do-produto/{id:guid}")]

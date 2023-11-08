@@ -16,7 +16,11 @@ namespace Ipet.Service.Services
 
         public async Task<List<Produto>> GetProdutosByTags(string[] tags)
         {
+
             var todosProdutos = await _produtoRepository.ObterTodos();
+
+
+
             var produtos = await _produtoRepository.GetProdutosByTag(tags,todosProdutos);
 
             return produtos;

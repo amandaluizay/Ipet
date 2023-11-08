@@ -42,6 +42,7 @@ namespace Ipet.MVC.Controllers
             return View(_mapper.Map<PerfilPetViewModel>(x));
         }
 
+
         [AllowAnonymous]
         [Route("perfil/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
