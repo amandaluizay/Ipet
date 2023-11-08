@@ -4,9 +4,6 @@ namespace Ipet.Domain.Intefaces
 {
     public interface IProdutoRepository : IRepository<Produto>
     {
-        //Task<IEnumerable<Produto>> ObterProdutosPorEstabelecimento(Guid estabelecimentoid);
-        //Task<IEnumerable<Produto>> ObterProdutosEstabelecimento();
-        //Task<Produto> ObterProdutoEstabelecimento(Guid id);
-        Task<List<Produto>> GetProdutosByTag(string tag);
+        Task<List<Produto>> GetProdutosByTag(string[] tags, List<Produto> todosProdutos);
     }
 }

@@ -40,10 +40,19 @@ namespace Ipet.MVC.Controllers
         }
         [AllowAnonymous]
         [Route("lista-de-produtos")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string tags)
         {
+            if (!string.IsNullOrEmpty(tags))
+            {
+                string cleanedTags = tags.Trim().ToUpper();
+                string[] tagArray = cleanedTags.Split(',');
+                var produtos = await _produtoService.GetProdutosByTags(tagArray);
+                return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(produtos));
+            }
+
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
+
         [AllowAnonymous]
         [Route("dados-do-produto/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
