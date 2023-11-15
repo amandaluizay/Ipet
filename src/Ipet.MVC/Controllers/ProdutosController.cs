@@ -64,9 +64,6 @@ namespace Ipet.MVC.Controllers
                 }
 
             }
-
-
-
             if (tipoAnimal == "on")
             {
                 selectedTags.Add(ViewBag.TipoAnimal);
@@ -79,21 +76,17 @@ namespace Ipet.MVC.Controllers
             {
                 selectedTags.Add(ViewBag.Porte);
             }
-
             if (!string.IsNullOrEmpty(tags))
             {
                 string cleanedTags = tags.Trim().ToUpper();
                 string[] tagArray = cleanedTags.Split(',');
                 selectedTags.AddRange(tagArray);
             }
-
             if (selectedTags.Count > 0)
             {
                 var produtos = await _produtoService.GetProdutosByTags(selectedTags.ToArray());
                 return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(produtos));
             }
-            
-
             if (user != null)
             {
                 var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
@@ -128,8 +121,6 @@ namespace Ipet.MVC.Controllers
             var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
             produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
             produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags);
-
-
 
             var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
             ViewBag.NomeDoUsuario = user;
