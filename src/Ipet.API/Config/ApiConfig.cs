@@ -1,4 +1,8 @@
-﻿using LastCode.Identity.Extensions;
+﻿using HealthChecks.UI.Client;
+using LastCode.Identity.Extensions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 namespace Ipet.API.Configuration
@@ -9,6 +13,20 @@ namespace Ipet.API.Configuration
         {
             services.AddControllers();
 
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+            });
+
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("Development",
@@ -18,44 +36,22 @@ namespace Ipet.API.Configuration
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 
+
+                options.AddPolicy("Production",
+                    builder =>
+                        builder
+                            .WithMethods("GET")
+                            .WithOrigins("http://desenvolvedor.io")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .AllowAnyHeader());
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APP_IPET", Version = "v1" });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "Insira o token JWT desta maneira: Bearer {seu token}",
-                    Name = "Authorization",
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
-            });
-
-                return services;
+            return services;
         }
 
         public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseCors("Development");
@@ -66,7 +62,8 @@ namespace Ipet.API.Configuration
                 app.UseCors("Development"); // Usar apenas nas demos => Configuração Ideal: Production
                 app.UseHsts();
             }
-            //app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
@@ -74,19 +71,30 @@ namespace Ipet.API.Configuration
 
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseStaticFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI(c => 
-                { 
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ipet.API"); }
-                );
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/api/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecksUI(options =>
+                {
+                    options.UIPath = "/api/hc-ui";
+                    options.ResourcesPath = "/api/hc-ui-resources";
+
+                    options.UseRelativeApiPath = false;
+                    options.UseRelativeResourcesPath = false;
+                    options.UseRelativeWebhookPath = false;
+                });
+
             });
 
-                return app;
+            return app;
         }
     }
 }

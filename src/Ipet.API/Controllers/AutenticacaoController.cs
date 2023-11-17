@@ -15,9 +15,9 @@ using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 
 namespace Ipet.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     
-    [Route("ipet/login")]
+    [Route("ipet")]
     public class AutenticacaoController : HomeController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -38,7 +38,7 @@ namespace Ipet.API.Controllers
         }
 
 
-        [ClaimsAuthorize("Admin", "1")]
+        //[ClaimsAuthorize("Admin", "1")]
         [AllowAnonymous]
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
@@ -57,9 +57,9 @@ namespace Ipet.API.Controllers
             {
                 await _signInManager.SignInAsync(user, false);
 
-                var cityClaim = new Claim("User", "2");
+                //var cityClaim = new Claim("User", "2");
 
-                await _userManager.AddClaimAsync(user, cityClaim);
+                //await _userManager.AddClaimAsync(user, cityClaim);
                 return CustomResponse(await GerarJwt(user.Email));
             }
             foreach (var error in result.Errors)
@@ -93,65 +93,6 @@ namespace Ipet.API.Controllers
             return CustomResponse(loginUser);
         }
 
-        [ClaimsAuthorize("Admin", "1")]
-        [HttpGet("regras")]
-        public async Task<IActionResult> GetClaims()
-        {
-            // Buscar o usuário autenticado
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user != null)
-            {
-                // Pegar as claims associadas ao usuário
-                var claims = await _userManager.GetClaimsAsync(user);
-                
-                // Mapear as claims para a ViewModel desejada
-                var claimViewModel = new ClaimViewModel
-                {
-                    // Exemplo de como acessar uma claim específica
-                    Type = claims.FirstOrDefault()?.Value,
-
-                    // Outras propriedades da ViewModel
-                    // ...
-                };
-
-
-
-                return Ok(claimViewModel);
-            }
-
-            // Usuário não encontrado
-            return BadRequest();
-        }
-
-        [ClaimsAuthorize("Admin", "1")]
-        [HttpPost("paginado")]
-        public async Task<ActionResult> GetUsersWithClaims(string Regra)
-        {
-            var users = await _userManager.Users.ToListAsync();
-            var userClaims = new List<object>();
-
-            foreach (var user in users)
-            {
-
-
-                var claims = await _userManager.GetClaimsAsync(user);
-
-                var value = claims.FirstOrDefault(c => c.Type == Regra)?.Value;
-                if (value != null) { userClaims.Add(new { UserName = user.UserName, Claims = claims }); }
-
-
-                continue; 
-
-
-
-            }
-
-            return Ok(userClaims);
-        }
-
-        [ClaimsAuthorize("Admin", "1")]
-        [HttpPut("chamge-to-admin/{id:guid}")]
 
         private async Task<LoginResponseViewModel> GerarJwt(string email)
         {

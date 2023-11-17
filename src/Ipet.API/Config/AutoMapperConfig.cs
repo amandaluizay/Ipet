@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-
+using Ipet.Api.ViewModels;
+using Ipet.Domain.Models;
 
 namespace Ipet.API.Configuration
 {
@@ -7,6 +8,13 @@ namespace Ipet.API.Configuration
     {
         public AutoMapperConfig()
         {
+            CreateMap<CarrinhoProduto, CarrinhoProdutoViewModel>().ReverseMap();
+            CreateMap<Carrinho, CarrinhoViewModel>().ReverseMap();
+            CreateMap<PerfilPet, PerfilPetViewModel>().ReverseMap();
+            CreateMap<ProdutoHashtag, ProdutoHashtagViewModel>().ReverseMap();
+            CreateMap<Produto, ProdutoViewModel>().ReverseMap();
+            CreateMap<ServiçoHashtag, ServiçoHashtagViewModel>().ReverseMap();
+            CreateMap<Servico, ServicoViewModel>().ReverseMap();
 
         }
     }
