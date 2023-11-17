@@ -13,6 +13,8 @@ namespace Ipet.APIConfiguration
         {
             services.AddSwaggerGen(c =>
             {
+               
+
                 c.OperationFilter<SwaggerDefaultValues>();
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

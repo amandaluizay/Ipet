@@ -16,8 +16,8 @@ using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 namespace Ipet.API.Controllers
 {
     //[Authorize]
-    
-    [Route("ipet")]
+    [ApiVersion("1.0")]
+    [Route("ipet/v{version:apiVersion}")]
     public class AutenticacaoController : HomeController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
