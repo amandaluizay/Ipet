@@ -39,59 +39,59 @@ namespace Ipet.API.Controllers
 
 
         //[ClaimsAuthorize("Admin", "1")]
-        [AllowAnonymous]
-        [HttpPost("nova-conta")]
-        public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
-        {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+        //[AllowAnonymous]
+        //[HttpPost("nova-conta")]
+        //public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
+        //{
+        //    if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var user = new IdentityUser
-            {
-                UserName = registerUser.Email,
-                Email = registerUser.Email,
-                EmailConfirmed = true
-            };
+        //    var user = new IdentityUser
+        //    {
+        //        UserName = registerUser.Email,
+        //        Email = registerUser.Email,
+        //        EmailConfirmed = true
+        //    };
 
-            var result = await _userManager.CreateAsync(user, registerUser.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
+        //    var result = await _userManager.CreateAsync(user, registerUser.Password);
+        //    if (result.Succeeded)
+        //    {
+        //        await _signInManager.SignInAsync(user, false);
 
-                //var cityClaim = new Claim("User", "2");
+        //        //var cityClaim = new Claim("User", "2");
 
-                //await _userManager.AddClaimAsync(user, cityClaim);
-                return CustomResponse(await GerarJwt(user.Email));
-            }
-            foreach (var error in result.Errors)
-            {
-                NotificarErro(error.Description);
-            }
+        //        //await _userManager.AddClaimAsync(user, cityClaim);
+        //        return CustomResponse(await GerarJwt(user.Email));
+        //    }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        NotificarErro(error.Description);
+        //    }
 
-            return CustomResponse(registerUser);
-        }
+        //    return CustomResponse(registerUser);
+        //}
 
-        [AllowAnonymous]
-        [HttpPost("entrar")]
-        public async Task<ActionResult> Login(LoginUserViewModel loginUser)
-        {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+        //[AllowAnonymous]
+        //[HttpPost("entrar")]
+        //public async Task<ActionResult> Login(LoginUserViewModel loginUser)
+        //{
+        //    if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
+        //    var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("Usuario " + loginUser.Email + " logado com sucesso");
-                return CustomResponse(await GerarJwt(loginUser.Email));
-            }
-            if (result.IsLockedOut)
-            {
-                NotificarErro("Usuário temporariamente bloqueado por tentativas inválidas");
-                return CustomResponse(loginUser);
-            }
+        //    if (result.Succeeded)
+        //    {
+        //        _logger.LogInformation("Usuario " + loginUser.Email + " logado com sucesso");
+        //        return CustomResponse(await GerarJwt(loginUser.Email));
+        //    }
+        //    if (result.IsLockedOut)
+        //    {
+        //        NotificarErro("Usuário temporariamente bloqueado por tentativas inválidas");
+        //        return CustomResponse(loginUser);
+        //    }
 
-            NotificarErro("Usuário ou Senha incorretos");
-            return CustomResponse(loginUser);
-        }
+        //    NotificarErro("Usuário ou Senha incorretos");
+        //    return CustomResponse(loginUser);
+        //}
 
 
         private async Task<LoginResponseViewModel> GerarJwt(string email)

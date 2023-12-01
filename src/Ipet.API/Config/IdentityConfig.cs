@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Ipet.API.Models;
 
 namespace Ipet.APIConfiguration
 {
@@ -17,14 +18,20 @@ namespace Ipet.APIConfiguration
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 //MYSQL
-                options.UseMySql("server=134.65.26.201;initial catalog = app_identidade_api;uid=eduardo;pwd=mudar123",
-                Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseMySql("server=localhost;initial catalog=ipet;uid=root;pwd=root",
+                Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql"));
                 //options.UseMySql("server=localhost;initial catalog = lastcodelogin;uid=root;pwd=Root",
                 //Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 //SQLSERVER
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             });
+
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            //.AddEntityFrameworkStores<ApplicationDbContext>();
+            //.AddErrorDescriber<IdentityMensagensPortugues>()
+            //.AddRoles<IdentityRole>()
+            //.AddDefaultTokenProviders();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
