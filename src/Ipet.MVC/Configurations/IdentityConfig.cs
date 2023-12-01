@@ -16,7 +16,7 @@ namespace Ipet.MVC.Configurations
 
             services.AddDbContext<ApplicationDbContext>(options =>
                                     //options.UseMySql("server=mysql-banco-api.mysql.database.azure.com;initial catalog = IPET;uid=MysqlRoot;pwd=Mudar#123",
-                                    options.UseMySql("server=localhost;initial catalog = ipet;uid=root;pwd=root",
+                                    options.UseMySql("server=164.152.244.159;initial catalog = ipet;uid=isaac;pwd=Isaacroque0209@;",
                                     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
