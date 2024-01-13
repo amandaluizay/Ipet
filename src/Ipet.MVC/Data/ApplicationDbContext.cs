@@ -1,6 +1,8 @@
 ﻿using Ipet.MVC.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Configuration;
 
 namespace Ipet.MVC.Data
 {
@@ -10,9 +12,16 @@ namespace Ipet.MVC.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-                options.UseMySql("server=mysql-banco-api.mysql.database.azure.com;initial catalog = IPET;uid=MysqlRoot;pwd=Mudar#123",
-            //options.UseMySql("server=localhost;initial catalog = ipet;uid=root;pwd=root",
-            Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            if (!options.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                options.UseMySql(configuration.GetConnectionString("connection"),
+                Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.0-mysql")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
         }
     }
 }
