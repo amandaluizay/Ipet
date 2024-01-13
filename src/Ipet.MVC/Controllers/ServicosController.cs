@@ -28,7 +28,7 @@ namespace Ipet.MVC.Controllers
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
         {
-            _servicoHashtagRepository = _servicoHashtagRepository;
+            _servicoHashtagRepository = servicoHashtagRepository;
             _servicoRepository = servicoRepository;
             _mapper = mapper;
             _servicoService = servicoService;
