@@ -32,6 +32,10 @@ namespace Ipet.Configurations
             services.AddScoped<IPerfilPetService, PerfilPetService>();
             services.AddScoped<IPerfilPetRepository, PerfilPetRepository>();
 
+            services.AddScoped<IServiçoHashtagRepository, ServiçoHashtagRepository>();
+
+            services.AddScoped<IProdutoHashtagRepository, ProdutoHashtagRepository>();
+
 
             return services;
         }

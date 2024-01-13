@@ -10,37 +10,102 @@ using Ipet.Domain.Intefaces;
 using Ipet.MVC.Extensions;
 using Ipet.Data.Repository;
 using Ipet.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ipet.MVC.Controllers
 {
     [Authorize]
     public class ProdutosController : BaseController
     {
+        private readonly IProdutoHashtagRepository _produtoHashtagRepository;
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IPerfilPetRepository _perfilPetRepository;
+        private readonly IPerfilPetService _perfilPetService;
         private readonly ICarrinhoService _carrinhoService;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager; 
 
         public ProdutosController(IProdutoRepository produtoRepository,
+        IProdutoHashtagRepository produtoHashtagRepository,
         IMapper mapper, ICarrinhoService carrinhoService,
         IProdutoService produtoService,
-                                  UserManager<ApplicationUser> userManager,
-                                  INotificador notificador) : base(notificador)
+        IPerfilPetRepository perfilPetRepository,
+        IPerfilPetService perfilPetService,
+        UserManager<ApplicationUser> userManager,
+        INotificador notificador) : base(notificador)
         {
+            _produtoHashtagRepository = produtoHashtagRepository;
             _carrinhoService = carrinhoService;
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
             _userManager = userManager;
+            _perfilPetRepository = perfilPetRepository;
+            _perfilPetService = perfilPetService;
         }
-
         [AllowAnonymous]
         [Route("lista-de-produtos")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string tags, string tipoAnimal, string raca, string porte)
         {
+            var selectedTags = new List<string>();
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+
+            }
+            if (tipoAnimal == "on")
+            {
+                selectedTags.Add(ViewBag.TipoAnimal);
+            }
+            if (raca == "on")
+            {
+                selectedTags.Add(ViewBag.Raca);
+            }
+            if (porte == "on")
+            {
+                selectedTags.Add(ViewBag.Porte);
+            }
+            if (!string.IsNullOrEmpty(tags))
+            {
+                string cleanedTags = tags.Trim().ToUpper();
+                string[] tagArray = cleanedTags.Split(',');
+                selectedTags.AddRange(tagArray);
+            }
+            if (selectedTags.Count > 0)
+            {
+                var produtos = await _produtoService.GetProdutosByTags(selectedTags.ToArray());
+                return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(produtos));
+            }
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+            }
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
+
+
+
+
+
 
         [AllowAnonymous]
         [Route("dados-do-produto/{id:guid}")]
@@ -52,11 +117,15 @@ namespace Ipet.MVC.Controllers
             {
                 return NotFound();
             }
+
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags);
+
             var user = _userManager.FindByIdAsync(produtoViewModel.EstabelecimentoId.ToString());
             ViewBag.NomeDoUsuario = user;
             return View(produtoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         public async Task<IActionResult> Create()
@@ -64,12 +133,17 @@ namespace Ipet.MVC.Controllers
 
             return View();
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("novo-produto")]
         [HttpPost]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
+
+            var hashtagStrings = produtoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ProdutoHashtagViewModel { Tag = tag }).ToList();
+
+
+
             if (!ModelState.IsValid) return View(produtoViewModel);
 
             produtoViewModel.Imagem = "IMAGEM";
@@ -80,8 +154,6 @@ namespace Ipet.MVC.Controllers
             }
 
             produtoViewModel.Imagem = produtoViewModel.ImagemUpload.ContentType + ";base64," + ConvertImagemToBase64(produtoViewModel.ImagemUpload);
-
-            //user 
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
@@ -90,7 +162,6 @@ namespace Ipet.MVC.Controllers
             }
             else
             {
-                // Trate o caso em que o usuário não está autenticado
                 return View(produtoViewModel);
             }
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
@@ -99,14 +170,19 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var produtoViewModel = await ObterProduto(id);
 
-           
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
+
+
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags.Select(h => h.Tag));
+
+
             if (produtoViewModel == null)
             {
                 return NotFound();
@@ -114,7 +190,6 @@ namespace Ipet.MVC.Controllers
 
             return View(produtoViewModel);
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
@@ -123,6 +198,9 @@ namespace Ipet.MVC.Controllers
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
+
+            var hashtagStrings = produtoViewModel.HashtagsInput.Split(',').Select(tag => tag.Trim());
+            produtoViewModel.Hashtags = hashtagStrings.Select(tag => new ProdutoHashtagViewModel { Tag = tag }).ToList();
 
             if (!ModelState.IsValid) return View(produtoViewModel);
 
@@ -142,33 +220,38 @@ namespace Ipet.MVC.Controllers
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
             produtoAtualizacao.Valor = produtoViewModel.Valor;
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            produtoAtualizacao.Hashtags = produtoViewModel.Hashtags;
 
+
+            await _produtoHashtagRepository.ExcluirTagsDoProduto(id);
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             if (!OperacaoValida()) return View(produtoViewModel);
 
             return RedirectToAction("Index");
         }
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var produto = await ObterProduto(id);
+            var produtoViewModel = await ObterProduto(id);
+            var produtoHashtags = await _produtoHashtagRepository.ObterPorProdutoId(produtoViewModel.Id);
+            produtoViewModel.Hashtags = _mapper.Map<List<ProdutoHashtagViewModel>>(produtoHashtags);
 
-            if (produto == null)
+
+            produtoViewModel.HashtagsInput = string.Join(", ", produtoViewModel.Hashtags);
+
+
+            if (produtoViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(produtoViewModel);
         }
-
-
         [ClaimsAuthorize("Usuario", "2")]
         [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
-
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var produto = await ObterProduto(id);
@@ -178,7 +261,9 @@ namespace Ipet.MVC.Controllers
                 return NotFound();
             }
 
+            await _produtoHashtagRepository.ExcluirTagsDoProduto(id);
             await _produtoService.Remover(id);
+            
 
             if (!OperacaoValida()) return View(produto);
 
@@ -191,7 +276,6 @@ namespace Ipet.MVC.Controllers
             var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
             return produto;
         }
-
         private async Task<bool> UploadArquivo(IFormFile arquivo, string imgPrefixo)
         {
             if (arquivo.Length <= 0) return false;
@@ -211,7 +295,6 @@ namespace Ipet.MVC.Controllers
 
             return true;
         }
-
         public string ConvertImagemToBase64(IFormFile imagemFile)
         {
             if (imagemFile == null || imagemFile.Length == 0)
@@ -227,7 +310,6 @@ namespace Ipet.MVC.Controllers
                 return imagemBase64;
             }
         }
-
         [ClaimsAuthorize("Usuario", "1")]
         [Route("carrinho/{id:guid}")]
         [HttpPost, ActionName("Carrinho")]
@@ -263,8 +345,5 @@ namespace Ipet.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
     }
 }

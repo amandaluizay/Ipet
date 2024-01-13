@@ -13,6 +13,8 @@ namespace Ipet.MVC.Configurations
             CreateMap<Servico, ServicoViewModel>().ReverseMap();
             CreateMap<Carrinho, CarrinhoViewModel>().ReverseMap();
             CreateMap<PerfilPet, PerfilPetViewModel>().ReverseMap();
+            CreateMap<ProdutoHashtag, ProdutoHashtagViewModel>().ReverseMap();
+            CreateMap<ServiçoHashtag, ServiçoHashtagViewModel>().ReverseMap();
         }
     }
 }

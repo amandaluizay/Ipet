@@ -126,6 +126,22 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="center col-12">
+                            <span class="money-format" style="font-size: 24px;">
+                                Tags:
+                                @foreach (var hashtag in Model.Hashtags)
+                                {
+                                    <span>@hashtag.Tag</span>
+                                    @if (hashtag != Model.Hashtags.Last())
+                                    { // Evita a vírgula após o último item
+                                        <span>, </span>
+                                    }
+                                }
+                            </span>
+                        </div>
+                    </div>
+
                     <hr />
 
                     @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
@@ -141,17 +157,14 @@
                             </a>
                         }
                     }
-                    @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "2"))
+                    @if (User.Identity.IsAuthenticated && User.HasClaim("Usuario", "1"))
                     {
 
-                        <a class="btn btn-primary" asp-controller="Produtos" asp-action="Carrinho" asp-route-id="@Model.Id" style="background-color: #996A97">
-                            Comprar
-                        </a>
                         <form asp-action="Carrinho">
                             <input type="hidden" asp-for="Id" />
-                            <input type="submit" value="Excluir" class="btn btn-danger" />
+@*                            <input type="submit" value="Excluir" class="btn btn-danger" />*@
                         </form>
-                        <input type="submit" value="Cadastrar" class="btn btn-primary" />
+                        @*<input type="submit" value="Cadastrar" class="btn btn-primary" />*@
 
                        
                     }
