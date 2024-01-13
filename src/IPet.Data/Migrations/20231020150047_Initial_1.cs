@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ipet.Data.Migrations
 {
-    public partial class Initla2 : Migration
+    public partial class Initial_1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,32 @@ namespace Ipet.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carrinho", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "PerfilPet",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IdUsuario = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TipoAnimal = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nome = table.Column<string>(type: "varchar(200)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Raca = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Idade = table.Column<int>(type: "int", nullable: false),
+                    Porte = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Observacao = table.Column<string>(type: "varchar(1000)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PerfilPet", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -101,28 +127,39 @@ namespace Ipet.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "HashTags",
+                name: "Hashtag",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Descricao = table.Column<string>(type: "varchar(100)", nullable: false)
+                    IdProduto = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IdServico = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Tag = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    servicoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     produtoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ServicoId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HashTags", x => x.Id);
+                    table.PrimaryKey("PK_Hashtag", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HashTags_Produtos_produtoId",
+                        name: "FK_Hashtag_Produtos_IdProduto",
+                        column: x => x.IdProduto,
+                        principalTable: "Produtos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Hashtag_Produtos_produtoId",
                         column: x => x.produtoId,
                         principalTable: "Produtos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_HashTags_Servicos_ServicoId",
-                        column: x => x.ServicoId,
+                        name: "FK_Hashtag_Servicos_IdServico",
+                        column: x => x.IdServico,
+                        principalTable: "Servicos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Hashtag_Servicos_servicoId",
+                        column: x => x.servicoId,
                         principalTable: "Servicos",
                         principalColumn: "Id");
                 })
@@ -139,14 +176,24 @@ namespace Ipet.Data.Migrations
                 column: "ProdutoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HashTags_produtoId",
-                table: "HashTags",
+                name: "IX_Hashtag_IdProduto",
+                table: "Hashtag",
+                column: "IdProduto");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hashtag_IdServico",
+                table: "Hashtag",
+                column: "IdServico");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hashtag_produtoId",
+                table: "Hashtag",
                 column: "produtoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HashTags_ServicoId",
-                table: "HashTags",
-                column: "ServicoId");
+                name: "IX_Hashtag_servicoId",
+                table: "Hashtag",
+                column: "servicoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -155,7 +202,10 @@ namespace Ipet.Data.Migrations
                 name: "CarrinhoProduto");
 
             migrationBuilder.DropTable(
-                name: "HashTags");
+                name: "Hashtag");
+
+            migrationBuilder.DropTable(
+                name: "PerfilPet");
 
             migrationBuilder.DropTable(
                 name: "Carrinho");

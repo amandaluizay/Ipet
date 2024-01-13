@@ -8,6 +8,7 @@ namespace Ipet.Domain.Intefaces
     {
         Task Adicionar(Produto produto);
         Task Atualizar(Produto produto);
+        Task<List<Produto>> GetProdutosByTags(string[] tags);
         Task Remover(Guid id);
     }
 }

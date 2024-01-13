@@ -10,6 +10,6 @@
         public string Imagem { get; set; }
         public decimal Valor { get; set; }
         public bool Ativo { get; set; }
-        public IEnumerable<HashTags> Produtos { get; set; }
+        public List<ProdutoHashtag> Hashtags { get; set; }
     }
 }

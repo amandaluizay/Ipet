@@ -1,28 +1,27 @@
 ﻿using Ipet.Data.Context;
 using Ipet.Domain.Intefaces;
 using Ipet.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ipet.Data.Repository
 {
     public class ServicoRepository : Repository<Servico>, IServicoRepository
     {
         public ServicoRepository(MeuDbContext context) : base(context) { }
+        public async Task<List<Servico>> GetServicosByTag(string[] tags, List<Servico> todosServicos) { 
+            if (tags == null || tags.Length == 0)
+            {
+                return todosServicos;
+            }
 
-        //public async Task<Produto> ObterProdutoEstabelecimento(Guid id)
-        //{
-        //    return await Db.Produtos.AsNoTracking().Include(f => f.Estabelecimento)
-        //        .FirstOrDefaultAsync(p => p.Id == id);
-        //}
+            var servicos = DbSet.Include(p => p.Hashtags).AsQueryable();
 
-        //public async Task<IEnumerable<Produto>> ObterProdutosEstabelecimento()
-        //{
-        //    return await Db.Produtos.AsNoTracking().Include(f => f.Estabelecimento)
-        //        .OrderBy(p => p.Nome).ToListAsync();
-        //}
+            foreach (var tag in tags)
+            {
+                servicos = servicos.Where(p => p.Hashtags.Any(h => h.Tag == tag));
+            }
 
-        //public async Task<IEnumerable<Produto>> ObterProdutosPorEstabelecimento(Guid estabelecimentoId)
-        //{
-        //    return await Buscar(p => p.EstabelecimentoId == estabelecimentoId);
-        //}
+            return await servicos.Distinct().ToListAsync();
+        }
     }
 }

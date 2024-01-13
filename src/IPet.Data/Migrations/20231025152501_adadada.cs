@@ -4,7 +4,7 @@
 
 namespace Ipet.Data.Migrations
 {
-    public partial class Initial_Context : Migration
+    public partial class adadada : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
