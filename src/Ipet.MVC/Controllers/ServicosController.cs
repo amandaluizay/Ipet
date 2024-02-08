@@ -9,6 +9,8 @@ using Ipet.MVC.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Ipet.MVC.Models;
 using Ipet.Data.Repository;
+using Ipet.Service.Services;
+using Microsoft.AspNetCore.Routing;
 
 namespace Ipet.MVC.Controllers
 {
@@ -17,13 +19,18 @@ namespace Ipet.MVC.Controllers
     {
         private readonly IServiçoHashtagRepository _servicoHashtagRepository;
         private readonly IServicoRepository _servicoRepository;
+        private readonly IPerfilPetRepository _perfilPetRepository;
+        private readonly IPerfilPetService _perfilPetService;
         private readonly IServicoService _servicoService;
+
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ServicosController(IServicoRepository servicoRepository, 
                                   IMapper mapper,
                                   IServiçoHashtagRepository servicoHashtagRepository,
+                                  IPerfilPetRepository perfilPetRepository,
+                                  IPerfilPetService perfilPetService,
                                   UserManager<ApplicationUser> userManager,
                                   IServicoService servicoService,
                                   INotificador notificador) : base(notificador)
@@ -32,12 +39,64 @@ namespace Ipet.MVC.Controllers
             _servicoRepository = servicoRepository;
             _mapper = mapper;
             _servicoService = servicoService;
+            _perfilPetRepository = perfilPetRepository;
+            _perfilPetService = perfilPetService;
             _userManager = userManager;
         }
         [AllowAnonymous]
         [Route("lista-de-servicos")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string tags, string tipoAnimal, string raca, string porte)
         {
+            var selectedTags = new List<string>();
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+
+            }
+            if (tipoAnimal == "on")
+            {
+                selectedTags.Add(ViewBag.TipoAnimal);
+            }
+            if (raca == "on")
+            {
+                selectedTags.Add(ViewBag.Raca);
+            }
+            if (porte == "on")
+            {
+                selectedTags.Add(ViewBag.Porte);
+            }
+            if (!string.IsNullOrEmpty(tags))
+            {
+                string cleanedTags = tags.Trim().ToUpper();
+                string[] tagArray = cleanedTags.Split(',');
+                selectedTags.AddRange(tagArray);
+            }
+            if (selectedTags.Count > 0)
+            {
+                var servicos = await _servicoService.GetServicosByTags(selectedTags.ToArray());
+                return View(_mapper.Map<IEnumerable<ServicoViewModel>>(servicos));
+            }
+            if (user != null)
+            {
+                var perfilPet = await _perfilPetRepository.ObterPerfilUsuario(Guid.Parse(user.Id));
+
+                if (perfilPet != null)
+                {
+                    ViewBag.NomePet = perfilPet.Nome;
+                    ViewBag.TipoAnimal = perfilPet.TipoAnimal;
+                    ViewBag.Raca = perfilPet.Raca;
+                    ViewBag.Porte = perfilPet.Porte;
+                }
+            }
             return View(_mapper.Map<IEnumerable<ServicoViewModel>>(await _servicoRepository.ObterTodos()));
         }
         [AllowAnonymous]

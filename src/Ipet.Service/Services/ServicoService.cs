@@ -12,7 +12,17 @@ namespace Ipet.Service.Services
         {
             _servicoRepository = servicoRepository;
         }
+        public async Task<List<Servico>> GetServicosByTags(string[] tags)
+        {
 
+            var todosServicos = await _servicoRepository.ObterTodos();
+
+
+
+            var servico = await _servicoRepository.GetServicosByTag(tags, todosServicos);
+
+            return servico;
+        }
         public async Task Adicionar(Servico servico)
         {
 

@@ -8,6 +8,7 @@ namespace Ipet.Domain.Intefaces
     {
         Task Adicionar(Servico servico);
         Task Atualizar(Servico servico);
+        Task<List<Servico>> GetServicosByTags(string[] tags);
         Task Remover(Guid id);
     }
 }

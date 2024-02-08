@@ -15,6 +15,39 @@
     }
 </style>
 
+<div class="filter-form">
+
+    <div class="row">
+        <form method="get" action="/lista-de-servicos" style="display: inline-block;">
+
+            @if (!string.IsNullOrEmpty(ViewBag.NomePet))
+            {
+                <div style="display: flex; align-items: center;">
+                    <div class="pet-info" style="display: inline-block;">
+                        <label for="NomePet">@ViewBag.NomePet :</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoAnimal"></label>
+                        <input type="checkbox" name="tipoAnimal" /> @ViewBag.TipoAnimal
+                    </div>
+                    <div class="form-group">
+                        <label for="raca"></label>
+                        <input type="checkbox" name="raca" /> @ViewBag.Raca
+                    </div>
+                    <div class="form-group">
+                        <label for="porte"></label>
+                        <input type="checkbox" name="porte" /> @ViewBag.Porte
+                    </div>
+                </div>
+
+            }
+
+
+            <input type="text" name="tags" placeholder="Insira as tags separadas por vírgulas" />
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+</div>
 
 <section class="py-5">
     <div class="container-fluid">
@@ -68,7 +101,7 @@
                                                 if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == item.EstabelecimentoId)
                                                 {
 
-                                                    <a supress-by-claim-name="Produto" supress-by-claim-value="Editar" class="btn btn-info" asp-controller="Produtos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+                                                    <a supress-by-claim-name="Servico" supress-by-claim-value="Editar" class="btn btn-info" asp-controller="Servicos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
 
                                                 }
 

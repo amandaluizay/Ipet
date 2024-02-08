@@ -8,8 +8,6 @@ namespace Ipet.Data.Repository
     public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
         public ProdutoRepository(MeuDbContext context) : base(context) { }
-
-
         public async Task<List<Produto>> GetProdutosByTag(string[] tags, List<Produto> todosProdutos)
         {
             if (tags == null || tags.Length == 0)
